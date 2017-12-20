@@ -32,10 +32,12 @@ Pkg.add("CoDa")
 ## Usage
 
 ```julia
-c1 = Composition([1,2,3])
-c2 = Composition([4,5,6])
+# 3-part compositions
+cₒ = Composition([1,2,3])
+c  = Composition([4,5,6])
 
-c = c1 + 1.5*c2 # line passing through c1 in the direction of c2
+# line passing through cₒ in the direction of c
+f(λ) = cₒ + λ*c
 ```
 
 ## References
