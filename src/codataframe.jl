@@ -12,23 +12,33 @@
 ## ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-__precompile__()
+"""
+    CoDataFrame(data, parts=names(data), total=1)
 
-module CoDa
+A set of compositions from a dataframe `data` in which
+only the columns in `p` are retained and normalized
+by the total `t`.
 
-using DataFrames
-using StaticArrays
+## Parameters
 
-import Base: normalize!, +, *
+* data  - DataFrame with raw data to be closed
+* parts - Column names to retain in the closure
+* total - Total amount of the composition
+"""
+struct CoDataFrame{DF<:AbstractDataFrame}
+  data::DF
+  total::Float64
 
-include("composition.jl")
-include("codataframe.jl")
+  function CoDataFrame{DF}(data, total) where {DF<:AbstractDataFrame}
+    @assert total > 0 "total must be non-negative"
+    new(data, total)
+  end
+end
 
-export
-  # composition
-  Composition,
+function CoDataFrame(data; parts=names(data), total=1.)
+  cdata = data[parts]
 
-  # composition data
-  CoDataFrame
+  # TODO: convert to compositions
 
+  CoDataFrame{typeof(cdata)}(cdata, total)
 end
