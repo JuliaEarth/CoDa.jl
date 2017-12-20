@@ -12,12 +12,22 @@
 ## ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+"""
+    Composition{D}(parts)
+
+A D-part composition as defined by Aitchison 1986.
+"""
 struct Composition{D}
   parts::MVector{D,Float64}
 end
 
 Composition(parts) = Composition{length(parts)}(parts)
 
+"""
+    normalize!(c)
+
+Normalize composition `c` in place.
+"""
 function normalize!(c::Composition)
   p = c.parts
   s = sum(p)
@@ -26,10 +36,20 @@ function normalize!(c::Composition)
   end
 end
 
+"""
+    c₁ + c₂
+
+Add (or perturb) compositions `c₁` and `c₂`.
+"""
 function +(c₁::Composition, c₂::Composition)
   c = Composition(c₁.parts .* c₂.parts)
   normalize!(c)
   c
 end
 
+"""
+    α * c
+
+Scale composition `c` with real number `α`.
+"""
 *(α::Real, c::Composition) = Composition(c.parts.^α)
