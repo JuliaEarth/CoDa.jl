@@ -5,7 +5,7 @@
 [![][travis-img]][travis-url] [![][julia-pkg-img]][julia-pkg-url] [![][codecov-img]][codecov-url]
 
 This package is inspired by the R [compositions](https://cran.r-project.org/web/packages/compositions/index.html)
-package for compositional data analysis. Currently, only *parts of the total* features
+package for compositional data analysis. Currently, only **parts of the total** features
 are implemented (got the joke? :D). Contributions are very welcome.
 
 CoDa.jl defines a `Composition{D}` type representing a D-part composition as defined by
@@ -40,8 +40,17 @@ c = c1 + 1.5*c2 # line passing through c1 in the direction of c2
 
 ## References
 
-- Aitchison, J. 1986. *The Statistical Analysis of Compositional Data* [DOWNLOAD](https://www.jstor.org/stable/pdf/2345821.pdf)
-- van den Boogaart K. G. et al. 2013. *Analyzing Compositional Data With R* [DOWNLOAD](http://www.springer.com/gp/book/9783642368080)
+The most practical reference by far is the book
+[*Analyzing Compositional Data With R*](http://www.springer.com/gp/book/9783642368080) by
+van den Boogaart K. G. et al. 2013. This book contains the examples that I reproduced in
+this README and is a good start for scientists who are seeing this material for the first
+time.
+
+A slightly more theoretical perspective can be found in the book [*Modeling and Analysis of
+Compositional Data*](https://www.wiley.com/en-us/Modeling+and+Analysis+of+Compositional+Data-p-9781118443064)
+by Pawlowsky-Glahn, V. et al. 2015. It contains more detailed explanations
+of the concepts introduced by Aitchison in the 80s, and is authored by important names in the
+field.
 
 [travis-img]: https://travis-ci.org/juliohm/CoDa.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/juliohm/CoDa.jl
