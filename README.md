@@ -42,15 +42,14 @@ c = c1 + 1.5*c2 # line passing through c1 in the direction of c2
 
 The most practical reference by far is the book
 [*Analyzing Compositional Data With R*](http://www.springer.com/gp/book/9783642368080) by
-van den Boogaart K. G. et al. 2013. This book contains the examples that I reproduced in
+van den Boogaart K. G. et al. 2013. The book contains the examples that I reproduced in
 this README and is a good start for scientists who are seeing this material for the first
 time.
 
-A slightly more theoretical perspective can be found in the book [*Modeling and Analysis of
+A more theoretical exposition can be found in the book [*Modeling and Analysis of
 Compositional Data*](https://www.wiley.com/en-us/Modeling+and+Analysis+of+Compositional+Data-p-9781118443064)
-by Pawlowsky-Glahn, V. et al. 2015. It contains more detailed explanations
-of the concepts introduced by Aitchison in the 80s, and is authored by important names in the
-field.
+by Pawlowsky-Glahn, V. et al. 2015. It contains detailed explanations of the concepts
+introduced by Aitchison in the 80s, and is co-authored by important names in the field.
 
 [travis-img]: https://travis-ci.org/juliohm/CoDa.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/juliohm/CoDa.jl
