@@ -24,8 +24,6 @@ end
 Composition(parts) = Composition{length(parts)}(parts)
 
 """
-    normalize!(c)
-
 Normalize composition `c` in place.
 """
 function normalize!(c::Composition)
@@ -37,8 +35,6 @@ function normalize!(c::Composition)
 end
 
 """
-    c₁ + c₂
-
 Add (or perturb) compositions `c₁` and `c₂`.
 """
 function +(c₁::Composition, c₂::Composition)
@@ -48,8 +44,6 @@ function +(c₁::Composition, c₂::Composition)
 end
 
 """
-    α * c
-
 Scale composition `c` with real number `α`.
 """
 *(α::Real, c::Composition) = Composition(c.parts.^α)
