@@ -12,18 +12,24 @@
 ## ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-__precompile__()
-
-module CoDa
-
-using StaticArrays
-
-import Base: normalize!, +, *
-
-include("composition.jl")
-
-export
-  # datatypes
-  Composition
-
+struct Composition{D}
+  parts::MVector{D,Float64}
 end
+
+Composition(parts) = Composition{length(parts)}(parts)
+
+function normalize!(c::Composition)
+  p = c.parts
+  s = sum(p)
+  for i in eachindex(p)
+    p[i] /= s
+  end
+end
+
+function +(c₁::Composition, c₂::Composition)
+  c = Composition(c₁.parts .* c₂.parts)
+  normalize!(c)
+  c
+end
+
+*(α::Real, c::Composition) = Composition(c.parts.^α)
