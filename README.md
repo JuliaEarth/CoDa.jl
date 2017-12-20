@@ -14,6 +14,8 @@ the D-simplex together with addition (a.k.a. pertubation) and scalar multiplicat
 (a.k.a. scaling) form a vector space, and important properties hold:
 
 - Scaling invariance
+- Pertubation invariance
+- Permutation invariance
 - Subcompositional coherence
 
 In practice, this means that one can operate on compositional data (i.e.  vectors whose
