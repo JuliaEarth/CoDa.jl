@@ -6,7 +6,7 @@
 
 This package is inspired by the R [compositions](https://cran.r-project.org/web/packages/compositions/index.html)
 package for compositional data analysis. Currently, only **parts of the total** features
-are implemented (got the joke? :D). Contributions are very welcome.
+are implemented (got the joke?). Contributions are very welcome.
 
 CoDa.jl defines a `Composition{D}` type representing a D-part composition as defined by
 [Aitchison 1986](https://www.jstor.org/stable/pdf/2345821.pdf). In Aitchison's geometry,
