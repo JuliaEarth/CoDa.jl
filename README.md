@@ -19,7 +19,7 @@ the D-simplex together with addition (a.k.a. pertubation) and scalar multiplicat
 - Subcompositional coherence
 
 In practice, this means that one can operate on compositional data (i.e.  vectors whose
-entries represent parts of a total) without compromising the ratios between the parts.
+entries represent parts of a total) without destroying the ratios of the parts.
 
 ## Installation
 
