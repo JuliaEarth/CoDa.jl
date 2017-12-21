@@ -37,7 +37,7 @@ end
 """
 Add (or perturb) compositions `c₁` and `c₂`.
 """
-function +(c₁::Composition, c₂::Composition)
+function +(c₁::Composition{D}, c₂::Composition{D}) where {D}
   c = Composition(c₁.parts .* c₂.parts)
   normalize!(c)
   c
@@ -47,3 +47,19 @@ end
 Scale composition `c` with real number `α`.
 """
 *(α::Real, c::Composition) = Composition(c.parts.^α)
+
+# ------------
+# IO methods
+# ------------
+function Base.show(io::IO, c::Composition{D}) where {D}
+  cparts = join(c.parts, ", ")
+  print(io, "Composition ($cparts)")
+end
+
+function Base.show(io::IO, ::MIME"text/plain", c::Composition{D}) where {D}
+  print(barplot(["Part $i" for i in 1:D], convert(Vector, c.parts), title="$D-part composition"))
+end
+
+function Base.show(io::IO, ::MIME"text/html", c::Composition{D}) where {D}
+  print(barplot(["Part $i" for i in 1:D], convert(Vector, c.parts), title="$D-part composition"))
+end

@@ -18,6 +18,7 @@ module CoDa
 
 using DataFrames
 using StaticArrays
+using UnicodePlots
 
 import Base: normalize!, +, *
 
