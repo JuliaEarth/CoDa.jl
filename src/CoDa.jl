@@ -20,7 +20,7 @@ using DataFrames
 using StaticArrays
 using UnicodePlots
 
-import Base: +, -, *
+import Base: +, -, *, ==
 import Base.LinAlg: norm
 
 include("composition.jl")

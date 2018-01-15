@@ -39,6 +39,8 @@ Composition(parts...) = Composition(parts)
 
 *(λ::Real, c::Composition) = Composition(𝓒(c.parts.^λ))
 
+==(c₁::Composition, c₂::Composition) = 𝓒(c₁.parts) ≈ 𝓒(c₂.parts)
+
 """
     inner(c₁, c₂)
 
