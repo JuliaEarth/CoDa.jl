@@ -13,40 +13,36 @@
 ## OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 """
+    𝓒(x)
+
+Return closure of `x`.
+"""
+𝓒(x) = x ./ sum(x)
+
+"""
     Composition{D}(parts)
 
 A D-part composition as defined by Aitchison 1986.
 """
 struct Composition{D}
-  parts::MVector{D,Float64}
+  parts::SVector{D,Float64}
 end
 
 Composition(parts) = Composition{length(parts)}(parts)
 
 """
-Normalize composition `c` in place.
+    c₁ + c₂
+
+Add compositions `c₁` and `c₂`.
 """
-function normalize!(c::Composition)
-  p = c.parts
-  s = sum(p)
-  for i in eachindex(p)
-    p[i] /= s
-  end
-end
++(c₁::Composition, c₂::Composition) = Composition(𝓒(c₁.parts .* c₂.parts))
 
 """
-Add (or perturb) compositions `c₁` and `c₂`.
-"""
-function +(c₁::Composition{D}, c₂::Composition{D}) where {D}
-  c = Composition(c₁.parts .* c₂.parts)
-  normalize!(c)
-  c
-end
+    λ*c
 
+Scale composition `c` with real number `λ`.
 """
-Scale composition `c` with real number `α`.
-"""
-*(α::Real, c::Composition) = Composition(c.parts.^α)
+*(λ::Real, c::Composition) = Composition(𝓒(c.parts.^λ))
 
 # ------------
 # IO methods
@@ -57,9 +53,9 @@ function Base.show(io::IO, c::Composition{D}) where {D}
 end
 
 function Base.show(io::IO, ::MIME"text/plain", c::Composition{D}) where {D}
-  print(barplot(["Part $i" for i in 1:D], convert(Vector, c.parts), title="$D-part composition"))
+  print(barplot(["part $i" for i in 1:D], convert(Vector, c.parts), title="$D-part composition"))
 end
 
 function Base.show(io::IO, ::MIME"text/html", c::Composition{D}) where {D}
-  print(barplot(["Part $i" for i in 1:D], convert(Vector, c.parts), title="$D-part composition"))
+  print(barplot(["part $i" for i in 1:D], convert(Vector, c.parts), title="$D-part composition"))
 end
