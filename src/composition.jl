@@ -29,7 +29,7 @@ struct Composition{D}
 end
 
 Composition(parts) = Composition{length(parts)}(parts)
-Composition(parts...) = Composition
+Composition(parts...) = Composition(parts)
 
 +(c₁::Composition, c₂::Composition) = Composition(𝓒(c₁.parts .* c₂.parts))
 
@@ -67,8 +67,7 @@ distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
 # IO methods
 # ------------
 function Base.show(io::IO, c::Composition{D}) where {D}
-  cparts = join(c.parts, ", ")
-  print(io, "Composition ($cparts)")
+  print(io, c.parts)
 end
 
 function Base.show(io::IO, ::MIME"text/plain", c::Composition{D}) where {D}
