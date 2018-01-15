@@ -20,7 +20,8 @@ using DataFrames
 using StaticArrays
 using UnicodePlots
 
-import Base: normalize!, +, *
+import Base: +, -, *
+import Base.LinAlg: norm
 
 include("composition.jl")
 include("codataframe.jl")
@@ -28,6 +29,8 @@ include("codataframe.jl")
 export
   # composition
   Composition,
+  inner,
+  distance,
 
   # composition data
   CoDataFrame
