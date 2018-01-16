@@ -33,7 +33,7 @@ Composition(parts...) = Composition(parts)
 
 +(c₁::Composition, c₂::Composition) = Composition(𝓒(c₁.parts .* c₂.parts))
 
--(c::Composition) = Composition(𝓒(one(eltype(c.parts)) ./ c.parts))
+-(c::Composition) = Composition(𝓒(1. ./ c.parts))
 
 -(c₁::Composition, c₂::Composition) = c₁ + -c₂
 
