@@ -73,9 +73,9 @@ function Base.show(io::IO, c::Composition{D}) where {D}
 end
 
 function Base.show(io::IO, ::MIME"text/plain", c::Composition{D}) where {D}
-  print(barplot(["part $i" for i in 1:D], convert(Vector, c.parts), title="$D-part composition"))
+  print(barplot(["part $i" for i in 1:D], c.parts, title="$D-part composition"))
 end
 
 function Base.show(io::IO, ::MIME"text/html", c::Composition{D}) where {D}
-  print(barplot(["part $i" for i in 1:D], convert(Vector, c.parts), title="$D-part composition"))
+  print(barplot(["part $i" for i in 1:D], c.parts, title="$D-part composition"))
 end

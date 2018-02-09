@@ -2,4 +2,4 @@ julia 0.6
 StatsBase
 DataFrames
 StaticArrays
-UnicodePlots
+UnicodePlots 0.2.6
