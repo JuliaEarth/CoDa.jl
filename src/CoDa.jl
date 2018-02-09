@@ -16,6 +16,7 @@ __precompile__()
 
 module CoDa
 
+using StatsBase
 using DataFrames
 using StaticArrays
 using UnicodePlots
@@ -25,12 +26,18 @@ import Base.LinAlg: norm
 
 include("composition.jl")
 include("codataframe.jl")
+include("transforms.jl")
 
 export
   # composition
   Composition,
   inner,
   distance,
+
+  # transforms
+  alr, alrinv,
+  clr, clrinv,
+  ilr, ilrinv,
 
   # composition data
   CoDataFrame
