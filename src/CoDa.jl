@@ -12,7 +12,7 @@ using StaticArrays
 using UnicodePlots
 
 import Base: +, -, *, ==
-import Base.LinAlg: norm
+import LinearAlgebra: norm
 
 include("composition.jl")
 include("transforms.jl")
