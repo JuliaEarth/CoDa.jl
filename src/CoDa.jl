@@ -21,6 +21,7 @@ export
   # composition
   Composition,
   inner,
+  norm,
   distance,
 
   # transforms
