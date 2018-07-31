@@ -1,8 +1,18 @@
-# CoDa.jl
-
-*Compositional Data Analysis in Julia*
-
-[![][travis-img]][travis-url] [![][julia-pkg-img]][julia-pkg-url] [![][codecov-img]][codecov-url]
+<p align="center">
+  <img src="docs/CoDa.png" height="200"><br>
+  <a href="https://travis-ci.org/juliohm/CoDa.jl">
+    <img src="https://travis-ci.org/juliohm/CoDa.jl.svg?branch=master">
+  </a>
+  <a href="http://pkg.julialang.org/?pkg=CoDa">
+    <img src="http://pkg.julialang.org/badges/CoDa_0.7.svg">
+  </a>
+  <a href="https://codecov.io/gh/juliohm/CoDa.jl">
+    <img src="https://codecov.io/gh/juliohm/CoDa.jl/branch/master/graph/badge.svg">
+  </a>
+  <a href="LICENSE">
+    <img src="https://img.shields.io/badge/license-ISC-blue.svg">
+  </a>
+</p>
 
 This package is inspired by the R [compositions](https://cran.r-project.org/web/packages/compositions/index.html)
 package for compositional data analysis. Currently, only **parts of the total** features
