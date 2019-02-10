@@ -3,9 +3,6 @@
   <a href="https://travis-ci.org/juliohm/CoDa.jl">
     <img src="https://travis-ci.org/juliohm/CoDa.jl.svg?branch=master">
   </a>
-  <a href="http://pkg.julialang.org/?pkg=CoDa">
-    <img src="http://pkg.julialang.org/badges/CoDa_0.7.svg">
-  </a>
   <a href="https://codecov.io/gh/juliohm/CoDa.jl">
     <img src="https://codecov.io/gh/juliohm/CoDa.jl/branch/master/graph/badge.svg">
   </a>
@@ -65,9 +62,6 @@ introduced by Aitchison in the 80s, and is co-authored by important names in the
 
 [travis-img]: https://travis-ci.org/juliohm/CoDa.jl.svg?branch=master
 [travis-url]: https://travis-ci.org/juliohm/CoDa.jl
-
-[julia-pkg-img]: http://pkg.julialang.org/badges/CoDa_0.7.svg
-[julia-pkg-url]: http://pkg.julialang.org/?pkg=CoDa
 
 [codecov-img]: https://codecov.io/gh/juliohm/CoDa.jl/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/juliohm/CoDa.jl
