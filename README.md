@@ -33,7 +33,7 @@ entries represent parts of a total) without destroying the ratios of the parts.
 Get the latest stable release with Julia's package manager:
 
 ```julia
-Pkg.add("CoDa")
+] add CoDa
 ```
 
 ## Usage
