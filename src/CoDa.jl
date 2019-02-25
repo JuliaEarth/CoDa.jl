@@ -1,9 +1,6 @@
 # ------------------------------------------------------------------
-# Copyright (c) 2017, Júlio Hoffimann Mendes <juliohm@stanford.edu>
 # Licensed under the ISC License. See LICENCE in the project root.
 # ------------------------------------------------------------------
-
-__precompile__()
 
 module CoDa
 
