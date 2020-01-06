@@ -1,10 +1,10 @@
 <p align="center">
   <img src="docs/CoDa.png" height="200"><br>
-  <a href="https://travis-ci.org/juliohm/CoDa.jl">
-    <img src="https://travis-ci.org/juliohm/CoDa.jl.svg?branch=master">
+  <a href="https://travis-ci.org/JuliaEarth/CoDa.jl">
+    <img src="https://travis-ci.org/JuliaEarth/CoDa.jl.svg?branch=master">
   </a>
-  <a href="https://codecov.io/gh/juliohm/CoDa.jl">
-    <img src="https://codecov.io/gh/juliohm/CoDa.jl/branch/master/graph/badge.svg">
+  <a href="https://codecov.io/gh/JuliaEarth/CoDa.jl">
+    <img src="https://codecov.io/gh/JuliaEarth/CoDa.jl/branch/master/graph/badge.svg">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-ISC-blue.svg">
@@ -59,9 +59,3 @@ A more theoretical exposition can be found in the book [*Modeling and Analysis o
 Compositional Data*](https://www.wiley.com/en-us/Modeling+and+Analysis+of+Compositional+Data-p-9781118443064)
 by Pawlowsky-Glahn, V. et al. 2015. It contains detailed explanations of the concepts
 introduced by Aitchison in the 80s, and is co-authored by important names in the field.
-
-[travis-img]: https://travis-ci.org/juliohm/CoDa.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/juliohm/CoDa.jl
-
-[codecov-img]: https://codecov.io/gh/juliohm/CoDa.jl/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/juliohm/CoDa.jl
