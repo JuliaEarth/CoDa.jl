@@ -46,7 +46,7 @@ end
 
 Aitchison norm of composition `c`.
 """
-norm(c::Composition) = √inner(c,c)
+norm(c::Composition) = √dot(c,c)
 
 """
     distance(c₁, c₂)
