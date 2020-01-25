@@ -9,7 +9,7 @@ using StaticArrays
 using UnicodePlots
 
 import Base: +, -, *, ==
-import LinearAlgebra: norm
+import LinearAlgebra: norm, dot, ⋅
 
 include("composition.jl")
 include("transforms.jl")
@@ -17,8 +17,7 @@ include("transforms.jl")
 export
   # composition
   Composition,
-  inner,
-  norm,
+  norm, dot, ⋅
   distance,
 
   # transforms

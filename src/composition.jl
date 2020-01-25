@@ -32,11 +32,11 @@ Composition(parts...) = Composition(parts)
 ==(c₁::Composition, c₂::Composition) = 𝓒(c₁.parts) ≈ 𝓒(c₂.parts)
 
 """
-    inner(c₁, c₂)
+    dot(c₁, c₂)
 
 Inner product between compositions `c₁` and `c₂`.
 """
-function inner(c₁::Composition{D}, c₂::Composition{D}) where {D}
+function dot(c₁::Composition{D}, c₂::Composition{D}) where {D}
   x = c₁.parts; y = c₂.parts
   sum(log(x[i]/x[j])*log(y[i]/y[j]) for j=1:D for i=j+1:D) / D
 end
