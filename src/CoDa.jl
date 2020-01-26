@@ -17,7 +17,7 @@ include("transforms.jl")
 export
   # composition
   Composition,
-  norm, dot, ⋅
+  norm, dot, ⋅,
   distance,
 
   # transforms

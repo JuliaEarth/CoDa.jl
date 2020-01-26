@@ -14,14 +14,14 @@ alr(c::Composition{D}) where {D} = log.(c.parts[1:D-1] ./ c.parts[D])
 
 Inverse alr for coordinates `x`.
 """
-alrinv(x) = Composition(𝓒(vcat(exp.(x), 1.)))
+alrinv(x) = Composition(𝓒(vcat(exp.(x), one(eltype(x)))))
 
 """
     clr(c)
 
 Centered log-ratio transformation of composition `c`.
 """
-clr(c::Composition{D}) where {D} = log.(c.parts ./ geomean(c.parts))
+clr(c::Composition) = log.(c.parts ./ geomean(c.parts))
 
 """
     clrinv(x)
@@ -35,7 +35,7 @@ clrinv(x) = Composition(𝓒(exp.(x)))
 
 Isometric log-ratio transformation of composition `c`.
 """
-function ilr(c::Composition{D}) where {D}
+function ilr(c::Composition)
   # TODO
 end
 
