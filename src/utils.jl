@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------
 
 """
-    readcoda(args; codanames=nothing, kwargs)
+    readcoda(args...; codanames=[], kwargs...)
 
 Read data from disk using `CSV.read`, optionally specifying
 the columns `codanames` with compositional data.
