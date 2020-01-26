@@ -4,6 +4,7 @@
 
 module CoDa
 
+using CSV: read
 using StatsBase
 using StaticArrays
 using UnicodePlots
@@ -13,6 +14,7 @@ import LinearAlgebra: norm, dot, ⋅
 
 include("composition.jl")
 include("transforms.jl")
+include("utils.jl")
 
 export
   # composition
@@ -24,6 +26,10 @@ export
   # transforms
   alr, alrinv,
   clr, clrinv,
-  ilr, ilrinv
+  ilr, ilrinv,
+
+  # utils
+  readcoda,
+  compose
 
 end

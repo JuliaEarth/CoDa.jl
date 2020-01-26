@@ -106,8 +106,7 @@ distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
 # IO methods
 # ------------
 function Base.show(io::IO, c::Composition)
-  parts = join(c.parts, ", ")
-  print(io, "Composition($parts)")
+  print(io, join(c.parts, "|"))
 end
 
 function Base.show(io::IO, ::MIME"text/plain", c::Composition{D,SYMS}) where {D,SYMS}
