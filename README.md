@@ -38,13 +38,110 @@ Get the latest stable release with Julia's package manager:
 
 ## Usage
 
-```julia
-# 3-part compositions
-cₒ = Composition(1,2,3)
-c  = Composition(4,5,6)
+### Basics
 
-# composition line passing through cₒ in the direction of c
-f(λ) = cₒ + λ*c
+Compositions are static vectors with named parts:
+
+```julia
+julia> using CoDa
+julia> cₒ = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
+                  3-part composition
+       ┌                                        ┐ 
+   CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
+   CH₄ ┤■■■■ 0.1                                  
+   N₂O ┤■■■■ 0.1                                  
+       └                                        ┘ 
+julia> c = Composition(CO₂=2.0, CH₄=0.1, N₂O=0.3)
+                  3-part composition
+       ┌                                        ┐ 
+   CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 2.0   
+   CH₄ ┤■■ 0.1                                    
+   N₂O ┤■■■■■ 0.3                                 
+       └                                        ┘ 
+```
+
+Default names are added otherwise:
+
+```julia
+julia> c = Composition(1.0, 0.1, 0.1)
+                     3-part composition
+          ┌                                        ┐ 
+   part-1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
+   part-2 ┤■■■■ 0.1                                  
+   part-3 ┤■■■■ 0.1                                  
+          └                                        ┘ 
+```
+
+and serve for internal compile-time checks.
+
+Compositions can be added, subtracted, negated, and multiplied by
+scalars. Other operations are also defined including dot product,
+induced norm, and distance:
+
+```julia
+julia> -cₒ
+                  3-part composition
+       ┌                                        ┐ 
+   CO₂ ┤■■ 0.047619047619047616                   
+   CH₄ ┤■■■■■■■■■■■■■■■■■■■ 0.47619047619047616   
+   N₂O ┤■■■■■■■■■■■■■■■■■■■ 0.47619047619047616   
+       └                                        ┘ 
+julia> 0.5c
+                  3-part composition
+       ┌                                        ┐ 
+   CO₂ ┤■■■■■■■■■■■■■■■■■■■■ 0.6207690197922022   
+   CH₄ ┤■■■■ 0.13880817265812764                  
+   N₂O ┤■■■■■■■■ 0.24042280754967013              
+       └                                        ┘ 
+julia> c - cₒ
+                  3-part composition
+       ┌                                        ┐ 
+   CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■ 0.3333333333333333  
+   CH₄ ┤■■■■■■■■■■■■ 0.16666666666666666          
+   N₂O ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 0.5   
+       └                                        ┘ 
+julia> c ⋅ cₒ
+3.7554028908352994
+julia> norm(c)
+2.1432393747688687
+julia> distance(c, cₒ)
+0.7856640352007868
+```
+
+More complex functions can be defined in terms of these
+operations. For example, the function below defines the
+composition line passing through `cₒ` in the direction of `c`:
+
+```julia
+julia> f(λ) = cₒ + λ*c
+f (generic function with 1 method)
+```
+
+Finally, two compositions are considered to be equal when the
+closure of their parts is approximately equal:
+
+```julia
+julia> c == c
+true
+julia> c == cₒ
+false
+```
+
+### Transformations
+
+Currently, the following transformations are implemented:
+
+```julia
+julia> alr(c)
+2-element StaticArrays.SArray{Tuple{2},Float64,1,2} with indices SOneTo(2):
+  1.8971199848858813
+ -1.0986122886681096
+julia> clr(c)
+3-element StaticArrays.SArray{Tuple{3},Float64,1,3} with indices SOneTo(3):
+  1.6309507528132907
+ -1.3647815207407001
+ -0.2661692320725906
+julia> ilr(c) # TODO
 ```
 
 ## References
