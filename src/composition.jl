@@ -28,9 +28,11 @@ Composition(syms::NTuple{D,Symbol}, parts::NTuple{D,<:Real}) where {D} =
 Composition(; parts...) = Composition((; parts...))
 
 Composition(parts::NTuple{D,<:Real}) where {D} =
-Composition(ntuple(i->Symbol("part-$i"), D), parts)
+  Composition(ntuple(i->Symbol("part-$i"), D), parts)
 
-Composition(parts...) = Composition(parts)
+Composition(parts::SVector{D,<:Real}) where {D} = Composition(Tuple(parts))
+
+Composition(part::Real, parts...) = Composition((part, parts...))
 
 +(c₁::Composition, c₂::Composition) = Composition(𝓒(c₁.parts .* c₂.parts))
 

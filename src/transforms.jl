@@ -7,21 +7,26 @@
 
 Additive log-ratio transformation of composition `c`.
 """
-alr(c::Composition{D,SYMS}) where {D,SYMS} = log.(c.parts[1:D-1] ./ c.parts[D])
+alr(c::Composition{D,SYMS}) where {D,SYMS} =
+  SVector(ntuple(i -> log(c.parts[i] / c.parts[D]), D-1))
 
 """
     alrinv(x)
 
 Inverse alr for coordinates `x`.
 """
-alrinv(x) = Composition(𝓒(vcat(exp.(x), one(eltype(x)))))
+alrinv(x::SVector{D,T}) where {D,T<:Real} =
+  Composition(𝓒(vcat(exp.(x), SVector((one(T),)))))
 
 """
     clr(c)
 
 Centered log-ratio transformation of composition `c`.
 """
-clr(c::Composition) = log.(c.parts ./ geomean(c.parts))
+function clr(c::Composition{D,SYMS}) where {D,SYMS}
+  m = geomean(c.parts)
+  SVector(ntuple(i -> log(c.parts[i] / m), D))
+end
 
 """
     clrinv(x)
