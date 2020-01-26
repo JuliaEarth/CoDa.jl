@@ -117,8 +117,8 @@ julia> f(λ) = cₒ + λ*c
 f (generic function with 1 method)
 ```
 
-Finally, two compositions are considered to be equal when the
-closure of their parts is approximately equal:
+Finally, two compositions are considered to be equal when
+their closure is approximately equal:
 
 ```julia
 julia> c == c
@@ -143,6 +143,19 @@ julia> clr(c)
  -0.2661692320725906
 julia> ilr(c) # TODO
 ```
+
+### Utilities
+
+It is often useful to compose `D` columns of a table into `D`-part compositions. The
+package provides some utility functions for loading tabular data and for type conversion.
+
+The function `readcoda(args...; codanames=[], kwargs...)` accepts the same arguments of
+the `CSV.read` function from [CSV.jl](https://github.com/JuliaData/CSV.jl) plus an
+additional keyword argument `codanames` that specifies the columns with the parts of
+the composition.
+
+Similarly, the function `compose(table, cols)` takes an already loaded table and converts
+the specified columns into a single column with `Composition` objects.
 
 ## References
 
