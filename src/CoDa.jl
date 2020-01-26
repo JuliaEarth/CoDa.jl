@@ -8,7 +8,7 @@ using StatsBase
 using StaticArrays
 using UnicodePlots
 
-import Base: +, -, *, ==
+import Base: +, -, *, ==, names
 import LinearAlgebra: norm, dot, ⋅
 
 include("composition.jl")
@@ -19,6 +19,7 @@ export
   Composition,
   norm, dot, ⋅,
   distance,
+  names,
 
   # transforms
   alr, alrinv,
