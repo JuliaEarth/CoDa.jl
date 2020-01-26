@@ -7,7 +7,7 @@
 
 Additive log-ratio transformation of composition `c`.
 """
-alr(c::Composition{D}) where {D} = log.(c.parts[1:D-1] ./ c.parts[D])
+alr(c::Composition{D,SYMS}) where {D,SYMS} = log.(c.parts[1:D-1] ./ c.parts[D])
 
 """
     alrinv(x)
