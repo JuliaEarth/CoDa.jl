@@ -13,7 +13,7 @@ UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 [compat]
 CSV = "0.5"
 StaticArrays = "0.12"
-StatsBase = "0.32"
+StatsBase = "0.32, 0.33"
 UnicodePlots = "1.1"
 julia = "1"
 
