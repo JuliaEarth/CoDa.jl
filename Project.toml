@@ -1,7 +1,7 @@
 name = "CoDa"
 uuid = "5900dafe-f573-5c72-b367-76665857777b"
 author = "Júlio Hoffimann <julio.hoffimann@gmail.com>"
-version = "0.2.0"
+version = "0.2.1"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -13,7 +13,7 @@ UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 [compat]
 CSV = "0.5"
 StaticArrays = "0.12"
-StatsBase = "0.32"
+StatsBase = "0.32, 0.33"
 UnicodePlots = "1.1"
 julia = "1"
 
