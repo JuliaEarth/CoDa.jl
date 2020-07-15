@@ -16,7 +16,7 @@ This function returns a collection of [`Composition`](@ref)
 objects whose parts are the columns `codanames` in the file.
 """
 function readcoda(args...; codanames=[], kwargs...)
-  data = read(args...; kwargs...)
+  data = DataFrame!(CSV.File(args...; kwargs...))
   cols = isempty(codanames) ? names(data) : codanames
   compose(data, cols)
 end

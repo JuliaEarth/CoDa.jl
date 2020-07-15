@@ -4,12 +4,14 @@
 
 module CoDa
 
-using CSV: read
+using CSV
+using DataFrames
 using StatsBase
 using StaticArrays
 using UnicodePlots
 
-import Base: +, -, *, ==, names
+import Base: +, -, *, ==
+import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 
 include("composition.jl")

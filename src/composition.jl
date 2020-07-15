@@ -72,13 +72,6 @@ Composition(part::Real, parts...) = Composition((part, parts...))
   SYMS₁ == SYMS₂ && 𝓒(c₁.parts) ≈ 𝓒(c₂.parts)
 
 """
-    names(c)
-
-Names of parts in the composition `c`.
-"""
-names(c::Composition{D,SYMS}) where {D,SYMS} = SYMS
-
-"""
     dot(c₁, c₂)
 
 Inner product between compositions `c₁` and `c₂`.
@@ -101,6 +94,25 @@ norm(c::Composition) = √dot(c,c)
 Aitchison distance between compositions `c₁` and `c₂`.
 """
 distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
+
+"""
+    names(c)
+
+Names of parts in the composition `c`.
+"""
+names(c::Composition{D,SYMS}) where {D,SYMS} = SYMS
+
+# """
+#     getproperty(c, name)
+#
+# Return the value of part with given `name` in the composition `c`.
+# """
+# function getproperty(c::Composition{D,SYMS}, S::Symbol) where {D,SYMS}
+#   for (i, SYM) in enumerate(SYMS)
+#     S == SYM && (return c.parts[i])
+#   end
+#   @error "invalid part $S"
+# end
 
 # ------------
 # IO methods

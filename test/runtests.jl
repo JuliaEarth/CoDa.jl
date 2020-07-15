@@ -12,7 +12,8 @@ datadir = joinpath(@__DIR__,"data")
 # list of tests
 testfiles = [
   "compositions.jl",
-  "transforms.jl"
+  "transforms.jl",
+  "utils.jl"
 ]
 
 @testset "CoDa.jl" begin
