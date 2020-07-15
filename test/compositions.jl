@@ -14,4 +14,10 @@
   @test names(-c) == names(c)
   @test names(c - c) == names(c)
   @test names(2c) == names(c)
+
+  # get part by name
+  c = Composition(a=3,b=2,c=1)
+  @test c.a == 3
+  @test c.b == 2
+  @test c.c == 1
 end

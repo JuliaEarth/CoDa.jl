@@ -102,17 +102,21 @@ Names of parts in the composition `c`.
 """
 names(c::Composition{D,SYMS}) where {D,SYMS} = SYMS
 
-# """
-#     getproperty(c, name)
-#
-# Return the value of part with given `name` in the composition `c`.
-# """
-# function getproperty(c::Composition{D,SYMS}, S::Symbol) where {D,SYMS}
-#   for (i, SYM) in enumerate(SYMS)
-#     S == SYM && (return c.parts[i])
-#   end
-#   @error "invalid part $S"
-# end
+"""
+    getproperty(c, name)
+
+Return the value of part with given `name` in the composition `c`.
+"""
+function getproperty(c::Composition{D,SYMS}, S::Symbol) where {D,SYMS}
+  if S == :parts
+    getfield(c, :parts)
+  else
+    for (i, SYM) in enumerate(SYMS)
+      S == SYM && (return c.parts[i])
+    end
+    @error "invalid part name '$S'"
+  end
+end
 
 # ------------
 # IO methods
