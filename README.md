@@ -141,7 +141,10 @@ julia> clr(c)
   1.6309507528132907
  -1.3647815207407001
  -0.2661692320725906
-julia> ilr(c) # TODO
+julia> ilr(c)
+2-element StaticArrays.SArray{Tuple{2},Float64,1,2} with indices SOneTo(2):
+ -2.1183026052494185
+ -0.3259894019031434
 ```
 
 ### Utilities
