@@ -7,8 +7,10 @@
 
 Additive log-ratio transformation of composition `c`.
 """
-alr(c::Composition{D,SYMS}) where {D,SYMS} =
-  SVector(ntuple(i -> log(c.parts[i] / c.parts[D]), D-1))
+function alr(c::Composition{D,SYMS}) where {D,SYMS}
+  parts = c.parts .+ eps()
+  SVector(ntuple(i -> log(parts[i] / parts[D]), D-1))
+end
 
 """
     alrinv(x)
@@ -24,8 +26,9 @@ alrinv(x::SVector{D,T}) where {D,T<:Real} =
 Centered log-ratio transformation of composition `c`.
 """
 function clr(c::Composition{D,SYMS}) where {D,SYMS}
-  m = geomean(c.parts)
-  SVector(ntuple(i -> log(c.parts[i] / m), D))
+  parts = c.parts .+ eps()
+  gmean = geomean(parts)
+  SVector(ntuple(i -> log(parts[i] / gmean), D))
 end
 
 """
@@ -41,17 +44,18 @@ clrinv(x) = Composition(𝓒(exp.(x)))
 Isometric log-ratio transformation of composition `c`.
 """
 function ilr(c::Composition{D,SYMS}) where {D,SYMS}
-  T = eltype(c.parts)
-  logparts = log.(c.parts .+ eps())
+  parts = c.parts .+ eps()
+  logs  = log.(parts)
+  T = eltype(parts)
   x = MVector(ntuple(i->zero(T), D-1))
   for i in 1:D-1
     s = zero(T)
     sqrtinv = 1/sqrt(i*(i+1))
     for j in 1:i+1
       if j < i+1
-        s += - sqrtinv * logparts[j]
+        s += - sqrtinv * logs[j]
       elseif j==i+1
-        s += i * sqrtinv * logparts[j]
+        s += i * sqrtinv * logs[j]
       end
     end
     x[i] = s
