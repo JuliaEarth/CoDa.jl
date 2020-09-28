@@ -38,24 +38,25 @@ julia> Composition((0.1, 0.8))
 ```
 """
 struct Composition{D,SYMS}
-  parts::SVector{D,Float64}
+  parts::SVector{D,Union{<:AbstractFloat,Missing}}
 end
 
 Composition(parts::NamedTuple) =
-  Composition{length(parts),keys(parts)}(Tuple(parts))
+  Composition{length(parts),keys(parts)}(values(parts))
 
-Composition(syms::NTuple{D,Symbol}, parts::NTuple{D,<:Real}) where {D} =
+Composition(syms::NTuple{D,Symbol},
+            parts::NTuple{D,Union{<:Real,Missing}}) where {D} =
   Composition(NamedTuple{syms}(parts))
 
-Composition(syms::NTuple{D,Symbol}, parts::SVector{D,<:Real}) where {D} =
+Composition(syms::NTuple{D,Symbol}, parts::AbstractVector) where {D} =
   Composition(syms, Tuple(parts))
 
 Composition(; parts...) = Composition((; parts...))
 
-Composition(parts::NTuple{D,<:Real}) where {D} =
+Composition(parts::NTuple{D,Union{<:Real,Missing}}) where {D} =
   Composition(ntuple(i->Symbol("part-$i"), D), parts)
 
-Composition(parts::SVector{D,<:Real}) where {D} = Composition(Tuple(parts))
+Composition(parts::AbstractVector) = Composition(Tuple(parts))
 
 Composition(part::Real, parts...) = Composition((part, parts...))
 
@@ -100,7 +101,7 @@ distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
 
 Names of parts in the composition `c`.
 """
-names(c::Composition{D,SYMS}) where {D,SYMS} = SYMS
+names(::Composition{D,SYMS}) where {D,SYMS} = SYMS
 
 """
     getproperty(c, name)
@@ -111,10 +112,8 @@ function getproperty(c::Composition{D,SYMS}, S::Symbol) where {D,SYMS}
   if S == :parts
     getfield(c, :parts)
   else
-    for (i, SYM) in enumerate(SYMS)
-      S == SYM && (return c.parts[i])
-    end
-    @error "invalid part name '$S'"
+    i = findfirst(isequal(S), SYMS)
+    c.parts[i]
   end
 end
 
@@ -126,9 +125,18 @@ function Base.show(io::IO, c::Composition)
 end
 
 function Base.show(io::IO, ::MIME"text/plain", c::Composition{D,SYMS}) where {D,SYMS}
-  print(barplot([S for S in SYMS], c.parts, title="$D-part composition"))
-end
-
-function Base.show(io::IO, ::MIME"text/html", c::Composition{D,SYMS}) where {D,SYMS}
-  print(barplot([S for S in SYMS], c.parts, title="$D-part composition"))
+  p = Vector{Float64}()
+  s = Vector{Symbol}()
+  m = Vector{Symbol}()
+  for i in 1:D
+    if ismissing(c.parts[i])
+      push!(m, SYMS[i])
+    else
+      push!(s, SYMS[i])
+      push!(p, c.parts[i])
+    end
+  end
+  plt = barplot(s, p, title="$D-part composition")
+  isempty(m) || annotate!(plt, :t, "missing: $(join(m,", "))")
+  print(plt)
 end
