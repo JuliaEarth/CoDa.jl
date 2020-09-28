@@ -138,5 +138,5 @@ function Base.show(io::IO, ::MIME"text/plain", c::Composition{D,SYMS}) where {D,
   end
   plt = barplot(s, p, title="$D-part composition")
   isempty(m) || annotate!(plt, :t, "missing: $(join(m,", "))")
-  print(plt)
+  show(plt)
 end

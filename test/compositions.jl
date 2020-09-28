@@ -15,9 +15,21 @@
   @test names(c - c) == names(c)
   @test names(2c) == names(c)
 
+  # unicode names work fine
+  c = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
+  @test c.CO₂ == 1.0
+  @test c.CH₄ == 0.1
+  @test c.N₂O == 0.1
+
   # get part by name
   c = Composition(a=3,b=2,c=1)
   @test c.a == 3
   @test c.b == 2
   @test c.c == 1
+
+  # missing parts
+  c = Composition(a=1.0, b=2.0, c=missing)
+  @test c.a == 1
+  @test c.b == 2
+  @test ismissing(c.c)
 end
