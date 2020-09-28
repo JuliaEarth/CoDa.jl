@@ -38,7 +38,7 @@ julia> Composition((0.1, 0.8))
 ```
 """
 struct Composition{D,SYMS}
-  parts::SVector{D,Union{<:AbstractFloat,Missing}}
+  parts::SVector{D,Union{Float64,Missing}}
 end
 
 Composition(parts::NamedTuple) =
