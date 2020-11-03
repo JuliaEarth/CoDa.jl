@@ -17,7 +17,7 @@ objects whose parts are the columns `codanames` in the file.
 """
 function readcoda(args...; codanames=[], kwargs...)
   data = DataFrame!(CSV.File(args...; kwargs...))
-  cols = isempty(codanames) ? names(data) : codanames
+  cols = isempty(codanames) ? Tuple(propertynames(data)) : codanames
   compose(data, cols)
 end
 
@@ -27,15 +27,17 @@ end
 Convert columns `cols` of tabular `data` into
 parts of a composition.
 """
-function compose(data, cols::Vector{Symbol})
+function compose(data, cols::NTuple{N,Symbol}) where {N}
   # non-compositional columns
-  result = data[:,setdiff(names(data), cols)]
+  result = data[:,setdiff(propertynames(data), cols)]
 
   # compositional columns
-  coda = map(eachrow(data[:,cols])) do row
-    Composition(Tuple(names(row)), values(row))
+  coda = map(eachrow(data[:,collect(cols)])) do row
+    Composition(Tuple(propertynames(row)), values(row))
   end
-  result[Symbol(join(cols, "|"))] = coda
+  result[!, Symbol(join(cols, "|"))] = coda
 
   result
 end
+
+compose(data, cols::NTuple{N,String}) where {N} = compose(data, Symbol.(cols))
