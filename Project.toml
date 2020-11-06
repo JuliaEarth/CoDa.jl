@@ -17,6 +17,7 @@ CSV = "0.5, 0.6, 0.7"
 DataFrames = "0.21"
 StaticArrays = "0.12"
 StatsBase = "0.32, 0.33"
+Tables = "1.1"
 UnicodePlots = "1.1"
 julia = "1"
 
