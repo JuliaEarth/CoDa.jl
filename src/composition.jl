@@ -121,7 +121,7 @@ end
 # IO methods
 # ------------
 function Base.show(io::IO, c::Composition)
-  print(io, join(c.parts, "|"))
+  print(io, join(c.parts, ":"))
 end
 
 function Base.show(io::IO, ::MIME"text/plain", c::Composition{D,SYMS}) where {D,SYMS}
