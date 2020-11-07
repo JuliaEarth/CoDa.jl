@@ -5,6 +5,7 @@
 module CoDa
 
 using CSV
+using Tables
 using DataFrames
 using StatsBase
 using StaticArrays

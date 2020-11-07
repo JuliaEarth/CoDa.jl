@@ -1,7 +1,7 @@
 name = "CoDa"
 uuid = "5900dafe-f573-5c72-b367-76665857777b"
 author = "Júlio Hoffimann <julio.hoffimann@gmail.com>"
-version = "0.3.0"
+version = "0.4.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -9,6 +9,7 @@ DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
+Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
 UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 
 [compat]
@@ -16,13 +17,14 @@ CSV = "0.5, 0.6, 0.7"
 DataFrames = "0.21"
 StaticArrays = "0.12"
 StatsBase = "0.32, 0.33"
+Tables = "1.1"
 UnicodePlots = "1.1"
-julia = "1"
+julia = "1.5"
 
 [extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 DataDeps = "124859b0-ceae-595e-8997-d05f6a7a8dfe"
 RData = "df47a6cb-8c03-5eed-afd8-b6050d6c41da"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
 test = ["Test", "DataDeps", "RData"]
