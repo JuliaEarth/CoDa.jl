@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------
-# Licensed under the ISC License. See LICENCE in the project root.
+# Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
 """
