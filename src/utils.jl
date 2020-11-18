@@ -17,7 +17,7 @@ The option `codanames` can also be a pair as described in
 the documentation of [`compose`](@ref).
 """
 function readcoda(args...; codanames=nothing, kwargs...)
-  table = DataFrame!(CSV.File(args...; kwargs...))
+  table = DataFrame(CSV.File(args...; kwargs...))
   cols = if isnothing(codanames)
     Tuple(Tables.columnnames(table))
   else
