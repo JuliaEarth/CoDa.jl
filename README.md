@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/codecov/c/github/JuliaEarth/CoDa.jl?style=flat-square">
   </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg">
+    <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square">
   </a>
 </p>
 
