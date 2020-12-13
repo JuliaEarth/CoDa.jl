@@ -1,10 +1,10 @@
 <p align="center">
   <img src="docs/CoDa.png" height="200"><br>
-  <a href="https://travis-ci.org/JuliaEarth/CoDa.jl">
-    <img src="https://travis-ci.org/JuliaEarth/CoDa.jl.svg?branch=master">
+  <a href="https://github.com/JuliaEarth/GeoStatsBase.jl/actions">
+    <img src="https://img.shields.io/github/workflow/status/JuliaEarth/CoDa.jl/CI?style=flat-square">
   </a>
   <a href="https://codecov.io/gh/JuliaEarth/CoDa.jl">
-    <img src="https://codecov.io/gh/JuliaEarth/CoDa.jl/branch/master/graph/badge.svg">
+    <img src="https://img.shields.io/codecov/c/github/JuliaEarth/CoDa.jl?style=flat-square">
   </a>
   <a href="LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg">
