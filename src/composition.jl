@@ -37,19 +37,20 @@ julia> Composition(0.1, 0.8)
 julia> Composition((0.1, 0.8))
 ```
 """
-struct Composition{NT<:NamedTuple}
+struct Composition{PARTS,NT<:NamedTuple}
   data::NT
 end
 
-Composition(parts::NTuple{D,Symbol}, comps) where {D} =
-  Composition(NamedTuple{parts}(Tuple(comps)))
+Composition(data::NamedTuple) =
+  Composition{keys(data),typeof(data)}(data)
 
-Composition(; partscomps...) = Composition((; partscomps...))
+Composition(; data...) = Composition((; data...))
 
-Composition(comps::NTuple{D,Union{<:Real,Missing}}) where {D} =
-  Composition(ntuple(i->Symbol("part$i"), D), comps)
+Composition(parts::NTuple, comps) =
+  Composition((; zip(parts, Tuple(comps))...))
 
-Composition(comps::AbstractVector) = Composition(Tuple(comps))
+Composition(comps) =
+  Composition(ntuple(i->Symbol("part$i"), length(comps)), comps)
 
 Composition(comp::Real, comps...) = Composition((comp, comps...))
 
@@ -74,7 +75,7 @@ Return the value of part with given `name` in the composition `c`.
 """
 getproperty(c::Composition, n::Symbol) = getfield(c, :data)[n]
 
-+(c₁::Composition, c₂::Composition) =
++(c₁::Composition{PARTS}, c₂::Composition{PARTS}) where {PARTS} =
   Composition(parts(c₁), 𝓒(components(c₁) .* components(c₂)))
 
 -(c::Composition) = Composition(parts(c), 𝓒(1 ./ components(c)))
