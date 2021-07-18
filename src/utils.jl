@@ -46,6 +46,7 @@ compose(table, (:Cd, :Cu, :Pb) => :comp)
 function compose(table, spec::Pair{NTuple{N,Symbol},Symbol}) where {N}
   # retrieve specification
   cols, name = spec
+  D = length(cols)
 
   # non-compositional columns
   ctable = Tables.columns(table)
@@ -53,9 +54,8 @@ function compose(table, spec::Pair{NTuple{N,Symbol},Symbol}) where {N}
   others = [o => Tables.getcolumn(ctable, o) for o in onames]
 
   # new column with compositions
-  ncomps = length(cols)
   coda = map(Tables.rows(table)) do row
-    comps = ntuple(i -> Tables.getcolumn(row, cols[i]), ncomps)
+    comps = ntuple(i -> Tables.getcolumn(row, cols[i]), D)
     Composition(cols, comps)
   end
 

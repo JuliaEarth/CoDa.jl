@@ -10,11 +10,11 @@ Return closure of `x`.
 𝓒(x) = x ./ sum(x)
 
 """
-    Composition(symsparts)
-    Composition(syms, parts)
-    Composition(sym₁=val₁, sym₂=val₂, ...)
-    Composition(parts)
-    Composition(val₁, val₂, ...)
+    Composition(partscomps)
+    Composition(parts, comps)
+    Composition(part₁=comp₁, part₂=part₂, ...)
+    Composition(comps)
+    Composition(comp₁, comp₂, ...)
 
 A D-part composition as defined by Aitchison 1986.
 
@@ -29,20 +29,17 @@ julia> Composition((:a, :b), (0.2, 0.8))
 ```
 
 When the names of the parts are not specified, the
-constructor uses default names `part-1`, `part-2`,
-..., `part-D`:
+constructor uses default names `part1`, `part2`,
+..., `partD`:
 
 ```
 julia> Composition(0.1, 0.8)
 julia> Composition((0.1, 0.8))
 ```
 """
-struct Composition{D,SYMS}
-  comps::SVector{D,Union{Float64,Missing}}
+struct Composition{NT<:NamedTuple}
+  data::NT
 end
-
-Composition(comps::NamedTuple) =
-  Composition{length(comps),keys(comps)}(values(comps))
 
 Composition(parts::NTuple{D,Symbol},
             comps::NTuple{D,Union{<:Real,Missing}}) where {D} =
@@ -65,44 +62,43 @@ Composition(comp::Real, comps...) = Composition((comp, comps...))
 
 Parts in the composition `c`.
 """
-parts(::Composition{D,SYMS}) where {D,SYMS} = SYMS
+parts(c::Composition) = getfield(c, :data) |> keys
 
 """
     components(c)
 
 Components in the composition `c`.
 """
-components(c::Composition) = getfield(c, :comps)
+components(c::Composition) = getfield(c, :data) |> values |> SVector
 
 """
     getproperty(c, name)
 
 Return the value of part with given `name` in the composition `c`.
 """
-function getproperty(c::Composition{D,SYMS}, n::Symbol) where {D,SYMS}
-  i = findfirst(isequal(n), SYMS)
-  getfield(c, :comps)[i]
-end
+getproperty(c::Composition, n::Symbol) = getfield(c, :data)[n]
 
-+(c₁::Composition{D,SYMS}, c₂::Composition{D,SYMS}) where {D,SYMS} =
-  Composition(SYMS, 𝓒(components(c₁) .* components(c₂)))
++(c₁::Composition, c₂::Composition) =
+  Composition(parts(c₁), 𝓒(components(c₁) .* components(c₂)))
 
--(c::Composition{D,SYMS}) where {D,SYMS} = Composition(SYMS, 𝓒(1 ./ components(c)))
+-(c::Composition) = Composition(parts(c), 𝓒(1 ./ components(c)))
 
 -(c₁::Composition, c₂::Composition) = c₁ + -c₂
 
-*(λ::Real, c::Composition{D,SYMS}) where {D,SYMS} = Composition(SYMS, 𝓒(components(c).^λ))
+*(λ::Real, c::Composition) = Composition(parts(c), 𝓒(components(c).^λ))
 
-==(c₁::Composition{D,SYMS₁}, c₂::Composition{D,SYMS₂}) where {D,SYMS₁,SYMS₂} =
-  SYMS₁ == SYMS₂ && 𝓒(components(c₁)) ≈ 𝓒(components(c₂))
+==(c₁::Composition, c₂::Composition) =
+  parts(c₁) == parts(c₂) && 𝓒(components(c₁)) ≈ 𝓒(components(c₂))
 
 """
     dot(c₁, c₂)
 
 Inner product between compositions `c₁` and `c₂`.
 """
-function dot(c₁::Composition{D,SYMS}, c₂::Composition{D,SYMS}) where {D,SYMS}
-  x = components(c₁); y = components(c₂)
+function dot(c₁::Composition, c₂::Composition)
+  x = components(c₁)
+  y = components(c₂)
+  D = length(x)
   sum(log(x[i]/x[j])*log(y[i]/y[j]) for j=1:D for i=j+1:D) / D
 end
 
@@ -124,23 +120,25 @@ distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
 # IO methods
 # ------------
 function Base.show(io::IO, c::Composition)
-  print(io, join(components(c), ":"))
+  show(io, join(components(c), ":"))
 end
 
-function Base.show(io::IO, mime::MIME"text/plain", c::Composition{D,SYMS}) where {D,SYMS}
-  p = Vector{Float64}()
-  s = Vector{Symbol}()
+function Base.show(io::IO, mime::MIME"text/plain", c::Composition)
+  names = parts(c)
+  comps = components(c)
+  x = Vector{Float64}()
+  p = Vector{Symbol}()
   m = Vector{Symbol}()
-  x = components(c)
+  D = length(names)
   for i in 1:D
-    if ismissing(x[i])
-      push!(m, SYMS[i])
+    if ismissing(comps[i])
+      push!(m, names[i])
     else
-      push!(s, SYMS[i])
-      push!(p, x[i])
+      push!(p, names[i])
+      push!(x, comps[i])
     end
   end
-  plt = barplot(s, p, title="$D-part composition")
+  plt = barplot(p, x, title="$D-part composition")
   isempty(m) || annotate!(plt, :t, "missing: $(join(m,", "))")
   show(io, mime, plt)
 end
