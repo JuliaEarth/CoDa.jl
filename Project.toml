@@ -1,7 +1,7 @@
 name = "CoDa"
 uuid = "5900dafe-f573-5c72-b367-76665857777b"
 author = "Júlio Hoffimann <julio.hoffimann@gmail.com>"
-version = "0.4.1"
+version = "0.5.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
