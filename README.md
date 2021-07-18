@@ -58,6 +58,8 @@ julia> c = Composition(CO₂=2.0, CH₄=0.1, N₂O=0.3)
    CH₄ ┤■■ 0.1                                    
    N₂O ┤■■■■■ 0.3                                 
        └                                        ┘ 
+julia> c.CO₂
+2.0
 ```
 
 Default names are added otherwise:
@@ -66,9 +68,9 @@ Default names are added otherwise:
 julia> c = Composition(1.0, 0.1, 0.1)
                      3-part composition
           ┌                                        ┐ 
-   part-1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
-   part-2 ┤■■■■ 0.1                                  
-   part-3 ┤■■■■ 0.1                                  
+   part1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
+   part2 ┤■■■■ 0.1                                  
+   part3 ┤■■■■ 0.1                                  
           └                                        ┘ 
 ```
 

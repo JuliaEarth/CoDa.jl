@@ -22,9 +22,9 @@ include("utils.jl")
 export
   # composition
   Composition,
+  parts, components,
   norm, dot, ⋅,
   distance,
-  names,
 
   # transforms
   alr, alrinv,

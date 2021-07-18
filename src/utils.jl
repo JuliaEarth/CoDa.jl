@@ -53,10 +53,10 @@ function compose(table, spec::Pair{NTuple{N,Symbol},Symbol}) where {N}
   others = [o => Tables.getcolumn(ctable, o) for o in onames]
 
   # new column with compositions
-  nparts = length(cols)
+  ncomps = length(cols)
   coda = map(Tables.rows(table)) do row
-    parts = ntuple(i -> Tables.getcolumn(row, cols[i]), nparts)
-    Composition(cols, parts)
+    comps = ntuple(i -> Tables.getcolumn(row, cols[i]), ncomps)
+    Composition(cols, comps)
   end
 
   # preserve table type in result

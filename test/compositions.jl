@@ -1,5 +1,13 @@
 @testset "Composition" begin
   # basic tests
+  c = Composition(1,1,1)
+  @test parts(c) == (:part1,:part2,:part3)
+  @test components(c) == [1,1,1]
+  c = Composition(a=1, b=missing)
+  @test parts(c) == (:a,:b)
+  @test isequal(components(c), [1,missing])
+
+  # equality
   c₀ = Composition(1,1,1)
   c₁ = Composition(1,2,3)
   c₂ = Composition(10,20,30)
@@ -10,10 +18,10 @@
 
   # make sure names are preserved
   c = Composition(a=1.0, b=2.0)
-  @test names(c + c) == names(c)
-  @test names(-c) == names(c)
-  @test names(c - c) == names(c)
-  @test names(2c) == names(c)
+  @test parts(c + c) == parts(c)
+  @test parts(-c) == parts(c)
+  @test parts(c - c) == parts(c)
+  @test parts(2c) == parts(c)
 
   # unicode names work fine
   c = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
