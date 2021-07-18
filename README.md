@@ -71,11 +71,11 @@ Default names are added otherwise:
 ```julia
 julia> c = Composition(1.0, 0.1, 0.1)
                      3-part composition
-          ┌                                        ┐ 
+         ┌                                        ┐ 
    part1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
    part2 ┤■■■■ 0.1                                  
    part3 ┤■■■■ 0.1                                  
-          └                                        ┘ 
+         └                                        ┘ 
 ```
 
 and serve for internal compile-time checks.
