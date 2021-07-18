@@ -37,12 +37,12 @@ julia> Composition(0.1, 0.8)
 julia> Composition((0.1, 0.8))
 ```
 """
-struct Composition{PARTS,NT<:NamedTuple}
-  data::NT
+struct Composition{D,PARTS}
+  data::SVector{D,Union{Float64,Missing}}
 end
 
 Composition(data::NamedTuple) =
-  Composition{keys(data),typeof(data)}(data)
+  Composition{length(data),keys(data)}(values(data))
 
 Composition(; data...) = Composition((; data...))
 
@@ -59,24 +59,31 @@ Composition(comp::Real, comps...) = Composition((comp, comps...))
 
 Parts in the composition `c`.
 """
-parts(c::Composition) = getfield(c, :data) |> keys
+parts(::Composition{D,PARTS}) where {D,PARTS} = PARTS
 
 """
     components(c)
 
 Components in the composition `c`.
 """
-components(c::Composition) = getfield(c, :data) |> values |> SVector
+components(c::Composition) = getfield(c, :data)
 
 """
-    getproperty(c, name)
+    getproperty(c, part)
 
-Return the value of part with given `name` in the composition `c`.
+Return the value of `part` in the composition `c`.
 """
-getproperty(c::Composition, n::Symbol) = getfield(c, :data)[n]
+function getproperty(c::Composition{D,PARTS}, PART::Symbol) where {D,PARTS}
+  i = findfirst(isequal(PART), PARTS)
+  if isnothing(i)
+    throw(ArgumentError("invalid part"))
+  else
+    getfield(c, :data)[i]
+  end
+end
 
-+(c₁::Composition{PARTS}, c₂::Composition{PARTS}) where {PARTS} =
-  Composition(parts(c₁), 𝓒(components(c₁) .* components(c₂)))
++(c₁::Composition{D,PARTS}, c₂::Composition{D,PARTS}) where {D,PARTS} =
+  Composition(PARTS, 𝓒(components(c₁) .* components(c₂)))
 
 -(c::Composition) = Composition(parts(c), 𝓒(1 ./ components(c)))
 
@@ -92,10 +99,8 @@ getproperty(c::Composition, n::Symbol) = getfield(c, :data)[n]
 
 Inner product between compositions `c₁` and `c₂`.
 """
-function dot(c₁::Composition, c₂::Composition)
-  x = components(c₁)
-  y = components(c₂)
-  D = length(x)
+function dot(c₁::Composition{D}, c₂::Composition{D}) where {D}
+  x, y = components(c₁), components(c₂)
   sum(log(x[i]/x[j])*log(y[i]/y[j]) for j=1:D for i=j+1:D) / D
 end
 
@@ -120,18 +125,17 @@ function Base.show(io::IO, c::Composition)
   show(io, join(components(c), ":"))
 end
 
-function Base.show(io::IO, mime::MIME"text/plain", c::Composition)
-  names = parts(c)
+function Base.show(io::IO, mime::MIME"text/plain",
+                   c::Composition{D,PARTS}) where {D,PARTS}
   comps = components(c)
   x = Vector{Float64}()
   p = Vector{Symbol}()
   m = Vector{Symbol}()
-  D = length(names)
   for i in 1:D
     if ismissing(comps[i])
-      push!(m, names[i])
+      push!(m, PARTS[i])
     else
-      push!(p, names[i])
+      push!(p, PARTS[i])
       push!(x, comps[i])
     end
   end
