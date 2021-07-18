@@ -124,7 +124,7 @@ function Base.show(io::IO, c::Composition)
   print(io, join(c.parts, ":"))
 end
 
-function Base.show(io::IO, ::MIME"text/plain", c::Composition{D,SYMS}) where {D,SYMS}
+function Base.show(io::IO, mime::MIME"text/plain", c::Composition{D,SYMS}) where {D,SYMS}
   p = Vector{Float64}()
   s = Vector{Symbol}()
   m = Vector{Symbol}()
@@ -138,5 +138,5 @@ function Base.show(io::IO, ::MIME"text/plain", c::Composition{D,SYMS}) where {D,
   end
   plt = barplot(s, p, title="$D-part composition")
   isempty(m) || annotate!(plt, :t, "missing: $(join(m,", "))")
-  show(plt)
+  show(io, mime, plt)
 end
