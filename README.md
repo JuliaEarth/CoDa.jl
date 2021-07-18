@@ -44,13 +44,7 @@ Compositions are static vectors with named parts:
 
 ```julia
 julia> using CoDa
-julia> cₒ = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
-                  3-part composition
-       ┌                                        ┐ 
-   CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
-   CH₄ ┤■■■■ 0.1                                  
-   N₂O ┤■■■■ 0.1                                  
-       └                                        ┘ 
+
 julia> c = Composition(CO₂=2.0, CH₄=0.1, N₂O=0.3)
                   3-part composition
        ┌                                        ┐ 
@@ -58,6 +52,16 @@ julia> c = Composition(CO₂=2.0, CH₄=0.1, N₂O=0.3)
    CH₄ ┤■■ 0.1                                    
    N₂O ┤■■■■■ 0.3                                 
        └                                        ┘ 
+
+julia> parts(c)
+(:CO₂, :CH₄, :N₂O)
+
+julia> components(c)
+3-element StaticArrays.SVector{3, Union{Missing, Float64}} with indices SOneTo(3):
+ 2.0
+ 0.1
+ 0.3
+
 julia> c.CO₂
 2.0
 ```
@@ -81,6 +85,14 @@ scalars. Other operations are also defined including dot product,
 induced norm, and distance:
 
 ```julia
+julia> cₒ = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
+                  3-part composition
+       ┌                                        ┐ 
+   CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
+   CH₄ ┤■■■■ 0.1                                  
+   N₂O ┤■■■■ 0.1                                  
+       └                                        ┘ 
+
 julia> -cₒ
                   3-part composition
        ┌                                        ┐ 
@@ -88,6 +100,7 @@ julia> -cₒ
    CH₄ ┤■■■■■■■■■■■■■■■■■■■ 0.47619047619047616   
    N₂O ┤■■■■■■■■■■■■■■■■■■■ 0.47619047619047616   
        └                                        ┘ 
+
 julia> 0.5c
                   3-part composition
        ┌                                        ┐ 
@@ -95,6 +108,7 @@ julia> 0.5c
    CH₄ ┤■■■■ 0.13880817265812764                  
    N₂O ┤■■■■■■■■ 0.24042280754967013              
        └                                        ┘ 
+
 julia> c - cₒ
                   3-part composition
        ┌                                        ┐ 
@@ -102,10 +116,13 @@ julia> c - cₒ
    CH₄ ┤■■■■■■■■■■■■ 0.16666666666666666          
    N₂O ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 0.5   
        └                                        ┘ 
+
 julia> c ⋅ cₒ
 3.7554028908352994
+
 julia> norm(c)
 2.1432393747688687
+
 julia> distance(c, cₒ)
 0.7856640352007868
 ```
@@ -125,6 +142,7 @@ their closure is approximately equal:
 ```julia
 julia> c == c
 true
+
 julia> c == cₒ
 false
 ```
