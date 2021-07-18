@@ -6,6 +6,13 @@
   c = Composition(a=1, b=missing)
   @test parts(c) == (:a,:b)
   @test isequal(components(c), [1,missing])
+  for c in [Composition((part1=1,part2=2))
+            Composition((:part1,:part2), (1,2))
+            Composition((1,2))
+            Composition(1,2)]
+    @test parts(c) == (:part1,:part2)
+    @test components(c) == [1,2]
+  end
 
   # equality
   c₀ = Composition(1,1,1)

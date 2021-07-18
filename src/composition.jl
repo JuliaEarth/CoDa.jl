@@ -41,12 +41,8 @@ struct Composition{NT<:NamedTuple}
   data::NT
 end
 
-Composition(parts::NTuple{D,Symbol},
-            comps::NTuple{D,Union{<:Real,Missing}}) where {D} =
-  Composition(NamedTuple{parts}(comps))
-
-Composition(parts::NTuple{D,Symbol}, comps::AbstractVector) where {D} =
-  Composition(parts, Tuple(comps))
+Composition(parts::NTuple{D,Symbol}, comps) where {D} =
+  Composition(NamedTuple{parts}(Tuple(comps)))
 
 Composition(; partscomps...) = Composition((; partscomps...))
 
