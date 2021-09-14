@@ -11,27 +11,11 @@
 
   # tests of multiplications
   for M in square_matrices
-    @test M(d) == M * I(d)
-    @test M(d) == I(d) * M
-    @test M(d) * collect(1:d) ==  M * collect(1:d)
-    @test collect(1:d)' * M(d) ==  collect(1:d)' * M
-  end
-
-  # tests of additions
-  for M in square_matrices
-    @test M(d) + M(d) == M + M(d)
-    @test M(d) + M(d) == M(d) + M
-    @test M(d) + I(d) == M + I(d)
-    @test I(d) + M(d) == I(d) + M
+    @test norm(M(d) * collect(1:d) -  M * collect(1:d), Inf) < 1e-5
+    @test norm(collect(1:d)' * M(d) - collect(1:d)' * M, Inf) < 1e-5
   end
 
   # tests of F (d x D)
-  @test F(d) == F * I(D)
-  @test F(d) == I(d) * F
   @test F(d) * collect(1:D) ==  F * collect(1:D)
   @test collect(1:d)' * F(d) ==  collect(1:d)' * F
-  @test F(d) + F(d) == F + F(d)
-  @test F(d) + F(d) == F(d) + F
-  @test F(d) + [I(d) ones(Int,d)] == F + [I(d) ones(Int,d)]
-  @test [I(d) ones(Int,d)] + F(d) == [I(d) ones(Int,d)] + F
 end

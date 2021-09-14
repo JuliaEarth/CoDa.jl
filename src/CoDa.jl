@@ -10,6 +10,8 @@ using DataFrames
 using StatsBase
 using StaticArrays
 using UnicodePlots
+using LinearAlgebra
+using FillArrays
 
 import Base: +, -, *, ==
 import Base: names, getproperty
