@@ -3,6 +3,7 @@ using DataDeps
 using RData
 using CSV
 using Test
+using LinearAlgebra
 
 # accept downloads without interaction
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
@@ -26,6 +27,7 @@ CSV.write(joinpath(datadir,"jura.csv"), jura)
 # list of tests
 testfiles = [
   "compositions.jl",
+  "matrices.jl",
   "transforms.jl",
   "utils.jl"
 ]

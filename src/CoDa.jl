@@ -10,12 +10,15 @@ using DataFrames
 using StatsBase
 using StaticArrays
 using UnicodePlots
+using LinearAlgebra
+using FillArrays
 
 import Base: +, -, *, ==
 import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 
 include("composition.jl")
+include("matrices.jl")
 include("transforms.jl")
 include("utils.jl")
 
@@ -25,6 +28,12 @@ export
   parts, components,
   norm, dot, ⋅,
   distance,
+
+  # matrices
+  JMatrix, J,
+  FMatrix, F,
+  GMatrix, G,
+  HMatrix, H,
 
   # transforms
   alr, alrinv,
