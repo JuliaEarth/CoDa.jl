@@ -29,7 +29,7 @@ struct FMatrix{T} end
 """
 struct GMatrix{T} end
 (G::GMatrix{T})(D::Integer) where {T} =  I(D) - (1/D) * J(D)
-*(::GMatrix, v::AbstractVector) = v .-sum(v)/length(v)
+*(::GMatrix, v::AbstractVector) = v .- sum(v) / length(v)
 *(v::Adjoint{<:Any, <:AbstractVector}, G::GMatrix) = (G*v')'
 
 """
