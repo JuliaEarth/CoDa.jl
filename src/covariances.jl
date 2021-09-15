@@ -2,9 +2,6 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-using Statistics
-
-
 """
     designmatrix(comps)
     
@@ -64,7 +61,7 @@ function lrcovmatrix(comps)
     lrcomps = alr.(comps)
     lrmatrix = reduce(hcat, lrcomps[:, 1])'
 
-    return Statistics.cov(lrmatrix, corrected=false)
+    return cov(lrmatrix, corrected=false)
 end
 
 """
@@ -73,8 +70,8 @@ end
 Return the centered log ratio covariance matrix, definition 4.6 of Aitchson - The Statistical Analysis of Compositional Data.
 """
 function clrcovmatrix(comps)
-    clrcomps = CoDa.clr.(comps)
+    clrcomps = clr.(comps)
     clrmatrix = reduce(hcat, clrcomps[:, 1])'
     
-    return Statistics.cov(clrmatrix, corrected=false)
+    return cov(clrmatrix, corrected=false)
 end
