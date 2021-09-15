@@ -13,16 +13,6 @@ function design_matrix(comps)
 end
 
 """
-    get_subcomposition_matrix(matrix, entries)
-
-Returns the subcomposition matrix given the `entries` (selected columns) from the `matrix`.
-"""
-function get_subcomposition_matrix(matrix, entries)
-    subcomposition_matrix = matrix[:, entries]
-    return subcomposition_matrix
-end
-
-"""
     comp_var_array(comps)
 
 Returns the compositional variation array, from definition 4.3 of Aitchson - The Statistical Analysis of Compositional Data.
