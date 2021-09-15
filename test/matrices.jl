@@ -16,6 +16,6 @@
   end
 
   # tests of F (d x D)
-  @test F(d) * collect(1:D) ==  F * collect(1:D)
-  @test collect(1:d)' * F(d) ==  collect(1:d)' * F
+  @test F * [1:D...] == F(d) * [1:D...]
+  @test [1:d...]' * F == [1:d...]' * F(d)
 end
