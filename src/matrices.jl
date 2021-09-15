@@ -28,7 +28,7 @@ struct FMatrix{T} end
 `G` matrix, as defined by Aitchison 1986. See also [`G`](@ref).
 """
 struct GMatrix{T} end
-(G::GMatrix{T})(D::Integer) where {T} =  I(D) - (1/D) * J(D)
+(G::GMatrix{T})(D::Integer) where {T} = I(D) - (1/D) * J(D)
 *(::GMatrix, v::AbstractVector) = v .- sum(v) / length(v)
 *(v::Adjoint{<:Any, <:AbstractVector}, G::GMatrix) = (G*v')'
 

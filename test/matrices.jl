@@ -3,14 +3,14 @@
   d = 10
   D = d+1
   @test J(d) == ones(d, d)
-  @test F(d) == [I(d) -ones(d)]
-  @test norm(G(D) - I(D)  + J(D)/ D, Inf) < 1e-5
+  @test F(d) == [I(d) - ones(d)]
+  @test G(D) ≈ I(D) - J(D)/ D
   @test H(d) == I(d) + J(d)
 
   # tests of multiplications
   for M in [J G H]
-    @test norm(M * [1:d...] - M(d) * [1:d...], Inf) < 1e-5
-    @test norm([1:d...]' * M - [1:d...]' * M(d), Inf) < 1e-5
+    @test M * [1:d...] ≈ M(d) * [1:d...]
+    @test [1:d...]' * M ≈ [1:d...]' * M(d)
   end
 
   # tests of F (d x D)
