@@ -11,8 +11,8 @@
 
   # tests of multiplications
   for M in square_matrices
-    @test norm(M(d) * collect(1:d) -  M * collect(1:d), Inf) < 1e-5
-    @test norm(collect(1:d)' * M(d) - collect(1:d)' * M, Inf) < 1e-5
+    @test norm(M * [1:d...] - M(d) * [1:d...], Inf) < 1e-5
+    @test norm([1:d...]' * M - [1:d...]' * M(d), Inf) < 1e-5
   end
 
   # tests of F (d x D)

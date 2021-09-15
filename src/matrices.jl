@@ -9,8 +9,8 @@ Square matrix of ones.
 """
 struct JMatrix{T} end
 (J::JMatrix{T})(d::Integer) where {T} = Ones{T}(d, d)
-(*)(::JMatrix, v::AbstractVector) = Fill(sum(v), length(v))
-(*)(v::Adjoint{<:Any, <:AbstractVector}, J::JMatrix) = (J*v')'
+*(::JMatrix, v::AbstractVector) = Fill(sum(v), length(v))
+*(v::Adjoint{<:Any, <:AbstractVector}, J::JMatrix) = (J*v')'
 
 """
     FMatrix{T}
@@ -19,8 +19,8 @@ struct JMatrix{T} end
 """
 struct FMatrix{T} end
 (F::FMatrix{T})(d::Integer) where {T} = [Diagonal(fill(one(T), d)) -Ones{T}(d)]
-(*)(::FMatrix{T}, v::AbstractVector) where {T} = Fill(-last(v), length(v)-1) + v[1:end-1]
-(*)(v::Adjoint{<:Any, <:AbstractVector}, ::FMatrix) = [v -sum(v)]
+*(::FMatrix{T}, v::AbstractVector) where {T} = Fill(-last(v), length(v)-1) + v[1:end-1]
+*(v::Adjoint{<:Any, <:AbstractVector}, ::FMatrix) = [v -sum(v)]
 
 """
     GMatrix{T}(N)
@@ -29,8 +29,8 @@ struct FMatrix{T} end
 """
 struct GMatrix{T} end
 (G::GMatrix{T})(D::Integer) where {T} = -ones(T, D, D)/D + Diagonal(fill(one(T), D))
-(*)(::GMatrix, v::AbstractVector) = Fill(-sum(v)/length(v), length(v)) + v
-(*)(v::Adjoint{<:Any, <:AbstractVector}, G::GMatrix) = (G*v')'
+*(::GMatrix, v::AbstractVector) = Fill(-sum(v)/length(v), length(v)) + v
+*(v::Adjoint{<:Any, <:AbstractVector}, G::GMatrix) = (G*v')'
 
 """
     HMatrix{T}(d)
@@ -39,37 +39,70 @@ struct GMatrix{T} end
 """
 struct HMatrix{T} end
 (H::HMatrix{T})(d::Integer) where {T} = ones(T, d, d) + Diagonal(fill(one(T), d))
-(*)(::HMatrix, v::AbstractVector) = Fill(sum(v), length(v)) + v
-(*)(v::Adjoint{<:Any, <:AbstractVector}, H::HMatrix) = (H*v')'
+*(::HMatrix, v::AbstractVector) = Fill(sum(v), length(v)) + v
+*(v::Adjoint{<:Any, <:AbstractVector}, H::HMatrix) = (H*v')'
 
 """
-    J(d)
     J
-    F(d)
-    F
-    G(D)
-    G
-    H(d)
-    H
+    J(d)
 
-User interfaces for the matrices JMatrix, FMatrix, GMatrix and HMatrix, as
-defined by Aitchison 1986.
+User interface for JMatrix, the matrix of ones.
 
 ## Examples
 
-Ordinary constructors of matrices
 ```
-julia> H(3)
-julia> G(3)
-```
-
-Sizeless linear transformations
-```
-julia> v'*F
-julia> G*v
+julia> J(3)
+julia> J*v
+julia> v'*J
 ```
 """
 const J = JMatrix{Bool}()
+
+"""
+    F
+    F(d)
+
+User interface for FMatrix, as defined by Aitchison.
+
+## Examples
+
+```
+julia> F(3)
+julia> F*v
+julia> v'*F
+```
+"""
 const F = FMatrix{Int}()
+
+
+"""
+    G
+    G(d)
+
+User interface for GMatrix, as defined by Aitchison.
+
+## Examples
+
+```
+julia> G(3)
+julia> G*v
+julia> v'*G
+```
+"""
 const G = GMatrix{Float64}()
+
+"""
+    H
+    H(d)
+
+User interface for HMatrix, as defined by Aitchison.
+
+## Examples
+
+```
+julia> H(3)
+julia> H*v
+julia> v'*H
+```
+"""
 const H = HMatrix{Int}()
