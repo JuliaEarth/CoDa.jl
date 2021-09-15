@@ -18,8 +18,8 @@ struct JMatrix{T} end
 `F` matrix, as defined by Aitchison 1986.
 """
 struct FMatrix{T} end
-(F::FMatrix{T})(d::Integer) where {T} = [Diagonal(fill(one(T), d)) -Ones{T}(d)]
-*(::FMatrix{T}, v::AbstractVector) where {T} = Fill(-last(v), length(v)-1) + v[1:end-1]
+(F::FMatrix{T})(d::Integer) where {T} = [I(d) -Ones{T}(d)]
+*(::FMatrix{T}, v::AbstractVector) where {T} = v[1:end-1] .- v[end]
 *(v::Adjoint{<:Any, <:AbstractVector}, ::FMatrix) = [v -sum(v)]
 
 """
@@ -28,8 +28,8 @@ struct FMatrix{T} end
 `G` matrix, as defined by Aitchison 1986.
 """
 struct GMatrix{T} end
-(G::GMatrix{T})(D::Integer) where {T} = -ones(T, D, D)/D + Diagonal(fill(one(T), D))
-*(::GMatrix, v::AbstractVector) = Fill(-sum(v)/length(v), length(v)) + v
+(G::GMatrix{T})(D::Integer) where {T} =  I(D) - (1/D) * J(D)
+*(::GMatrix, v::AbstractVector) = v .-sum(v)/length(v)
 *(v::Adjoint{<:Any, <:AbstractVector}, G::GMatrix) = (G*v')'
 
 """
@@ -38,8 +38,8 @@ struct GMatrix{T} end
 `H` matrix, as defined by Aitchison 1986.
 """
 struct HMatrix{T} end
-(H::HMatrix{T})(d::Integer) where {T} = ones(T, d, d) + Diagonal(fill(one(T), d))
-*(::HMatrix, v::AbstractVector) = Fill(sum(v), length(v)) + v
+(H::HMatrix{T})(d::Integer) where {T} = I(d) + J(d)
+*(::HMatrix, v::AbstractVector) = v .+ sum(v)
 *(v::Adjoint{<:Any, <:AbstractVector}, H::HMatrix) = (H*v')'
 
 """
