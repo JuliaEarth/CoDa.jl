@@ -48,7 +48,7 @@ function variationmatrix(comps)
     
     for i in 1:D
         for j in 1:D
-            va[i, j] = Statistics.var(log.(dm[:, i] ./ dm[:, j]), corrected=false)
+            va[i, j] = var(log.(dm[:, i] ./ dm[:, j]), corrected=false)
         end
     end
     
