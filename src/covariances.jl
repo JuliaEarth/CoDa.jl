@@ -2,23 +2,26 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
+using Statistics
+
+
 """
-    design_matrix(comps)
+    designmatrix(comps)
     
 Converts a vector of Composition objects into a Matrix of numbers.
 """
-function design_matrix(comps)
+function designmatrix(comps)
     matrix = reduce(hcat, components.(comps)[:,1])'
     return matrix
 end
 
 """
-    comp_var_array(comps)
+    compvarmatrix(comps)
 
 Returns the compositional variation array, from definition 4.3 of Aitchson - The Statistical Analysis of Compositional Data.
 """
-function comp_var_array(comps)
-    dm = design_matrix(comps)
+function compvarmatrix(comps)
+    dm = designmatrix(comps)
     N, D = size(dm)
     cva = zeros(D, D)
 
@@ -34,12 +37,12 @@ function comp_var_array(comps)
 end
 
 """
-    variation_matrix(comps)
+    variationmatrix(comps)
 
 Return the variation matrix, definition 4.4 of Aitchson - The Statistical Analysis of Compositional Data.
 """
-function variation_matrix(comps)
-    dm = design_matrix(comps)
+function variationmatrix(comps)
+    dm = designmatrix(comps)
     N, D = size(dm)
     va = zeros(D, D)
     
@@ -53,11 +56,11 @@ function variation_matrix(comps)
 end
 
 """
-    lrcov_matrix(comps)
+    lrcovmatrix(comps)
 
 Return the log ratio covariance matrix, definition 4.5 of Aitchson - The Statistical Analysis of Compositional Data.
 """
-function lrcov_matrix(comps)
+function lrcovmatrix(comps)
     lrcomps = CoDa.alr.(comps)
     lrmatrix = reduce(hcat, lrcomps[:, 1])'
 
@@ -65,11 +68,11 @@ function lrcov_matrix(comps)
 end
 
 """
-    clrcov_matrix(comps)
+    clrcovmatrix(comps)
 
 Return the centered log ratio covariance matrix, definition 4.6 of Aitchson - The Statistical Analysis of Compositional Data.
 """
-function clrcov_matrix(comps)
+function clrcovmatrix(comps)
     clrcomps = CoDa.clr.(comps)
     clrmatrix = reduce(hcat, clrcomps[:, 1])'
     
