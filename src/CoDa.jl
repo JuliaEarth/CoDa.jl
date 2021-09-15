@@ -25,6 +25,13 @@ include("transforms.jl")
 include("utils.jl")
 
 export
+  # covariances
+  designmatrix,
+  compvarmatrix,
+  variationmatrix,
+  lrcovmatrix,
+  clrcovmatrix,
+
   # composition
   Composition,
   parts, components,

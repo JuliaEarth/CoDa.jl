@@ -8,8 +8,7 @@
 Converts a vector of Composition objects into a Matrix of numbers.
 """
 function designmatrix(comps)
-    matrix = reduce(hcat, components.(comps)[:,1])'
-    return matrix
+    reduce(hcat, components.(comps))'
 end
 
 """
@@ -18,13 +17,13 @@ end
 Returns the compositional variation array, from definition 4.3 of Aitchson - The Statistical Analysis of Compositional Data.
 """
 function compvarmatrix(comps)
-    dm = designmatrix(comps)
-    N, D = size(dm)
+    X = designmatrix(comps)
+    N, D = size(X)
     cva = zeros(D, D)
 
     for i in 1:D
         for j in i+1:D
-            log_ratios = log.(dm[:, i] ./ dm[:, j])
+            log_ratios = log.(X[:, i] ./ X[:, j])
             cva[j, i] = sum(log_ratios) / N
             cva[i, j] = sum((log_ratios .- cva[j, i]).^2 ) / N
         end
@@ -39,17 +38,17 @@ end
 Return the variation matrix, definition 4.4 of Aitchson - The Statistical Analysis of Compositional Data.
 """
 function variationmatrix(comps)
-    dm = designmatrix(comps)
-    N, D = size(dm)
-    va = zeros(D, D)
-    
+    X = designmatrix(comps)
+    N, D = size(X)
+    T = zeros(D, D)
+
     for i in 1:D
         for j in 1:D
-            va[i, j] = var(log.(dm[:, i] ./ dm[:, j]), corrected=false)
+            T[i, j] = var(log.(X[:, i] ./ X[:, j]), corrected=false)
         end
     end
     
-    return va
+    return T
 end
 
 """
@@ -59,9 +58,9 @@ Return the log ratio covariance matrix, definition 4.5 of Aitchson - The Statist
 """
 function lrcovmatrix(comps)
     lrcomps = alr.(comps)
-    lrmatrix = reduce(hcat, lrcomps[:, 1])'
+    lrmatrix = reduce(hcat, lrcomps)'
 
-    return cov(lrmatrix, corrected=false)
+    Σ = cov(lrmatrix, corrected=false)
 end
 
 """
@@ -71,7 +70,7 @@ Return the centered log ratio covariance matrix, definition 4.6 of Aitchson - Th
 """
 function clrcovmatrix(comps)
     clrcomps = clr.(comps)
-    clrmatrix = reduce(hcat, clrcomps[:, 1])'
+    clrmatrix = reduce(hcat, clrcomps)'
     
-    return cov(clrmatrix, corrected=false)
+    Γ = cov(clrmatrix, corrected=false)
 end
