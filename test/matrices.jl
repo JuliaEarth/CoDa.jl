@@ -7,10 +7,8 @@
   @test norm(G(D) - I(D)  + J(D)/ D, Inf) < 1e-5
   @test H(d) == I(d) + J(d)
 
-  square_matrices = [J G H]
-
   # tests of multiplications
-  for M in square_matrices
+  for M in [J G H]
     @test norm(M * [1:d...] - M(d) * [1:d...], Inf) < 1e-5
     @test norm([1:d...]' * M - [1:d...]' * M(d), Inf) < 1e-5
   end
