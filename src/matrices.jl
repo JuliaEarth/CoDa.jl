@@ -19,7 +19,7 @@ struct JMatrix{T} end
 """
 struct FMatrix{T} end
 (F::FMatrix{T})(d::Integer) where {T} = [Diagonal(fill(one(T), d)) -Ones{T}(d)]
-(*)(::FMatrix{T}, v::AbstractVector) where {T} = Fill(-last(v), length(v)-1) + v[1:length(v)-1]
+(*)(::FMatrix{T}, v::AbstractVector) where {T} = Fill(-last(v), length(v)-1) + v[1:end-1]
 (*)(v::Adjoint{<:Any, <:AbstractVector}, ::FMatrix) = [v -sum(v)]
 
 """
