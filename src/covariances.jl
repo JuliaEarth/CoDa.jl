@@ -61,7 +61,7 @@ end
 Return the log ratio covariance matrix, definition 4.5 of Aitchson - The Statistical Analysis of Compositional Data.
 """
 function lrcovmatrix(comps)
-    lrcomps = CoDa.alr.(comps)
+    lrcomps = alr.(comps)
     lrmatrix = reduce(hcat, lrcomps[:, 1])'
 
     return Statistics.cov(lrmatrix, corrected=false)
