@@ -5,7 +5,7 @@
 """
     JMatrix{T}
 
-Square matrix of ones.
+Square matrix of ones. See also [`J`](@ref).
 """
 struct JMatrix{T} end
 (J::JMatrix{T})(d::Integer) where {T} = Ones{T}(d, d)
@@ -15,7 +15,7 @@ struct JMatrix{T} end
 """
     FMatrix{T}
 
-`F` matrix, as defined by Aitchison 1986.
+`F` matrix, as defined by Aitchison 1986. See also [`F`](@ref).
 """
 struct FMatrix{T} end
 (F::FMatrix{T})(d::Integer) where {T} = [I(d) -Ones{T}(d)]
@@ -23,9 +23,9 @@ struct FMatrix{T} end
 *(v::Adjoint{<:Any, <:AbstractVector}, ::FMatrix) = [v -sum(v)]
 
 """
-    GMatrix{T}(N)
+    GMatrix{T}
 
-`G` matrix, as defined by Aitchison 1986.
+`G` matrix, as defined by Aitchison 1986. See also [`G`](@ref).
 """
 struct GMatrix{T} end
 (G::GMatrix{T})(D::Integer) where {T} =  I(D) - (1/D) * J(D)
@@ -33,9 +33,9 @@ struct GMatrix{T} end
 *(v::Adjoint{<:Any, <:AbstractVector}, G::GMatrix) = (G*v')'
 
 """
-    HMatrix{T}(d)
+    HMatrix{T}
 
-`H` matrix, as defined by Aitchison 1986.
+`H` matrix, as defined by Aitchison 1986. See also [`H`](@ref).
 """
 struct HMatrix{T} end
 (H::HMatrix{T})(d::Integer) where {T} = I(d) + J(d)
@@ -46,7 +46,7 @@ struct HMatrix{T} end
     J
     J(d)
 
-User interface for JMatrix, the matrix of ones.
+User interface for [`JMatrix`](@ref), a `d` by `d` matrix of ones.
 
 ## Examples
 
@@ -62,7 +62,15 @@ const J = JMatrix{Bool}()
     F
     F(d)
 
-User interface for FMatrix, as defined by Aitchison.
+User interface for [`FMatrix`](@ref), as defined by Aitchison.
+
+`F` is a `d` by `D` matrix that can be defined as
+
+`F[i, j] = 1`, if `i==j`
+
+`F[i, j] = -1`, if `j==D`
+
+`F[i, j] = 0`, otherwise
 
 ## Examples
 
@@ -77,9 +85,13 @@ const F = FMatrix{Int}()
 
 """
     G
-    G(d)
+    G(N)
 
-User interface for GMatrix, as defined by Aitchison.
+User interface for [`GMatrix`](@ref), as defined by Aitchison.
+
+`G` is an `N` by `N` (usually with `N:=D`) matrix that can be defined as
+
+`G[i, j] = I[i, j] - J[i, j] / N`
 
 ## Examples
 
@@ -95,7 +107,11 @@ const G = GMatrix{Float64}()
     H
     H(d)
 
-User interface for HMatrix, as defined by Aitchison.
+User interface for [`HMatrix`](@ref), as defined by Aitchison.
+
+`H` is a `d` by `d` matrix that can be defined as
+
+`H[i, j] = I[i, j] + J[i, j]`
 
 ## Examples
 
