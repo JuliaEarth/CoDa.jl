@@ -69,6 +69,7 @@ function lrarray(comps)
       Α[j,i] = mean(lr)
       Α[i,j] = var(lr)
     end
+    A[i,i] = 0.0
   end
 
   Α
