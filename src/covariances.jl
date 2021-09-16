@@ -37,11 +37,7 @@ Returns the logratio covariance matrix `Σ` such that:
 
 - `Σ[i,j] = Cov(log(x[i]/x[D]), log(x[j]/x[D]))` for `i, j = 1, ..., d`
 """
-function alrcov(comps)
-  lrcomps = alr.(comps)
-  lrmatrix = reduce(hcat, lrcomps)'
-  Σ = cov(lrmatrix)
-end
+alrcov(comps) = reduce(hcat, alr.(comps))' |> cov
 
 """
     clrcov(comps)
