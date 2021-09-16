@@ -7,9 +7,7 @@
     
 Converts a vector of `Composition{D}` objects into the N by D design matrix.
 """
-function designmatrix(comps)
-    reduce(hcat, components.(comps))'
-end
+designmatrix(comps) = reduce(hcat, components.(comps))'
 
 """
     compvarmatrix(comps)
