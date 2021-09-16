@@ -33,10 +33,10 @@ export
 
   # covariances
   designmatrix,
-  compvarmatrix,
   variationmatrix,
-  lrcovmatrix,
-  clrcovmatrix,
+  alrcov,
+  clrcov,
+  variationarray,
 
   # matrices
   JMatrix, J,
