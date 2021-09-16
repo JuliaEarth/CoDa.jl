@@ -27,6 +27,7 @@ CSV.write(joinpath(datadir,"jura.csv"), jura)
 # list of tests
 testfiles = [
   "compositions.jl",
+  "covariances.jl",
   "matrices.jl",
   "transforms.jl",
   "utils.jl"
