@@ -9,6 +9,7 @@ using Tables
 using DataFrames
 using StatsBase
 using StaticArrays
+using Statistics
 using UnicodePlots
 using LinearAlgebra
 using FillArrays
@@ -18,11 +19,19 @@ import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 
 include("composition.jl")
+include("covariances.jl")
 include("matrices.jl")
 include("transforms.jl")
 include("utils.jl")
 
 export
+  # covariances
+  designmatrix,
+  compvarmatrix,
+  variationmatrix,
+  lrcovmatrix,
+  clrcovmatrix,
+
   # composition
   Composition,
   parts, components,
