@@ -5,7 +5,7 @@
 """
     designmatrix(comps)
     
-Converts a vector of Composition objects into a Matrix of numbers.
+Converts a vector of `Composition{D}` objects into the N by D design matrix.
 """
 function designmatrix(comps)
     reduce(hcat, components.(comps))'
