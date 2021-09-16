@@ -58,7 +58,7 @@ Returns the variation array `A` such that:
 - `A[i,j] = Var(log(x[i]/x[j]))` for `i < j`
 - `A[i,j] = 0` for `i = j`
 """
-function variationarray(comps)
+function lrarray(comps)
   X = design(comps)
   N, D = size(X)
   Α = zeros(D, D)
