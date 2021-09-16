@@ -51,11 +51,7 @@ Returns the centred logratio covariance matrix `Γ` such that:
 - `Γ[i,j] = Cov(log(x[i]/g(x)), log(x[j]/g(x)))` for `i, j = 1, ..., D`,
 where g(x) is the geometric mean.
 """
-function clrcov(comps)
-  clrcomps = clr.(comps)
-  clrmatrix = reduce(hcat, clrcomps)'
-  Γ = cov(clrmatrix)
-end
+clrcov(comps) = reduce(hcat, clr.(comps))' |> cov
 
 """
     variationarray(comps)
