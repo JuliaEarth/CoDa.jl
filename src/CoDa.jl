@@ -32,8 +32,8 @@ export
   distance,
 
   # covariances
-  designmatrix,
-  variationmatrix,
+  design,
+  variation,
   alrcov,
   clrcov,
   variationarray,

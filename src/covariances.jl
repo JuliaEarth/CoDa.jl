@@ -3,21 +3,21 @@
 # ------------------------------------------------------------------
 
 """
-    designmatrix(comps)
+    design(comps)
     
 Converts a vector of `Composition{D}` objects into the N by D design matrix.
 """
-designmatrix(comps) = reduce(hcat, components.(comps))'
+design(comps) = reduce(hcat, components.(comps))'
 
 """
-    variationmatrix(comps)
+    variation(comps)
 
 Returns the variation matrix `Τ` such that:
 
 - `Τ[i,j] = Var(log(x[i]/x[j]))` for `i, j = 1, ..., D`
 """
-function variationmatrix(comps)
-  X = designmatrix(comps)
+function variation(comps)
+  X = design(comps)
   N, D = size(X)
   Τ = zeros(D, D)
 
@@ -59,7 +59,7 @@ Returns the variation array `A` such that:
 - `A[i,j] = 0` for `i = j`
 """
 function variationarray(comps)
-  X = designmatrix(comps)
+  X = design(comps)
   N, D = size(X)
   Α = zeros(D, D)
 
