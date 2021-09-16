@@ -57,7 +57,6 @@ Return the log ratio covariance matrix, definition 4.5 of Aitchson - The Statist
 function lrcovmatrix(comps)
     lrcomps = alr.(comps)
     lrmatrix = reduce(hcat, lrcomps)'
-
     Σ = cov(lrmatrix, corrected=false)
 end
 
