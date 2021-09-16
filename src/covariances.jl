@@ -19,7 +19,7 @@ Returns the variation matrix `Τ` such that:
 function variation(comps)
   X = design(comps)
   N, D = size(X)
-  Τ = zeros(D, D)
+  Τ = Matrix{Float64}(undef, D, D)
 
   for i in 1:D
     for j in 1:D
