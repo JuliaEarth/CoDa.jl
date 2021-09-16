@@ -25,7 +25,7 @@ function compvarmatrix(comps)
 
   for i in 1:D
     for j in i+1:D
-      lr = log.(X[:, i] ./ X[:, j])
+      lr = log.(X[:,i] ./ X[:,j])
       Α[j,i] = mean(lr)
       Α[i,j] = var(lr, corrected=false)
     end
