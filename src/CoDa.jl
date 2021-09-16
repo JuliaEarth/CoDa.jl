@@ -9,10 +9,10 @@ using Tables
 using DataFrames
 using StatsBase
 using StaticArrays
-using Statistics
 using UnicodePlots
 using LinearAlgebra
 using FillArrays
+using Statistics
 
 import Base: +, -, *, ==
 import Base: names, getproperty
