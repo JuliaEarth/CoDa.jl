@@ -15,19 +15,19 @@ designmatrix(comps) = reduce(hcat, components.(comps))'
 Returns the compositional variation array, from definition 4.3 of Aitchson - The Statistical Analysis of Compositional Data.
 """
 function compvarmatrix(comps)
-    X = designmatrix(comps)
-    N, D = size(X)
-    cva = zeros(D, D)
+  X = designmatrix(comps)
+  N, D = size(X)
+  Α = zeros(D, D)
 
-    for i in 1:D
-        for j in i+1:D
-            log_ratios = log.(X[:, i] ./ X[:, j])
-            cva[j, i] = sum(log_ratios) / N
-            cva[i, j] = sum((log_ratios .- cva[j, i]).^2 ) / N
-        end
+  for i in 1:D
+    for j in i+1:D
+      lr = log.(X[:, i] ./ X[:, j])
+      Α[j, i] = mean(lr)
+      Α[i, j] = var(lr, corrected=false)
     end
+  end
 
-    return cva
+  Α
 end
 
 """
@@ -36,17 +36,17 @@ end
 Return the variation matrix, definition 4.4 of Aitchson - The Statistical Analysis of Compositional Data.
 """
 function variationmatrix(comps)
-    X = designmatrix(comps)
-    N, D = size(X)
-    Τ = zeros(D, D)
+  X = designmatrix(comps)
+  N, D = size(X)
+  Τ = zeros(D, D)
 
-    for i in 1:D
-        for j in 1:D
-            Τ[i, j] = var(log.(X[:, i] ./ X[:, j]), corrected=false)
-        end
+  for i in 1:D
+    for j in 1:D
+      Τ[i, j] = var(log.(X[:, i] ./ X[:, j]), corrected=false)
     end
-    
-    return Τ
+  end
+
+  Τ
 end
 
 """
@@ -55,9 +55,9 @@ end
 Return the log ratio covariance matrix, definition 4.5 of Aitchson - The Statistical Analysis of Compositional Data.
 """
 function lrcovmatrix(comps)
-    lrcomps = alr.(comps)
-    lrmatrix = reduce(hcat, lrcomps)'
-    Σ = cov(lrmatrix, corrected=false)
+  lrcomps = alr.(comps)
+  lrmatrix = reduce(hcat, lrcomps)'
+  Σ = cov(lrmatrix, corrected=false)
 end
 
 """
@@ -66,7 +66,7 @@ end
 Return the centered log ratio covariance matrix, definition 4.6 of Aitchson - The Statistical Analysis of Compositional Data.
 """
 function clrcovmatrix(comps)
-    clrcomps = clr.(comps)
-    clrmatrix = reduce(hcat, clrcomps)'
-    Γ = cov(clrmatrix, corrected=false)
+  clrcomps = clr.(comps)
+  clrmatrix = reduce(hcat, clrcomps)'
+  Γ = cov(clrmatrix, corrected=false)
 end
