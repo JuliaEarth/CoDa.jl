@@ -68,6 +68,5 @@ Return the centered log ratio covariance matrix, definition 4.6 of Aitchson - Th
 function clrcovmatrix(comps)
     clrcomps = clr.(comps)
     clrmatrix = reduce(hcat, clrcomps)'
-    
     Γ = cov(clrmatrix, corrected=false)
 end
