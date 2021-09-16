@@ -12,7 +12,11 @@ designmatrix(comps) = reduce(hcat, components.(comps))'
 """
     compvarmatrix(comps)
 
-Returns the compositional variation array, from definition 4.3 of Aitchson - The Statistical Analysis of Compositional Data.
+Returns the variation array `A` such that:
+
+- `A[i,j] = E[log(x[i]/x[j])]` for `i > j`
+- `A[i,j] = Var(log(x[i]/x[j]))` for `i < j`
+- `A[i,j] = 0` for `i = j`
 """
 function compvarmatrix(comps)
   X = designmatrix(comps)
