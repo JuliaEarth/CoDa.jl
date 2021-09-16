@@ -61,8 +61,8 @@ Returns the variation array `A` such that:
 function lrarray(comps)
   X = design(comps)
   N, D = size(X)
-  Α = zeros(D, D)
 
+  Α = Matrix{Float64}(undef, D, D)
   for i in 1:D
     for j in i+1:D
       lr = log.(X[:,i] ./ X[:,j])
