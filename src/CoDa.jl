@@ -36,7 +36,7 @@ export
   variation,
   alrcov,
   clrcov,
-  variationarray,
+  lrarray,
 
   # matrices
   JMatrix, J,
