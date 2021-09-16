@@ -12,12 +12,14 @@ using StaticArrays
 using UnicodePlots
 using LinearAlgebra
 using FillArrays
+using Statistics
 
 import Base: +, -, *, ==
 import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 
 include("composition.jl")
+include("covariances.jl")
 include("matrices.jl")
 include("transforms.jl")
 include("utils.jl")
@@ -28,6 +30,13 @@ export
   parts, components,
   norm, dot, ⋅,
   distance,
+
+  # covariances
+  design,
+  variation,
+  alrcov,
+  clrcov,
+  lrarray,
 
   # matrices
   JMatrix, J,
