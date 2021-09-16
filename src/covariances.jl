@@ -40,15 +40,15 @@ Return the variation matrix, definition 4.4 of Aitchson - The Statistical Analys
 function variationmatrix(comps)
     X = designmatrix(comps)
     N, D = size(X)
-    T = zeros(D, D)
+    Τ = zeros(D, D)
 
     for i in 1:D
         for j in 1:D
-            T[i, j] = var(log.(X[:, i] ./ X[:, j]), corrected=false)
+            Τ[i, j] = var(log.(X[:, i] ./ X[:, j]), corrected=false)
         end
     end
     
-    return T
+    return Τ
 end
 
 """
