@@ -50,7 +50,7 @@ where g(x) is the geometric mean.
 clrcov(comps) = cov(reduce(hcat, clr.(comps)), dims=2)
 
 """
-    variationarray(comps)
+    lrarray(comps)
 
 Returns the variation array `A` such that:
 
