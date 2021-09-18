@@ -12,7 +12,7 @@
   @test Σ ≈ -0.5 * F * Τ * F'
 
   ## Test matrix transformation from Τ to Γ (4.26)
-  @test Γ ≈ -0.5 * G(D) * Τ * G(D)
+  @test Γ ≈ -0.5 * G * Τ * G
 
   ## Test matrix transformation from Σ to Τ (4.27)
   Γ₀ = F' * inv(H(d)) * Σ * inv(H(d)) * F

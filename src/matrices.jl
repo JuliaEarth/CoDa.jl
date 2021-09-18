@@ -21,6 +21,8 @@ end
 *(J::JMatrix, A) = repeat(J.λ * sum(A, dims=1), size(A, 1))
 *(A, J::JMatrix) = (J*A')'
 
+adjoint(J::JMatrix) = J
+
 """
     FMatrix{T}
 
@@ -71,10 +73,21 @@ adjoint(F′::F′Matrix) = FMatrix(F′.λ)
 
 `G` matrix, as defined by Aitchison 1986. See also [`G`](@ref).
 """
-struct GMatrix{T} end
-(G::GMatrix{T})(D::Integer) where {T} = I(D) - (1/D) * J(D)
-*(::GMatrix, v::AbstractVector) = v .- sum(v) / length(v)
-*(v::Adjoint{<:Any, <:AbstractVector}, G::GMatrix) = (G*v')'
+struct GMatrix{T}
+  λ::T
+end
+
+(G::GMatrix{T})(D::Integer) where {T} = G.λ * I(D) - (G.λ / D) * J(D)
+
+*(λ::Number, G::GMatrix) = GMatrix(G.λ * λ)
+
++(G::GMatrix, A) = G(size(A, 1)) + A
++(A, G::GMatrix) = G + A
+
+*(G::GMatrix, A) = G.λ * (A .- sum(A, dims=1) / size(A, 1))
+*(A, G::GMatrix) = (G*A')'
+
+adjoint(G::GMatrix) = G
 
 """
     HMatrix{T}
@@ -129,13 +142,13 @@ const F = FMatrix{Int}(1)
 
 """
     G
-    G(N)
+    G(D)
 
 User interface for [`GMatrix`](@ref), as defined by Aitchison.
 
-`G` is an `N` by `N` (usually with `N:=D`) matrix that can be defined as
+`G` is an `D` by `D` matrix that can be defined as
 
-`G[i, j] = I[i, j] - J[i, j] / N`
+`G[i, j] = I[i, j] - J[i, j] / D`
 
 ## Examples
 
@@ -145,7 +158,7 @@ julia> G*v
 julia> v'*G
 ```
 """
-const G = GMatrix{Float64}()
+const G = GMatrix{Float64}(1.0)
 
 """
     H
