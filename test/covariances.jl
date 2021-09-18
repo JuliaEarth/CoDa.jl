@@ -16,13 +16,13 @@
 
   ## Test matrix transformation from Σ to Τ (4.27)
   Γ₀ = F(d)' * inv(H(d)) * Σ * inv(H(d)) * F(d)
-  @test Τ ≈ J(D) * Diagonal(Γ₀) + Diagonal(Γ₀) * J(D) - 2 * Γ₀
+  @test Τ ≈ J * Diagonal(Γ₀) + Diagonal(Γ₀) * J - 2 * Γ₀
 
   ## Test matrix transformation from Σ to Γ (4.28)
   @test Γ ≈ F(d)' * inv(H(d)) * Σ * inv(H(d)) * F(d)
 
   ## Test matrix transformation from Γ to Τ (4.29)
-  @test Τ ≈ J(D) * Diagonal(Γ) + Diagonal(Γ) * J(D) - 2 * Γ
+  @test Τ ≈ J * Diagonal(Γ) + Diagonal(Γ) * J - 2 * Γ
 
   ## Test matrix transformation from Γ to Σ (4.30)
   @test Σ ≈ F(d) * Γ * F(d)'
