@@ -7,10 +7,19 @@
 
 Square matrix of ones. See also [`J`](@ref).
 """
-struct JMatrix{T} end
-(J::JMatrix{T})(d::Integer) where {T} = Ones{T}(d, d)
-*(::JMatrix, v::AbstractVector) = Fill(sum(v), length(v))
-*(v::Adjoint{<:Any, <:AbstractVector}, J::JMatrix) = (J*v')'
+struct JMatrix{T}
+  λ::T
+end
+
+(J::JMatrix{T})(d::Integer) where {T} = J.λ * Ones{T}(d, d)
+
+*(λ::Number, J::JMatrix) = JMatrix(J.λ * λ)
+
++(J::JMatrix{T}, A) where {T} = J.λ * Ones{T}(size(A)) + A
++(A, J::JMatrix{T}) where {T} = J + A
+
+*(J::JMatrix, A) = repeat(J.λ * sum(A, dims=1), size(A, 1))
+*(A, J::JMatrix) = (J*A')'
 
 """
     FMatrix{T}
@@ -56,7 +65,7 @@ julia> J*v
 julia> v'*J
 ```
 """
-const J = JMatrix{Bool}()
+const J = JMatrix{Bool}(true)
 
 """
     F
