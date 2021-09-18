@@ -94,10 +94,19 @@ adjoint(G::GMatrix) = G
 
 `H` matrix, as defined by Aitchison 1986. See also [`H`](@ref).
 """
-struct HMatrix{T} end
-(H::HMatrix{T})(d::Integer) where {T} = I(d) + J(d)
-*(::HMatrix, v::AbstractVector) = v .+ sum(v)
-*(v::Adjoint{<:Any, <:AbstractVector}, H::HMatrix) = (H*v')'
+struct HMatrix{T}
+  λ::T
+end
+
+(H::HMatrix{T})(d::Integer) where {T} = H.λ * I(d) +  H.λ * J(d)
+
+*(λ::Number, H::HMatrix) = HMatrix(H.λ * λ)
+
++(H::HMatrix, A) = H(size(A, 1)) + A
++(A, H::HMatrix) = H + A
+
+*(H::HMatrix, A) = H.λ * (A .+ sum(A, dims=1))
+*(A, H::HMatrix) = H.λ * (A .+ sum(A, dims=2))
 
 """
     J
@@ -178,4 +187,4 @@ julia> H*v
 julia> v'*H
 ```
 """
-const H = HMatrix{Int}()
+const H = HMatrix{Int}(1)
