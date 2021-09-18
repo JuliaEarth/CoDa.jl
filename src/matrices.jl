@@ -38,10 +38,33 @@ end
 +(A, F::FMatrix) = F + A
 
 *(F::FMatrix, A) = begin
-    R = F.λ * (A[begin:end-1,:] .- A[end:end,:])
-    ndims(A) == 1 ? vec(R) : R
+  R = F.λ * (A[begin:end-1,:] .- A[end:end,:])
+  ndims(A) == 1 ? vec(R) : R
 end
 *(A, F::FMatrix) = F.λ * [A -sum(A, dims=2)]
+
+adjoint(F::FMatrix) = F′Matrix(F.λ)
+
+"""
+    F′Matrix{T}
+
+Lazy adjoint of `FMatrix{T}`.
+"""
+struct F′Matrix{T}
+  λ::T
+end
+
+(F′::F′Matrix{T})(d::Integer) where {T} = F′.λ * [I(d); -Ones{T}(1,d)]
+
+*(λ::Number, F′::F′Matrix) = F′Matrix(F′.λ * λ)
+
++(F′::F′Matrix, A) = F′(size(A, 2)) + A
++(A, F′::F′Matrix) = F′ + A
+
+*(F′::F′Matrix, A) = F′.λ * [A; -sum(A, dims=1)]
+*(A, F′::F′Matrix) = F′.λ * (A[:,begin:end-1] .- A[:,end:end])
+
+adjoint(F′::F′Matrix) = FMatrix(F′.λ)
 
 """
     GMatrix{T}

@@ -15,6 +15,7 @@ using FillArrays
 using Statistics
 
 import Base: +, -, *, ==
+import Base: adjoint
 import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 
