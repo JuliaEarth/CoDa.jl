@@ -15,8 +15,8 @@ end
 
 *(λ::Number, J::JMatrix) = JMatrix(J.λ * λ)
 
-+(J::JMatrix{T}, A) where {T} = J.λ * Ones{T}(size(A)) + A
-+(A, J::JMatrix{T}) where {T} = J + A
++(J::JMatrix, A) = J(size(A, 1)) + A
++(A, J::JMatrix) = J + A
 
 *(J::JMatrix, A) = repeat(J.λ * sum(A, dims=1), size(A, 1))
 *(A, J::JMatrix) = (J*A')'
@@ -26,10 +26,22 @@ end
 
 `F` matrix, as defined by Aitchison 1986. See also [`F`](@ref).
 """
-struct FMatrix{T} end
-(F::FMatrix{T})(d::Integer) where {T} = [I(d) -Ones{T}(d)]
-*(::FMatrix{T}, v::AbstractVector) where {T} = v[1:end-1] .- v[end]
-*(v::Adjoint{<:Any, <:AbstractVector}, ::FMatrix) = [v -sum(v)]
+struct FMatrix{T}
+  λ::T
+end
+
+(F::FMatrix{T})(d::Integer) where {T} = F.λ * [I(d) -Ones{T}(d)]
+
+*(λ::Number, F::FMatrix) = FMatrix(F.λ * λ)
+
++(F::FMatrix, A) = F(size(A, 1)) + A
++(A, F::FMatrix) = F + A
+
+*(F::FMatrix, A) = begin
+    R = F.λ * (A[begin:end-1,:] .- A[end:end,:])
+    ndims(A) == 1 ? vec(R) : R
+end
+*(A, F::FMatrix) = F.λ * [A -sum(A, dims=2)]
 
 """
     GMatrix{T}
@@ -89,7 +101,7 @@ julia> F*v
 julia> v'*F
 ```
 """
-const F = FMatrix{Int}()
+const F = FMatrix{Int}(1)
 
 
 """
