@@ -99,7 +99,5 @@ function lrarray(table)
     A[i,i] = 0.0
   end
 
-  A
-
   AxisArray(A, row=n, col=n)
 end
