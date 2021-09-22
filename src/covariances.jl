@@ -3,13 +3,6 @@
 # ------------------------------------------------------------------
 
 """
-    design(comps)
-    
-Converts a vector of `Composition{D}` objects into the N by D design matrix.
-"""
-design(comps) = reduce(hcat, components.(comps))'
-
-"""
     variation(table)
 
 Return the variation matrix `Τ` of the `table` such that:

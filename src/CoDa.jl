@@ -34,7 +34,6 @@ export
   distance,
 
   # covariances
-  design,
   variation,
   alrcov,
   clrcov,
