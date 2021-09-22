@@ -73,3 +73,5 @@ compose(table, cols::NTuple{N,Symbol}) where {N} =
 
 compose(table, cols::NTuple{N,String}) where {N} =
   compose(table, cols => "coda")
+
+compose(table) = compose(table, Tables.columnnames(table))
