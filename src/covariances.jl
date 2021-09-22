@@ -22,9 +22,18 @@ function variation(table)
   D = size(X, 2)
   L = log.(X)
 
-  T = [var(L[:,i] .- L[:,j]) for i in 1:D, j in 1:D]
+  T = Matrix{Float64}(undef, D, D)
+  for j in 1:D
+    for i in j+1:D
+      lr = L[:,i] .- L[:,j]
+      T[i,j] = var(lr)
+    end
+    T[j,j] = 0.0
+    for i in 1:j-1
+      T[i,j] = T[j,i]
+    end
+  end
 
-  # return array with named axis
   AxisArray(T, row=n, col=n)
 end
 
@@ -42,7 +51,6 @@ function alrcov(table)
 
   Σ = cov(L[:,begin:end-1] .- L[:,end], dims=1)
 
-  # return array with named axis
   AxisArray(Σ, row=n[begin:end-1], col=n[begin:end-1])
 end
 
@@ -63,7 +71,6 @@ function clrcov(table)
 
   Γ = cov(L .- l, dims=1)
 
-  # return array with named axis
   AxisArray(Γ, row=n, col=n)
 end
 
@@ -94,6 +101,5 @@ function lrarray(table)
 
   A
 
-  # return array with named axis
   AxisArray(A, row=n, col=n)
 end
