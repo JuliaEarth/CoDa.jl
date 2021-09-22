@@ -40,6 +40,7 @@ export
   lrarray,
 
   # matrices
+  Diagonal, I,
   JMatrix, J,
   FMatrix, F,
   GMatrix, G,
