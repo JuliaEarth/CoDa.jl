@@ -1,11 +1,12 @@
 @testset "Covariances" begin
   d = 4
   D = 5
-  comps = [Composition(rand(D)) for i in 1:10]
+  table = (x1=rand(100), x2=rand(100), x3=rand(100), x4=rand(100), x5=rand(100))
 
-  Τ = variation(comps)
-  Σ = alrcov(comps)
-  Γ = clrcov(comps)
+  Τ = variation(table)
+  Σ = alrcov(table)
+  Γ = clrcov(table)
+  A = lrarray(table)
 
   # Testing matrix forms transformations (Aitchison 1986, pages 82 and 83)
   ## Test matrix transformation from Τ to Σ (4.25)

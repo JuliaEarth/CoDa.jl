@@ -12,6 +12,7 @@ using StaticArrays
 using UnicodePlots
 using LinearAlgebra
 using FillArrays
+using AxisArrays
 using Statistics
 
 import Base: +, -, *, ==
