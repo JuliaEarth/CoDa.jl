@@ -7,6 +7,7 @@ module CoDa
 using CSV
 using Tables
 using DataFrames
+using Distributions
 using StatsBase
 using StaticArrays
 using UnicodePlots
@@ -14,11 +15,13 @@ using LinearAlgebra
 using FillArrays
 using AxisArrays
 using Statistics
+using Random
 
 import Base: +, -, *, ==
 import Base: adjoint, inv
 import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
+import Random: rand
 
 include("composition.jl")
 include("covariances.jl")

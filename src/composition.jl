@@ -118,6 +118,20 @@ Aitchison distance between compositions `c₁` and `c₂`.
 """
 distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
 
+"""
+    rand(Composition{D}, n=1)
+
+Generates `D`-part composition at random according to a
+balanced Dirichlet distribution.
+"""
+function rand(rng::Random.AbstractRNG,
+              ::Random.SamplerType{<:Composition{D}}) where {D}
+  α = fill(1.0, D)
+  d = Dirichlet(α)
+  x = rand(rng, d)
+  Composition(x)
+end
+
 # ------------
 # IO methods
 # ------------
