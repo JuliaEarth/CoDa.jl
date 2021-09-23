@@ -47,4 +47,10 @@
   @test c.a == 1
   @test c.b == 2
   @test ismissing(c.c)
+
+  # random compositions
+  c = rand(Composition{3})
+  w = components(c)
+  @test all(w .≥ 0)
+  @test sum(w) ≈ 1
 end
