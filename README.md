@@ -71,11 +71,11 @@ Default names are added otherwise:
 ```julia
 julia> c = Composition(1.0, 0.1, 0.1)
                      3-part composition
-         ┌                                        ┐ 
-   part1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
-   part2 ┤■■■■ 0.1                                  
-   part3 ┤■■■■ 0.1                                  
-         └                                        ┘ 
+      ┌                                        ┐ 
+   w1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
+   w2 ┤■■■■ 0.1                                  
+   w3 ┤■■■■ 0.1                                  
+      └                                        ┘ 
 ```
 
 and serve for internal compile-time checks.
@@ -166,6 +166,8 @@ julia> ilr(c)
  -2.1183026052494185
  -0.3259894019031434
 ```
+
+and their inverses `alrinv`, `clrinv` and `ilrinv`.
 
 ### Utilities
 
