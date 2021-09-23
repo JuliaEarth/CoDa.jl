@@ -1,5 +1,7 @@
 @testset "Covariances" begin
-  table = (x1=rand(100), x2=rand(100), x3=rand(100), x4=rand(100), x5=rand(100))
+  comps = rand(Composition{5}, 100)
+  data  = reduce(hcat, components.(comps))
+  table = (; zip([:N₂,:O₂,:CO₂,:S,:C], eachrow(data))...)
 
   Τ = variation(table)
   Σ = alrcov(table)
