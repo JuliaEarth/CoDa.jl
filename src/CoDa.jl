@@ -16,6 +16,7 @@ using FillArrays
 using AxisArrays
 using Statistics
 using Random
+using Printf
 
 import Base: +, -, *, ==
 import Base: adjoint, inv

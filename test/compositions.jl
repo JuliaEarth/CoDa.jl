@@ -1,16 +1,16 @@
 @testset "Composition" begin
   # basic tests
   c = Composition(1,1,1)
-  @test parts(c) == (:part1,:part2,:part3)
+  @test parts(c) == (:w1,:w2,:w3)
   @test components(c) == [1,1,1]
   c = Composition(a=1, b=missing)
   @test parts(c) == (:a,:b)
   @test isequal(components(c), [1,missing])
-  for c in [Composition((part1=1,part2=2))
-            Composition((:part1,:part2), (1,2))
+  for c in [Composition((w1=1,w2=2))
+            Composition((:w1,:w2), (1,2))
             Composition((1,2))
             Composition(1,2)]
-    @test parts(c) == (:part1,:part2)
+    @test parts(c) == (:w1,:w2)
     @test components(c) == [1,2]
   end
 

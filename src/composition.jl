@@ -50,7 +50,7 @@ Composition(parts::NTuple, comps) =
   Composition((; zip(parts, Tuple(comps))...))
 
 Composition(comps) =
-  Composition(ntuple(i->Symbol("part$i"), length(comps)), comps)
+  Composition(ntuple(i->Symbol("w$i"), length(comps)), comps)
 
 Composition(comp::Real, comps...) = Composition((comp, comps...))
 
@@ -132,25 +132,27 @@ function rand(rng::Random.AbstractRNG,
   Composition(x)
 end
 
-# ------------
-# IO methods
-# ------------
+# -----------
+# IO METHODS
+# -----------
+
 function Base.show(io::IO, c::Composition)
-  show(io, join(components(c), ":"))
+  w = [(@sprintf "%.03f" w) for w in components(c)]
+  show(io, join(w, " : "))
 end
 
 function Base.show(io::IO, mime::MIME"text/plain",
                    c::Composition{D,PARTS}) where {D,PARTS}
-  comps = components(c)
+  w = components(c)
   x = Vector{Float64}()
   p = Vector{Symbol}()
   m = Vector{Symbol}()
   for i in 1:D
-    if ismissing(comps[i])
+    if ismissing(w[i])
       push!(m, PARTS[i])
     else
       push!(p, PARTS[i])
-      push!(x, comps[i])
+      push!(x, w[i])
     end
   end
   plt = barplot(p, x, title="$D-part composition")
