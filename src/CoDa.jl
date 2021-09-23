@@ -16,7 +16,7 @@ using AxisArrays
 using Statistics
 
 import Base: +, -, *, ==
-import Base: adjoint
+import Base: adjoint, inv
 import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 

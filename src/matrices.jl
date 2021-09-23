@@ -18,6 +18,9 @@ end
 +(J::JMatrix, A) = J(size(A, 1)) + A
 +(A, J::JMatrix) = J + A
 
+-(J::JMatrix, A) = J + (-A)
+-(A, J::JMatrix) = -(J - A)
+
 *(J::JMatrix, A) = repeat(J.λ * sum(A, dims=1), size(A, 1))
 *(A, J::JMatrix) = (J*A')'
 
@@ -38,6 +41,9 @@ end
 
 +(F::FMatrix, A) = F(size(A, 1)) + A
 +(A, F::FMatrix) = F + A
+
+-(F::FMatrix, A) = F + (-A)
+-(A, F::FMatrix) = -(F - A)
 
 *(F::FMatrix, A) = begin
   R = F.λ * (A[begin:end-1,:] .- A[end:end,:])
@@ -63,6 +69,9 @@ end
 +(F′::F′Matrix, A) = F′(size(A, 2)) + A
 +(A, F′::F′Matrix) = F′ + A
 
+-(F′::F′Matrix, A) = F′ + (-A)
+-(A, F′::F′Matrix) = -(F′ - A)
+
 *(F′::F′Matrix, A) = F′.λ * [A; -sum(A, dims=1)]
 *(A, F′::F′Matrix) = F′.λ * (A[:,begin:end-1] .- A[:,end:end])
 
@@ -83,6 +92,9 @@ end
 
 +(G::GMatrix, A) = G(size(A, 1)) + A
 +(A, G::GMatrix) = G + A
+
+-(G::GMatrix, A) = G + (-A)
+-(A, G::GMatrix) = -(G - A)
 
 *(G::GMatrix, A) = G.λ * (A .- sum(A, dims=1) / size(A, 1))
 *(A, G::GMatrix) = (G*A')'
@@ -105,8 +117,37 @@ end
 +(H::HMatrix, A) = H(size(A, 1)) + A
 +(A, H::HMatrix) = H + A
 
+-(H::HMatrix, A) = H + (-A)
+-(A, H::HMatrix) = -(H - A)
+
 *(H::HMatrix, A) = H.λ * (A .+ sum(A, dims=1))
 *(A, H::HMatrix) = H.λ * (A .+ sum(A, dims=2))
+
+inv(H::HMatrix) = H⁻¹Matrix(inv(H.λ))
+
+"""
+    H⁻¹Matrix{T}
+
+Lazy inverse of `HMatrix{T}`.
+"""
+struct H⁻¹Matrix{T}
+  λ::T
+end
+
+(H⁻¹::H⁻¹Matrix{T})(d::Integer) where {T} = H⁻¹.λ * I(d) - (H⁻¹.λ / (d+1)) * J(d)
+
+*(λ::Number, H⁻¹::H⁻¹Matrix) = H⁻¹Matrix(H⁻¹.λ * λ)
+
++(H⁻¹::H⁻¹Matrix, A) = H⁻¹(size(A, 1)) + A
++(A, H⁻¹::H⁻¹Matrix) = H⁻¹ + A
+
+-(H⁻¹::H⁻¹Matrix, A) = H⁻¹ + (-A)
+-(A, H⁻¹::H⁻¹Matrix) = -(H⁻¹ - A)
+
+*(H⁻¹::H⁻¹Matrix, A) = H⁻¹.λ * (A .- sum(A, dims=1) / (size(A, 1) + 1))
+*(A, H⁻¹::H⁻¹Matrix) = H⁻¹.λ * (A .- sum(A, dims=2) / (size(A, 2) + 1))
+
+inv(H⁻¹::H⁻¹Matrix) = HMatrix(inv(H⁻¹.λ))
 
 """
     J
