@@ -6,7 +6,6 @@ module CoDa
 
 using CSV
 using Tables
-using DataFrames
 using Distributions
 using StatsBase
 using StaticArrays
@@ -61,7 +60,6 @@ export
   CoDaArray,
 
   # utils
-  readcoda,
   compose
 
 end

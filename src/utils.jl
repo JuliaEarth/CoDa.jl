@@ -3,30 +3,6 @@
 # ------------------------------------------------------------------
 
 """
-    readcoda(args...; codanames=nothing, kwargs...)
-
-Read data from disk using `CSV.read`, optionally specifying
-the columns `codanames` with the parts of the composition.
-If `nothing` is specified, interpret all columns as parts.
-
-The arguments `args` and keyword arguments `kwargs` are
-forwarded to the `CSV.read` function, please check their
-documentation for more details.
-
-The option `codanames` can also be a pair as described in
-the documentation of [`compose`](@ref).
-"""
-function readcoda(args...; codanames=nothing, kwargs...)
-  table = DataFrame(CSV.File(args...; kwargs...))
-  cols = if isnothing(codanames)
-    Tuple(Tables.columnnames(table))
-  else
-    codanames
-  end
-  compose(table, cols)
-end
-
-"""
     compose(table, (:c1, c2, ..., :cn) [=> :coda])
 
 Convert columns `:c1`, `:c2`, ..., `:cn` of `table`
