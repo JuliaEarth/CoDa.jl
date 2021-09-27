@@ -24,7 +24,7 @@ import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 import Random: rand
 
-include("composition.jl")
+include("compositions.jl")
 include("covariances.jl")
 include("matrices.jl")
 include("transforms.jl")
