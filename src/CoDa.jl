@@ -23,11 +23,13 @@ import Base: adjoint, inv
 import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 import Random: rand
+import Tables
 
 include("compositions.jl")
 include("covariances.jl")
 include("matrices.jl")
 include("transforms.jl")
+include("codaarrays.jl")
 include("utils.jl")
 
 export
@@ -54,6 +56,9 @@ export
   alr, alrinv,
   clr, clrinv,
   ilr, ilrinv,
+
+  # arrays
+  CoDaArray,
 
   # utils
   readcoda,

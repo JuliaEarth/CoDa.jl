@@ -1,4 +1,5 @@
 using CoDa
+using Tables
 using DataDeps
 using RData
 using CSV
@@ -30,6 +31,7 @@ testfiles = [
   "covariances.jl",
   "matrices.jl",
   "transforms.jl",
+  "codaarrays.jl",
   "utils.jl"
 ]
 
