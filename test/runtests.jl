@@ -28,10 +28,10 @@ CSV.write(joinpath(datadir,"jura.csv"), jura)
 # list of tests
 testfiles = [
   "compositions.jl",
+  "codaarrays.jl",
+  "transforms.jl",
   "covariances.jl",
   "matrices.jl",
-  "transforms.jl",
-  "codaarrays.jl",
   "utils.jl"
 ]
 

@@ -25,18 +25,26 @@ import Random: rand
 import Tables
 
 include("compositions.jl")
+include("codaarrays.jl")
+include("transforms.jl")
 include("covariances.jl")
 include("matrices.jl")
-include("transforms.jl")
-include("codaarrays.jl")
 include("utils.jl")
 
 export
-  # composition
+  # compositions
   Composition,
   parts, components,
   norm, dot, ⋅,
   distance,
+
+  # arrays
+  CoDaArray,
+
+  # transforms
+  alr, alrinv,
+  clr, clrinv,
+  ilr, ilrinv,
 
   # covariances
   variation,
@@ -50,14 +58,6 @@ export
   FMatrix, F,
   GMatrix, G,
   HMatrix, H,
-
-  # transforms
-  alr, alrinv,
-  clr, clrinv,
-  ilr, ilrinv,
-
-  # arrays
-  CoDaArray,
 
   # utils
   compose
