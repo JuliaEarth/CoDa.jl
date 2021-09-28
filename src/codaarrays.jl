@@ -35,5 +35,5 @@ Tables.rows(array::CoDaArray) = array
 
 # implement row interface for Composition
 Tables.getcolumn(c::Composition, i::Int)    = getfield(c, :data)[i]
-Tables.getcolumn(c::Composition, n::Symbol) = getproperty(c, n)
+Tables.getcolumn(c::Composition, n::Symbol) = getfield(c, :data)[n]
 Tables.columnnames(c::Composition{D,PARTS}) where {D,PARTS} = PARTS

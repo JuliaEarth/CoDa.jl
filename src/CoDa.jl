@@ -19,7 +19,6 @@ using Printf
 
 import Base: +, -, *, ==
 import Base: adjoint, inv
-import Base: names, getproperty
 import LinearAlgebra: norm, dot, ⋅
 import Random: rand
 import Tables

@@ -38,11 +38,11 @@ julia> Composition((0.1, 0.8))
 ```
 """
 struct Composition{D,PARTS}
-  data::SVector{D,Union{Float64,Missing}}
+  data::NamedTuple{PARTS,NTuple{D,Union{Float64,Missing}}}
 end
 
 Composition(data::NamedTuple) =
-  Composition{length(data),keys(data)}(values(data))
+  Composition{length(data),keys(data)}(data)
 
 Composition(; data...) = Composition((; data...))
 
@@ -66,21 +66,9 @@ parts(::Composition{D,PARTS}) where {D,PARTS} = PARTS
 
 Components in the composition `c`.
 """
-components(c::Composition) = getfield(c, :data)
+components(c::Composition) = getfield(c, :data) |> values |> SVector
 
-"""
-    getproperty(c, part)
-
-Return the value of `part` in the composition `c`.
-"""
-function getproperty(c::Composition{D,PARTS}, PART::Symbol) where {D,PARTS}
-  i = findfirst(isequal(PART), PARTS)
-  if isnothing(i)
-    throw(ArgumentError("invalid part"))
-  else
-    getfield(c, :data)[i]
-  end
-end
+Base.getproperty(c::Composition, p::Symbol) = getproperty(getfield(c, :data), p)
 
 +(c₁::Composition{D,PARTS}, c₂::Composition{D,PARTS}) where {D,PARTS} =
   Composition(PARTS, 𝓒(components(c₁) .* components(c₂)))
