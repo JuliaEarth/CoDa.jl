@@ -4,7 +4,6 @@
 
 module CoDa
 
-using CSV
 using Tables
 using TableOperations
 using Distributions
