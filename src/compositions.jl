@@ -70,6 +70,10 @@ components(c::Composition) = getfield(c, :data) |> values |> SVector
 
 Base.getproperty(c::Composition, p::Symbol) = getproperty(getfield(c, :data), p)
 
+# -------------
+# VECTOR SPACE
+# -------------
+
 +(c₁::Composition{D,PARTS}, c₂::Composition{D,PARTS}) where {D,PARTS} =
   Composition(PARTS, 𝓒(components(c₁) .* components(c₂)))
 
@@ -82,28 +86,13 @@ Base.getproperty(c::Composition, p::Symbol) = getproperty(getfield(c, :data), p)
 ==(c₁::Composition, c₂::Composition) =
   parts(c₁) == parts(c₂) && 𝓒(components(c₁)) ≈ 𝓒(components(c₂))
 
-"""
-    dot(c₁, c₂)
-
-Inner product between compositions `c₁` and `c₂`.
-"""
-function dot(c₁::Composition{D}, c₂::Composition{D}) where {D}
+⋅(c₁::Composition{D}, c₂::Composition{D}) where {D} = begin
   x, y = components(c₁), components(c₂)
   sum(log(x[i]/x[j])*log(y[i]/y[j]) for j=1:D for i=j+1:D) / D
 end
 
-"""
-    norm(c)
+norm(c::Composition) = √(c⋅c)
 
-Aitchison norm of composition `c`.
-"""
-norm(c::Composition) = √dot(c,c)
-
-"""
-    distance(c₁, c₂)
-
-Aitchison distance between compositions `c₁` and `c₂`.
-"""
 distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
 
 """

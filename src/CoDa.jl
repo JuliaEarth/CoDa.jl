@@ -19,7 +19,7 @@ using Printf
 
 import Base: +, -, *, ==
 import Base: adjoint, inv
-import LinearAlgebra: norm, dot, ⋅
+import LinearAlgebra: norm, ⋅
 import Random: rand
 import Tables
 
@@ -34,8 +34,7 @@ export
   # compositions
   Composition,
   parts, components,
-  norm, dot, ⋅,
-  distance,
+  distance, norm, ⋅,
 
   # arrays
   CoDaArray,
