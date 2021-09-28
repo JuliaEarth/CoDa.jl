@@ -13,7 +13,7 @@ end
 
 function CoDaArray(table)
   parts = Tables.columnnames(table)
-  data  = Tables.matrix(table) |> transpose
+  data  = Tables.matrix(table, transpose=true)
   CoDaArray{length(parts),parts}(data)
 end
 
