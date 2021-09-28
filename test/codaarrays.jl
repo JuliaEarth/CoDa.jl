@@ -17,6 +17,11 @@
   @test parts(array) == (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn)
   @test length(array) == 359
   @test array[1] == Composition(Cd=1.74, Cu=25.72, Pb=77.36, Co=9.32, Cr=38.32, Ni=21.32, Zn=92.56)
+  @test length(array.Cd) == 359
+  @test length(array.Cu) == 359
+  @test array.Cd[1] == 1.74
+  @test array.Cu[1] == 25.72
+  @test_throws KeyError array.INVALID
 
   table = compose(jura, (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn), keepcols=true)
   @test Tables.columnnames(table) == [:X,:Y,:Rock,:Land,:coda]

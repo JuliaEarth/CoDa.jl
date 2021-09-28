@@ -17,12 +17,21 @@ function CoDaArray(table)
   CoDaArray{length(parts),parts}(data)
 end
 
-Base.getindex(array::CoDaArray{D,PARTS}, i) where {D,PARTS} =
-  Composition(PARTS, array.data[:,i])
+Base.getindex(array::CoDaArray{D,PARTS}, ind) where {D,PARTS} =
+  Composition(PARTS, getfield(array, :data)[:,ind])
 
-Base.size(array::CoDaArray) = (size(array.data, 2),)
+Base.size(array::CoDaArray) = (size(getfield(array, :data), 2),)
 
 Base.IndexStyle(::Type{<:CoDaArray}) = IndexLinear()
+
+function Base.getproperty(array::CoDaArray{D,PARTS}, part::Symbol) where {D,PARTS}
+  ind = findfirst(isequal(part), PARTS)
+  if isnothing(ind)
+    throw(KeyError("$part"))
+  else
+    vec(getfield(array, :data)[ind,:])
+  end
+end
 
 """
     parts(array)
