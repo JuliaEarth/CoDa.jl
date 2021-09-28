@@ -156,11 +156,13 @@ julia> alr(c)
 2-element StaticArrays.SArray{Tuple{2},Float64,1,2} with indices SOneTo(2):
   1.8971199848858813
  -1.0986122886681096
+
 julia> clr(c)
 3-element StaticArrays.SArray{Tuple{3},Float64,1,3} with indices SOneTo(3):
   1.6309507528132907
  -1.3647815207407001
  -0.2661692320725906
+
 julia> ilr(c)
 2-element StaticArrays.SArray{Tuple{2},Float64,1,2} with indices SOneTo(2):
  -2.1183026052494185
@@ -169,28 +171,52 @@ julia> ilr(c)
 
 and their inverses `alrinv`, `clrinv` and `ilrinv`.
 
-### Utilities
+### Arrays
 
 It is often useful to compose `D` columns of a table into `D`-part compositions. The
-package provides some utility functions for loading tabular data and for type conversion.
+package provides a `CoDaArray` type that implements the Julia array interface *and* the
+Tables.jl interface. We recommend using the function `compose(table, cols)` to construct
+such arrays:
 
-The function `readcoda(args...; codanames=[], kwargs...)` accepts the same arguments of
-the `CSV.read` function from [CSV.jl](https://github.com/JuliaData/CSV.jl) plus an
-additional keyword argument `codanames` that specifies the columns with the parts of
-the composition.
+```julia
+julia> table = (a=[1,2,3], b=[4,5,6], c=[7,8,9])
+(a = [1, 2, 3], b = [4, 5, 6], c = [7, 8, 9])
 
-Similarly, the function `compose(table, cols)` takes an already loaded table and converts
-the specified columns into a single column with `Composition` objects.
+julia> coda = compose(table, (:a, :b))
+3-element CoDaArray{2, (:a, :b)}:
+ "1.000 : 4.000"
+ "2.000 : 5.000"
+ "3.000 : 6.000"
 
+julia> coda[1]
+                2-part composition
+     ┌                                        ┐ 
+   a ┤■■■■■■■■■ 1.0                             
+   b ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 4.0   
+     └                                        ┘ 
+```
+
+## Random
+
+`D`-part compositions can be created at random from a Dirichlet distribution:
+
+```julia
+julia> rand(Composition{3})
+                 3-part composition
+      ┌                                        ┐ 
+   w1 ┤■■■■■■■■■■■■■■■■■ 0.39938229705106565     
+   w2 ┤■■■■■■ 0.1491859823748656                 
+   w3 ┤■■■■■■■■■■■■■■■■■■■ 0.45143172057406883   
+      └                                        ┘
+```
 ## References
 
-The most practical reference by far is the book
-[*Analyzing Compositional Data With R*](http://www.springer.com/gp/book/9783642368080) by
-van den Boogaart K. G. et al. 2013. The book contains the examples that I reproduced in
-this README and is a good start for scientists who are seeing this material for the first
-time.
+This package is heavily influenced by Aitchison's monograph:
 
-A more theoretical exposition can be found in the book [*Modeling and Analysis of
-Compositional Data*](https://www.wiley.com/en-us/Modeling+and+Analysis+of+Compositional+Data-p-9781118443064)
-by Pawlowsky-Glahn, V. et al. 2015. It contains detailed explanations of the concepts
-introduced by Aitchison in the 80s, and is co-authored by important names in the field.
+- Aitchison, J. 1986. *The Statistical Analysis of Compositional Data*
+
+and by other textbooks:
+
+- den Boogaart, K. & Tolosana-Delgado. 2011. *Analyzing Compositional Data with R*
+- Pawlowsky-Glahn et al. 2015. *Modeling and Analysis of Compositional Data*
+- Pawlowsky-Glahn, V. & Buccianti, A. 2011. *Compositional Data Analysis - Theory and Applications*
