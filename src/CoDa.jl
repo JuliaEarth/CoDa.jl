@@ -6,6 +6,7 @@ module CoDa
 
 using CSV
 using Tables
+using TableOperations
 using Distributions
 using StatsBase
 using StaticArrays
@@ -28,7 +29,6 @@ include("codaarrays.jl")
 include("transforms.jl")
 include("covariances.jl")
 include("matrices.jl")
-include("utils.jl")
 
 export
   # compositions
@@ -38,6 +38,7 @@ export
 
   # arrays
   CoDaArray,
+  compose,
 
   # transforms
   alr, alrinv,
@@ -55,9 +56,6 @@ export
   JMatrix, J,
   FMatrix, F,
   GMatrix, G,
-  HMatrix, H,
-
-  # utils
-  compose
+  HMatrix, H
 
 end

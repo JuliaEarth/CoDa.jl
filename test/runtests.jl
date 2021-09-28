@@ -31,8 +31,7 @@ testfiles = [
   "codaarrays.jl",
   "transforms.jl",
   "covariances.jl",
-  "matrices.jl",
-  "utils.jl"
+  "matrices.jl"
 ]
 
 @testset "CoDa.jl" begin

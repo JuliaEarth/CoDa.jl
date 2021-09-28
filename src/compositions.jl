@@ -95,6 +95,10 @@ norm(c::Composition) = √(c⋅c)
 
 distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
 
+# --------------------
+# RANDOM COMPOSITIONS
+# --------------------
+
 """
     rand(Composition{D}, n=1)
 

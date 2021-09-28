@@ -24,6 +24,33 @@ Base.size(array::CoDaArray) = (size(array.data, 2),)
 
 Base.IndexStyle(::Type{<:CoDaArray}) = IndexLinear()
 
+"""
+    parts(array)
+
+Parts in compositional `array`.
+"""
+parts(::CoDaArray{D,PARTS}) where {D,PARTS} = PARTS
+
+"""
+    compose(table, (:c1, c2, ..., :cn))
+
+Convert columns `:c1`, `:c2`, ..., `:cn` of `table`
+into parts of a composition and save the result in
+a [`CoDaArray`](@ref).
+
+## Example
+
+```julia
+# create a new compositional array
+compose(table, (:Cd, :Cu, :Pb))
+```
+"""
+function compose(table, cols=Tables.columnnames(table))
+  s = TableOperations.select(table, cols...)
+  t = Tables.columntable(s) # see https://github.com/JuliaData/TableOperations.jl/issues/25
+  CoDaArray(t)
+end
+
 # -----------------
 # TABLES INTERFACE
 # -----------------
