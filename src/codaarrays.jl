@@ -41,31 +41,15 @@ Parts in compositional `array`.
 parts(::CoDaArray{D,PARTS}) where {D,PARTS} = PARTS
 
 """
-    compose(table, cols; keepcols=false, as=:coda)
+    compose(table, cols; keepcols=true, as=:coda)
 
 Convert columns `cols` of `table` into parts of a
 composition and save the result in a [`CoDaArray`](@ref).
 If `keepcols` is set to `true`, then save the result `as`
 a column in a new table with all other columns preserved.
-
-## Example
-
-Create a compositional array from columns `(:Cd, :Cu, :Pb)`:
-
-```julia
-julia> compose(table, (:Cd, :Cu, :Pb))
-```
-
-Do the same operation, but this time place the array as a
-column named `:coda` in a new table containing all other
-columns in the original table:
-
-```julia
-julia> compose(table, (:Cd, :Cu, :Pb), keepcols = true)
-```
 """
 function compose(table, cols=Tables.columnnames(table);
-                 keepcols=false, as=:coda)
+                 keepcols=true, as=:coda)
   # construct compositional array from selected columns
   csel = TableOperations.select(table, cols...)
   ctab = Tables.columntable(csel) # see https://github.com/JuliaData/TableOperations.jl/issues/25
