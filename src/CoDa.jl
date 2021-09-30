@@ -16,6 +16,7 @@ using AxisArrays
 using Statistics
 using Random
 using Printf
+using Distances
 
 import Tables
 import ScientificTypes as ST
@@ -30,6 +31,7 @@ include("transforms.jl")
 include("covariances.jl")
 include("matrices.jl")
 include("scitypes.jl")
+include("distances.jl")
 
 export
   # compositions
@@ -57,6 +59,9 @@ export
   JMatrix, J,
   FMatrix, F,
   GMatrix, G,
-  HMatrix, H
+  HMatrix, H,
+
+  # distances
+  CoDaDistance
 
 end
