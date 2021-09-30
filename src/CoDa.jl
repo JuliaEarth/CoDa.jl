@@ -17,6 +17,7 @@ using Statistics
 using Random
 using Printf
 using Distances
+import Distances: result_type
 
 import Tables
 import ScientificTypes as ST
