@@ -21,6 +21,7 @@ UnicodePlots = "b8865327-cd53-5732-bb35-84acbb429228"
 
 [compat]
 AxisArrays = "0.4"
+Distances = "0.10.4"
 Distributions = "0.25"
 FillArrays = "0.12"
 ScientificTypes = "2.3"
