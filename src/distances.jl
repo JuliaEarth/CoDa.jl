@@ -9,5 +9,6 @@ Distance between compositions in Aitchison geometry.
 """
 struct CoDaDistance <: Metric end
 
-(d::CoDaDistance)(x, y) = distance(x, y)
-result_type(d::CoDaDistance, x, y) = Float64
+(::CoDaDistance)(x, y) = distance(x, y)
+
+result_type(::CoDaDistance, x, y) = Float64
