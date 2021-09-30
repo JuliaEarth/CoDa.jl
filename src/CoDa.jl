@@ -17,10 +17,10 @@ using Statistics
 using Random
 using Printf
 using Distances
-import Distances: result_type
 
 import Tables
 import ScientificTypes as ST
+import Distances: result_type
 import Base: +, -, *, ==
 import Base: adjoint, inv
 import LinearAlgebra: norm, ⋅
