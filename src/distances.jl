@@ -9,4 +9,4 @@ Distance between compositions in Aitchison geometry.
 """
 struct CoDaDistance <: Metric end
 
-(dist::CoDaDistance)(x,y) = distance(x, y)
+(d::CoDaDistance)(x, y) = distance(x, y)
