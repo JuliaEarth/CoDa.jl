@@ -7,6 +7,7 @@ module CoDa
 using Tables
 using TableOperations
 using Distributions
+using Distances
 using StatsBase
 using StaticArrays
 using UnicodePlots
@@ -16,7 +17,6 @@ using AxisArrays
 using Statistics
 using Random
 using Printf
-using Distances
 
 import Tables
 import ScientificTypes as ST
