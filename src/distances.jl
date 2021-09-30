@@ -5,7 +5,7 @@
 """
     CoDaDistance
 
-Distance object based on Metric by Distances.jl.
+Distance between compositions in Aitchison geometry.
 """
 struct CoDaDistance <: Metric end
 
