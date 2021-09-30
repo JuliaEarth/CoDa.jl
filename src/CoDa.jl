@@ -17,17 +17,19 @@ using Statistics
 using Random
 using Printf
 
+import Tables
+import ScientificTypes as ST
 import Base: +, -, *, ==
 import Base: adjoint, inv
 import LinearAlgebra: norm, ⋅
 import Random: rand
-import Tables
 
 include("compositions.jl")
 include("codaarrays.jl")
 include("transforms.jl")
 include("covariances.jl")
 include("matrices.jl")
+include("scitypes.jl")
 
 export
   # compositions

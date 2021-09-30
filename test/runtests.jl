@@ -1,6 +1,7 @@
 using CoDa
 using Tables
 using DataDeps
+using ScientificTypes
 using RData
 using CSV
 using Test
@@ -31,7 +32,8 @@ testfiles = [
   "codaarrays.jl",
   "transforms.jl",
   "covariances.jl",
-  "matrices.jl"
+  "matrices.jl",
+  "scitypes.jl"
 ]
 
 @testset "CoDa.jl" begin
