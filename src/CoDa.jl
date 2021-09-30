@@ -19,6 +19,7 @@ using Printf
 
 import Tables
 import ScientificTypes as ST
+import Distances: Metric, result_type
 import Base: +, -, *, ==
 import Base: adjoint, inv
 import LinearAlgebra: norm, ⋅
@@ -30,6 +31,7 @@ include("transforms.jl")
 include("covariances.jl")
 include("matrices.jl")
 include("scitypes.jl")
+include("distances.jl")
 
 export
   # compositions
@@ -57,6 +59,9 @@ export
   JMatrix, J,
   FMatrix, F,
   GMatrix, G,
-  HMatrix, H
+  HMatrix, H,
+
+  # distances
+  CoDaDistance
 
 end

@@ -1,6 +1,7 @@
 using CoDa
 using Tables
 using DataDeps
+using Distances
 using ScientificTypes
 using RData
 using CSV
@@ -32,6 +33,7 @@ testfiles = [
   "codaarrays.jl",
   "transforms.jl",
   "covariances.jl",
+  "distances.jl",
   "matrices.jl",
   "scitypes.jl"
 ]
