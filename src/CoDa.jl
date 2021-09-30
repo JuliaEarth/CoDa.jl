@@ -7,7 +7,6 @@ module CoDa
 using Tables
 using TableOperations
 using Distributions
-using Distances
 using StatsBase
 using StaticArrays
 using UnicodePlots
