@@ -23,6 +23,13 @@
   @test norm(c₀) ≈ 0.
   @test isapprox(distance(c₁, c₁), 0., atol=1e-6)
 
+  # scalar multiplication
+  c = Composition(1,2,3)
+  @test 2c == Composition(1^2, 2^2, 3^2)
+  @test c/2 == Composition(√1,√2,√3)
+  c = Composition(1,1,1)
+  @test c == 2c == c/2
+
   # make sure names are preserved
   c = Composition(a=1.0, b=2.0)
   @test parts(c + c) == parts(c)

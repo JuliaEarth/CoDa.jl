@@ -83,6 +83,8 @@ Base.getproperty(c::Composition, p::Symbol) = getproperty(getfield(c, :data), p)
 
 *(λ::Real, c::Composition) = Composition(parts(c), 𝓒(components(c).^λ))
 
+/(c::Composition, λ::Real) = inv(λ) * c
+
 ==(c₁::Composition, c₂::Composition) =
   parts(c₁) == parts(c₂) && 𝓒(components(c₁)) ≈ 𝓒(components(c₂))
 

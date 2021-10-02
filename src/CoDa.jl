@@ -20,7 +20,7 @@ using Printf
 import Tables
 import ScientificTypes as ST
 import Distances: Metric, result_type
-import Base: +, -, *, ==
+import Base: +, -, *, /, ==
 import Base: adjoint, inv
 import LinearAlgebra: norm, ⋅
 import Random: rand
