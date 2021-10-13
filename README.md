@@ -182,13 +182,10 @@ such arrays:
 julia> table = (a=[1,2,3], b=[4,5,6], c=[7,8,9])
 (a = [1, 2, 3], b = [4, 5, 6], c = [7, 8, 9])
 
-julia> coda = compose(table, (:a, :b))
-3-element CoDaArray{2, (:a, :b)}:
- "1.000 : 4.000"
- "2.000 : 5.000"
- "3.000 : 6.000"
+julia> ctable = compose(table, (:a,:b))
+(c = [7, 8, 9], coda = Composition{2, (:a, :b)}["1.000 : 4.000", "2.000 : 5.000", "3.000 : 6.000"])
 
-julia> coda[1]
+julia> ctable.coda[1]
                 2-part composition
      ┌                                        ┐ 
    a ┤■■■■■■■■■ 1.0                             
