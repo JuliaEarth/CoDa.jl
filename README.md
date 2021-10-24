@@ -193,7 +193,7 @@ julia> ctable.coda[1]
      └                                        ┘ 
 ```
 
-## Random
+### Random
 
 `D`-part compositions can be created at random from a Dirichlet distribution:
 
@@ -206,6 +206,14 @@ julia> rand(Composition{3})
    w3 ┤■■■■■■■■■■■■■■■■■■■ 0.45143172057406883   
       └                                        ┘
 ```
+
+### Plots
+
+Relative variation biplots can be produced with the
+[Biplots.jl](https://github.com/juliohm/Biplots.jl) package, and
+ternary plots can be prouced with the
+[TernaryPlots.jl](https://github.com/jacobusmmsmit/TernaryPlots.jl) package.
+
 ## References
 
 This package is heavily influenced by Aitchison's monograph:
