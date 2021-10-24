@@ -209,10 +209,10 @@ julia> rand(Composition{3})
 
 ### Plots
 
-Relative variation biplots can be produced with the
-[Biplots.jl](https://github.com/juliohm/Biplots.jl) package, and
-ternary plots can be prouced with the
-[TernaryPlots.jl](https://github.com/jacobusmmsmit/TernaryPlots.jl) package.
+Separate packages are available for plotting compositional data:
+
+- Relative variation biplots: [Biplots.jl](https://github.com/juliohm/Biplots.jl)
+- Ternary plots [TernaryPlots.jl](https://github.com/jacobusmmsmit/TernaryPlots.jl)
 
 ## References
 
