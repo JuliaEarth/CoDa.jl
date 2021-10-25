@@ -13,7 +13,7 @@ function variation(table)
   X = Tables.matrix(table)
   n = Tables.columnnames(table) |> collect
   D = size(X, 2)
-  L = log.(X)
+  L = log.(X .+ eps())
 
   T = Matrix{Float64}(undef, D, D)
   for j in 1:D
@@ -40,7 +40,7 @@ Return the log-ratio covariance matrix `Σ` of the `table` such that:
 function alrcov(table)
   X = Tables.matrix(table)
   n = Tables.columnnames(table) |> collect
-  L = log.(X)
+  L = log.(X .+ eps())
 
   Σ = cov(L[:,begin:end-1] .- L[:,end], dims=1)
 
@@ -59,8 +59,8 @@ function clrcov(table)
   X = Tables.matrix(table)
   n = Tables.columnnames(table) |> collect
   g = geomean.(eachrow(X))
-  L = log.(X)
-  l = log.(g)
+  L = log.(X .+ eps())
+  l = log.(g .+ eps())
 
   Γ = cov(L .- l, dims=1)
 
@@ -80,7 +80,7 @@ function lrarray(table)
   X = Tables.matrix(table)
   n = Tables.columnnames(table) |> collect
   D = size(X, 2)
-  L = log.(X)
+  L = log.(X .+ eps())
 
   A = Matrix{Float64}(undef, D, D)
   for i in 1:D
