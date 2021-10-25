@@ -3,12 +3,14 @@
 # ------------------------------------------------------------------
 
 """
-    CoDaDistance
+    Aitchison
 
-Distance between compositions in Aitchison geometry.
+Aitchison distance between compositions.
 """
-struct CoDaDistance <: Metric end
+struct Aitchison <: Metric end
 
-(::CoDaDistance)(x, y) = distance(x, y)
+(::Aitchison)(c₁::Composition, c₂::Composition) = distance(c₁, c₂)
 
-result_type(::CoDaDistance, x, y) = Float64
+(d::Aitchison)(w₁, w₂) = d(Composition(w₁), Composition(w₂))
+
+result_type(::Aitchison, w₁, w₂) = Float64
