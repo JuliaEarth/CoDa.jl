@@ -27,11 +27,11 @@ import Random: rand
 
 include("compositions.jl")
 include("codaarrays.jl")
+include("scitypes.jl")
+include("distances.jl")
 include("transforms.jl")
 include("covariances.jl")
 include("matrices.jl")
-include("scitypes.jl")
-include("distances.jl")
 
 export
   # compositions
@@ -42,6 +42,9 @@ export
   # arrays
   CoDaArray,
   compose,
+
+  # distances
+  Aitchison,
 
   # transforms
   alr, alrinv,
@@ -59,9 +62,5 @@ export
   JMatrix, J,
   FMatrix, F,
   GMatrix, G,
-  HMatrix, H,
-
-  # distances
-  CoDaDistance
-
+  HMatrix, H
 end

@@ -1,10 +1,12 @@
 @testset "Distances" begin
-  comps = rand(Composition{5}, 100)
-  d = CoDaDistance()
+  d = Aitchison()
+  c = rand(Composition{5}, 100)
 
-  # Test CoDaDistance
-  @test d(comps[1], comps[2]) ≈ distance(comps[1], comps[2])
+  # test with compositions
+  @test d(c[1], c[2]) ≈ distance(c[1], c[2])
+  @test pairwise(d, c) ≈ [distance(c[i], c[j]) for i in 1:100, j in 1:100]
 
-  # Test pairwise with CoDaDistance
-  @test pairwise(d, comps) ≈ [distance(comps[i], comps[j]) for i in 1:100, j in 1:100]
+  # test with raw vectors
+  x, y = rand(3), rand(3)
+  @test d(x, y) ≈ d(Composition(x), Composition(y))
 end

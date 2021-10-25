@@ -31,11 +31,11 @@ CSV.write(joinpath(datadir,"jura.csv"), jura)
 testfiles = [
   "compositions.jl",
   "codaarrays.jl",
+  "scitypes.jl",
+  "distances.jl",
   "transforms.jl",
   "covariances.jl",
-  "distances.jl",
-  "matrices.jl",
-  "scitypes.jl"
+  "matrices.jl"
 ]
 
 @testset "CoDa.jl" begin
