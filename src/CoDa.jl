@@ -20,6 +20,8 @@ using Printf
 import Tables
 import ScientificTypes as ST
 import Distances: Metric, result_type
+import FeatureTransforms: Transform, ManyToMany
+import FeatureTransforms: cardinality, apply
 import Base: +, -, *, /, ==
 import Base: adjoint, inv
 import LinearAlgebra: norm, ⋅
@@ -47,6 +49,7 @@ export
   Aitchison,
 
   # transforms
+  LogRatio,
   alr, alrinv,
   clr, clrinv,
   ilr, ilrinv,

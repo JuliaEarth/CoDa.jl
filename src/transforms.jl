@@ -2,85 +2,65 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-"""
-    alr(c)
-
-Additive log-ratio transformation of composition `c`.
-"""
-function alr(c::Composition{D}) where {D}
-  comps = components(c) .+ eps()
-  SVector(ntuple(i -> log(comps[i] / comps[D]), D-1))
-end
+# transforms in functional form
+include("transforms/alr.jl")
+include("transforms/clr.jl")
+include("transforms/ilr.jl")
 
 """
-    alrinv(x)
+    LogRatio(kind, [refvar])
 
-Inverse alr for coordinates `x`.
-"""
-alrinv(x::SVector{D,T}) where {D,T<:Real} =
-  Composition(𝓒([exp.(x); SVector(one(T))]))
+A log-ratio transform of given `kind`.
 
-"""
-    clr(c)
+Optionally, specify the reference variable
+`refvar` for the the ratios. Default to the
+last column of the input table.
 
-Centered log-ratio transformation of composition `c`.
-"""
-function clr(c::Composition{D}) where {D}
-  comps = components(c) .+ eps()
-  gmean = geomean(comps)
-  SVector(ntuple(i -> log(comps[i] / gmean), D))
-end
+## Examples
 
-"""
-    clrinv(x)
+Additive log-ratio transform with denominator `O₂`:
 
-Inverse clr for coordinates `x`.
+```julia
+julia> LogRatio(:ilr, :O₂)
+```
 """
-clrinv(x) = Composition(𝓒(exp.(x)))
+struct LogRatio <: Transform
+  kind::Symbol
+  refv::Union{Symbol,Nothing}
 
-"""
-    ilr(c)
-
-Isometric log-ratio transformation of composition `c`.
-"""
-function ilr(c::Composition{D}) where {D}
-  comps = components(c) .+ eps()
-  logs  = log.(comps)
-  T = eltype(comps)
-  x = MVector(ntuple(i->zero(T), D-1))
-  for i in 1:D-1
-    s = zero(T)
-    sqrtinv = 1/sqrt(i*(i+1))
-    for j in 1:i+1
-      if j < i+1
-        s += - sqrtinv * logs[j]
-      elseif j==i+1
-        s += i * sqrtinv * logs[j]
-      end
-    end
-    x[i] = s
+  function LogRatio(kind, refv)
+    @assert kind ∈ (:alr,:clr,:ilr) "invalid log-ratio transform"
+    new(kind, refv)
   end
-  SVector(x)
 end
 
-"""
-    ilrinv(x)
+LogRatio(kind) = LogRatio(kind, nothing)
 
-Inverse ilr for coordinates `x`.
-"""
-function ilrinv(x::SVector{D,T}) where {D,T<:Real}
-  z = MVector(ntuple(i->zero(T), D+1))
-  for i in 1:D+1
-    s = zero(T)
-    for j in 1:D
-      sqrtinv = 1/sqrt(j*(j+1))
-      if i < j+1
-        s += - sqrtinv * x[j]
-      elseif i == j+1
-        s += j * sqrtinv * x[j]
-      end
-    end
-    z[i] = exp(s)
+cardinality(::LogRatio) = ManyToMany()
+
+function apply(table, t::LogRatio; inv=false)
+  vars = Tables.columnnames(table)
+
+  # permute columns of table if necessary
+  𝒯 = if (t.kind ∈ (:alr, :ilr) && !inv &&
+          !isnothing(t.refv) && t.refv != last(vars))
+    # sanity check with reference variable
+    @assert t.refv ∈ vars "invalid reference variable"
+
+    # permute columns of table
+    ovars = setdiff(vars, (t.refv,))
+    pvars = [ovars; t.refv]
+    TableOperations.select(table, pvars...)
+  else
+    # forward input table
+    table
   end
-  Composition(𝓒(z))
+
+  # return appropriate transform
+  t.kind == :alr && !inv && return alr(𝒯)
+  t.kind == :alr &&  inv && return alrinv(𝒯)
+  t.kind == :clr && !inv && return clr(𝒯)
+  t.kind == :clr &&  inv && return clrinv(𝒯)
+  t.kind == :ilr && !inv && return ilr(𝒯)
+  t.kind == :ilr &&  inv && return ilrinv(𝒯)
 end

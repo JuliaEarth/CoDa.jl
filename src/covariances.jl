@@ -38,13 +38,12 @@ Return the log-ratio covariance matrix `Σ` of the `table` such that:
 - `Σ[i,j] = cov(log(x[i]/x[D]), log(x[j]/x[D]))` for `i, j = 1, ..., d`
 """
 function alrcov(table)
-  X = Tables.matrix(table)
-  n = Tables.columnnames(table) |> collect
-  L = log.(X .+ eps())
+  alrtable = alr(table)
 
-  Σ = cov(L[:,begin:end-1] .- L[:,end], dims=1)
+  Σ = cov(Tables.matrix(alrtable), dims=1)
 
-  AxisArray(Σ, row=n[begin:end-1], col=n[begin:end-1])
+  vars = Tables.columnnames(alrtable) |> collect
+  AxisArray(Σ, row=vars, col=vars)
 end
 
 """
@@ -56,15 +55,12 @@ Return the centered log-ratio covariance matrix `Γ` of the `table` such that:
 where `g(x)` is the geometric mean.
 """
 function clrcov(table)
-  X = Tables.matrix(table)
-  n = Tables.columnnames(table) |> collect
-  g = geomean.(eachrow(X))
-  L = log.(X .+ eps())
-  l = log.(g .+ eps())
+  clrtable = clr(table)
 
-  Γ = cov(L .- l, dims=1)
+  Γ = cov(Tables.matrix(clrtable), dims=1)
 
-  AxisArray(Γ, row=n, col=n)
+  vars = Tables.columnnames(clrtable) |> collect
+  AxisArray(Γ, row=vars, col=vars)
 end
 
 """
@@ -78,7 +74,6 @@ Return the variation array `A` of the `table` such that:
 """
 function lrarray(table)
   X = Tables.matrix(table)
-  n = Tables.columnnames(table) |> collect
   D = size(X, 2)
   L = log.(X .+ eps())
 
@@ -92,5 +87,6 @@ function lrarray(table)
     A[i,i] = 0.0
   end
 
-  AxisArray(A, row=n, col=n)
+  vars = Tables.columnnames(table) |> collect
+  AxisArray(A, row=vars, col=vars)
 end
