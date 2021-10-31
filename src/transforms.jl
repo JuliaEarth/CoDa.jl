@@ -36,31 +36,43 @@ end
 
 LogRatio(kind) = LogRatio(kind, nothing)
 
-cardinality(::LogRatio) = ManyToMany()
-
-function apply(table, t::LogRatio; inv=false)
+function apply(transform::LogRatio, table)
   vars = Tables.columnnames(table)
+  kind = transform.kind
+  refv = transform.refv
 
-  # permute columns of table if necessary
-  𝒯 = if (t.kind ∈ (:alr, :ilr) && !inv &&
-          !isnothing(t.refv) && t.refv != last(vars))
+  # permute columns if necessary
+  pvars = if (kind ∈ (:alr, :ilr) && !isnothing(refv) && refv != last(vars))
     # sanity check with reference variable
-    @assert t.refv ∈ vars "invalid reference variable"
-
-    # permute columns of table
-    ovars = setdiff(vars, (t.refv,))
-    pvars = [ovars; t.refv]
-    TableOperations.select(table, pvars...)
+    @assert refv ∈ vars "invalid reference variable"
+    ovars = setdiff(vars, (refv,))
+    Tuple([ovars; refv])
   else
-    # forward input table
-    table
+    vars
   end
 
-  # return appropriate transform
-  t.kind == :alr && !inv && return alr(𝒯)
-  t.kind == :alr &&  inv && return alrinv(𝒯)
-  t.kind == :clr && !inv && return clr(𝒯)
-  t.kind == :clr &&  inv && return clrinv(𝒯)
-  t.kind == :ilr && !inv && return ilr(𝒯)
-  t.kind == :ilr &&  inv && return ilrinv(𝒯)
+  # perform permutation
+  ptable = TableOperations.select(table, pvars...)
+
+  # apply transform
+  newtable = _lr(kind, ptable)
+
+  # return new table and cache
+  newtable, nothing
+end
+
+function revert(transform::LogRatio, table, cache)
+  # TODO
+end
+
+function _lr(kind, table)
+  kind == :alr && return alr(table)
+  kind == :clr && return clr(table)
+  kind == :ilr && return ilr(table)
+end
+
+function _lrinv(kind, table)
+  kind == :alr && return alrinv(table)
+  kind == :clr && return clrinv(table)
+  kind == :ilr && return ilrinv(table)
 end
