@@ -38,7 +38,7 @@ Return the log-ratio covariance matrix `Σ` of the `table` such that:
 - `Σ[i,j] = cov(log(x[i]/x[D]), log(x[j]/x[D]))` for `i, j = 1, ..., d`
 """
 function alrcov(table)
-  alrtable = alr(table)
+  alrtable = table |> ALR()
 
   Σ = cov(Tables.matrix(alrtable), dims=1)
 
@@ -55,7 +55,7 @@ Return the centered log-ratio covariance matrix `Γ` of the `table` such that:
 where `g(x)` is the geometric mean.
 """
 function clrcov(table)
-  clrtable = clr(table)
+  clrtable = table |> CLR()
 
   Γ = cov(Tables.matrix(clrtable), dims=1)
 

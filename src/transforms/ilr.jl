@@ -58,45 +58,79 @@ end
 # -------
 
 """
-   ilr(table)
+   ILR([refvar])
 
-Isometric log-ratio transformation of `table`.
+Isometric log-ratio transform following the
+[TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl)
+interface.
+
+Optionally, specify the reference variable `refvar` for the ratios.
+Default to the last column of the input table.
 """
-function ilr(table)
+struct ILR <: LogRatio
+  refvar::Union{Symbol,Nothing}
+end
+
+ILR() = ILR(nothing)
+
+function apply(transform::ILR, table)
+  # basic checks
+  for assertion in assertions(transform)
+    assertion(table)
+  end
+
+  # original variable names
+  vars = Tables.columnnames(table)
+
+  # reference variable
+  refvar = isnothing(transform.refvar) ? last(vars) : transform.refvar
+
+  @assert refvar ∈ vars "invalid reference variable"
+
+  # permute columns if necessary
+  ptable = tableperm(table, refvar)
+
   # design matrix
-  X = Tables.matrix(table) .|> Float64
-  n = Tables.columnnames(table)
+  X = Tables.matrix(ptable)
+  n = Tables.columnnames(ptable)
 
   # new variable names
-  vars = collect(n)[begin:end-1]
+  nvars = collect(n)[begin:end-1]
 
   # transformation
   Y = mapslices(ilr ∘ Composition, X, dims=2)
 
-  # # return same table type
-  T = (; zip(vars, eachcol(Y))...)
-  T |> Tables.materializer(table)
+  # return same table type
+  𝒯 = (; zip(nvars, eachcol(Y))...)
+  newtable = 𝒯 |> Tables.materializer(table)
+
+  # save reference index to revert later
+  refind = indexin([refvar], collect(vars)) |> first
+
+  newtable, (refvar, refind)
 end
 
-"""
-    ilrinv(table)
+function revert(::ILR, table, cache)
+  # retrieve cache
+  refvar, refind = cache
 
-Inverse ilr transformation of `table`.
-"""
-function ilrinv(table)
   # design matrix
-  Y = Tables.matrix(table) .|> Float64
+  Y = Tables.matrix(table)
   n = Tables.columnnames(table)
 
-  # new variable names
-  vars = [collect(n); Symbol("total_minus_"*join(n,""))]
+  # original variable names
+  vars = [collect(n); refvar]
 
   # trasformation
   D = size(Y, 2)
   f = components ∘ ilrinv ∘ SVector{D}
   X = mapslices(f, Y, dims=2)
 
+  # permute reference variable
+  vars[[refind,end]] .= vars[[end,refind]]
+  X[:,[refind,end]]  .= X[:,[end,refind]]
+
   # return same table type
-  T = (; zip(vars, eachcol(X))...)
-  T |> Tables.materializer(table)
+  𝒯 = (; zip(vars, eachcol(X))...)
+  𝒯 |> Tables.materializer(table)
 end

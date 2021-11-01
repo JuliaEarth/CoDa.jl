@@ -30,17 +30,26 @@ clrinv(x::SVector{D,T}) where {D,T<:Real} =
 # -------
 
 """
-   clr(table)
+   CLR()
 
-Centered log-ratio transformation of `table`.
+Centered log-ratio transform following the
+[TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl)
+interface.
 """
-function clr(table)
+struct CLR <: LogRatio end
+
+function apply(transform::CLR, table)
+  # basic checks
+  for assertion in assertions(transform)
+    assertion(table)
+  end
+
   # design matrix
-  X = Tables.matrix(table) .|> Float64
+  X = Tables.matrix(table)
   n = Tables.columnnames(table)
 
   # new variable names
-  vars = collect(n)
+  nvars = collect(n)
 
   # transformation
   μ = geomean.(eachrow(X))
@@ -49,21 +58,18 @@ function clr(table)
   Y = L .- l
 
   # return same table type
-  T = (; zip(vars, eachcol(Y))...)
-  T |> Tables.materializer(table)
+  𝒯 = (; zip(nvars, eachcol(Y))...)
+  newtable = 𝒯 |> Tables.materializer(table)
+
+  newtable, nothing
 end
 
-"""
-    clrinv(table)
-
-Inverse clr transformation of `table`.
-"""
-function clrinv(table)
+function revert(::CLR, table, cache)
   # design matrix
-  Y = Tables.matrix(table) .|> Float64
+  Y = Tables.matrix(table)
   n = Tables.columnnames(table)
 
-  # new variable names
+  # original variable names
   vars = collect(n)
 
   # trasformation
@@ -71,6 +77,6 @@ function clrinv(table)
   X = mapslices(𝓒, E, dims=2)
 
   # return same table type
-  T = (; zip(vars, eachcol(X))...)
-  T |> Tables.materializer(table)
+  𝒯 = (; zip(vars, eachcol(X))...)
+  𝒯 |> Tables.materializer(table)
 end

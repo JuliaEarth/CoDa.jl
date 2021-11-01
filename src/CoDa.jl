@@ -19,9 +19,11 @@ using Printf
 
 import Tables
 import ScientificTypes as ST
-import Distances: Metric, result_type
+import TableTransforms as TT
 import TableTransforms: Stateless
+import TableTransforms: assertions, isrevertible
 import TableTransforms: apply, revert
+import Distances: Metric, result_type
 import Base: +, -, *, /, ==
 import Base: adjoint, inv
 import LinearAlgebra: norm, ⋅
@@ -50,6 +52,7 @@ export
 
   # transforms
   LogRatio,
+  ALR, CLR, ILR,
   alr, alrinv,
   clr, clrinv,
   ilr, ilrinv,
