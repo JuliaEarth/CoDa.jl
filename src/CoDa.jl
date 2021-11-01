@@ -22,7 +22,7 @@ import ScientificTypes as ST
 import TableTransforms as TT
 import TableTransforms: Transform, Stateless
 import TableTransforms: assertions, isrevertible
-import TableTransforms: apply, revert
+import TableTransforms: apply, revert, reapply
 import Distances: Metric, result_type
 import Base: +, -, *, /, ==
 import Base: adjoint, inv
