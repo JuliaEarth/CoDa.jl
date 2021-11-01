@@ -1,12 +1,13 @@
 using CoDa
+using CSV
+using RData
 using Tables
 using DataDeps
 using Distances
 using ScientificTypes
-using RData
-using CSV
-using Test
+using TableTransforms
 using LinearAlgebra
+using Test
 
 # accept downloads without interaction
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
