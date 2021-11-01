@@ -49,31 +49,14 @@ refvar(transform::ALR, vars) =
 
 newvars(::ALR, n) = collect(n)[begin:end-1]
 
+oldvars(::ALR, vars, rvar) = [collect(vars); rvar]
+
 function applymatrix(::ALR, X)
   L = log.(X .+ eps())
   L[:,begin:end-1] .- L[:,end]
 end
 
-function revert(::ALR, table, cache)
-  # retrieve cache
-  refvar, refind = cache
-
-  # design matrix
-  Y = Tables.matrix(table)
-  n = Tables.columnnames(table)
-
-  # original variable names
-  vars = [collect(n); refvar]
-
-  # trasformation
+function revertmatrix(::ALR, Y)
   E = [exp.(Y) ones(size(Y,1))]
-  X = mapslices(𝓒, E, dims=2)
-
-  # permute reference variable
-  vars[[refind,end]] .= vars[[end,refind]]
-  X[:,[refind,end]]  .= X[:,[end,refind]]
-
-  # return same table type
-  𝒯 = (; zip(vars, eachcol(X))...)
-  𝒯 |> Tables.materializer(table)
+  mapslices(𝓒, E, dims=2)
 end

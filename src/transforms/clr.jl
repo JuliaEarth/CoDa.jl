@@ -42,6 +42,8 @@ refvar(::CLR, vars) = last(vars)
 
 newvars(::CLR, n) = collect(n)
 
+oldvars(::CLR, vars, rvar) = collect(vars)
+
 function applymatrix(::CLR, X)
   μ = geomean.(eachrow(X))
   L = log.(X .+ eps())
@@ -49,19 +51,7 @@ function applymatrix(::CLR, X)
   L .- l
 end
 
-function revert(::CLR, table, cache)
-  # design matrix
-  Y = Tables.matrix(table)
-  n = Tables.columnnames(table)
-
-  # original variable names
-  vars = collect(n)
-
-  # trasformation
+function revertmatrix(::CLR, Y)
   E = exp.(Y)
-  X = mapslices(𝓒, E, dims=2)
-
-  # return same table type
-  𝒯 = (; zip(vars, eachcol(X))...)
-  𝒯 |> Tables.materializer(table)
+  mapslices(𝓒, E, dims=2)
 end

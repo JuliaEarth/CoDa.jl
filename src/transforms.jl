@@ -36,27 +36,47 @@ function apply(transform::LogRatio, table)
   pvars  = [ovars; rvar]
   ptable = TableOperations.select(table, pvars...)
 
-  # design matrix
-  X = Tables.matrix(ptable)
-  n = Tables.columnnames(ptable)
-
-  # new variable names
-  nvars = newvars(transform, n)
-
   # transformation
+  X = Tables.matrix(ptable)
   Y = applymatrix(transform, X)
 
+  # new variable names
+  n = newvars(transform, pvars)
+
   # return same table type
-  𝒯 = (; zip(nvars, eachcol(Y))...)
+  𝒯 = (; zip(n, eachcol(Y))...)
   newtable = 𝒯 |> Tables.materializer(table)
 
   newtable, (rvar, rind)
 end
 
+function revert(transform::LogRatio, table, cache)
+  # retrieve cache
+  rvar, rind = cache
+
+  # trasformation
+  Y = Tables.matrix(table)
+  X = revertmatrix(transform, Y)
+
+  # original variable names
+  vars = Tables.columnnames(table)
+  n = oldvars(transform, vars, rvar)
+
+  # permute reference variable
+  n[[rind,end]]   .= n[[end,rind]]
+  X[:,[rind,end]] .= X[:,[end,rind]]
+
+  # return same table type
+  𝒯 = (; zip(n, eachcol(X))...)
+  𝒯 |> Tables.materializer(table)
+end
+
 # to be implemented by log-ratio transforms
 function refvar end
 function newvars end
+function oldvars end
 function applymatrix end
+function revertmatrix end
 
 # ----------------
 # IMPLEMENTATIONS

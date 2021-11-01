@@ -78,29 +78,12 @@ refvar(transform::ILR, vars) =
 
 newvars(::ILR, n) = collect(n)[begin:end-1]
 
+oldvars(::ILR, vars, rvar) = [collect(vars); rvar]
+
 applymatrix(::ILR, X) = mapslices(ilr ∘ Composition, X, dims=2)
 
-function revert(::ILR, table, cache)
-  # retrieve cache
-  refvar, refind = cache
-
-  # design matrix
-  Y = Tables.matrix(table)
-  n = Tables.columnnames(table)
-
-  # original variable names
-  vars = [collect(n); refvar]
-
-  # trasformation
+function revertmatrix(::ILR, Y)
   D = size(Y, 2)
   f = components ∘ ilrinv ∘ SVector{D}
-  X = mapslices(f, Y, dims=2)
-
-  # permute reference variable
-  vars[[refind,end]] .= vars[[end,refind]]
-  X[:,[refind,end]]  .= X[:,[end,refind]]
-
-  # return same table type
-  𝒯 = (; zip(vars, eachcol(X))...)
-  𝒯 |> Tables.materializer(table)
+  mapslices(f, Y, dims=2)
 end
