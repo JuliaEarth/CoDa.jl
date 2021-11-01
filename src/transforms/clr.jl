@@ -38,30 +38,15 @@ interface.
 """
 struct CLR <: LogRatio end
 
-function apply(transform::CLR, table)
-  # basic checks
-  for assertion in assertions(transform)
-    assertion(table)
-  end
+refvar(::CLR, vars) = last(vars)
 
-  # design matrix
-  X = Tables.matrix(table)
-  n = Tables.columnnames(table)
+newvars(::CLR, n) = collect(n)
 
-  # new variable names
-  nvars = collect(n)
-
-  # transformation
+function applymatrix(::CLR, X)
   μ = geomean.(eachrow(X))
   L = log.(X .+ eps())
   l = log.(μ .+ eps())
-  Y = L .- l
-
-  # return same table type
-  𝒯 = (; zip(nvars, eachcol(Y))...)
-  newtable = 𝒯 |> Tables.materializer(table)
-
-  newtable, nothing
+  L .- l
 end
 
 function revert(::CLR, table, cache)

@@ -73,42 +73,12 @@ end
 
 ILR() = ILR(nothing)
 
-function apply(transform::ILR, table)
-  # basic checks
-  for assertion in assertions(transform)
-    assertion(table)
-  end
+refvar(transform::ILR, vars) =
+  isnothing(transform.refvar) ? last(vars) : transform.refvar
 
-  # original variable names
-  vars = Tables.columnnames(table)
+newvars(::ILR, n) = collect(n)[begin:end-1]
 
-  # reference variable
-  refvar = isnothing(transform.refvar) ? last(vars) : transform.refvar
-
-  @assert refvar ∈ vars "invalid reference variable"
-
-  # permute columns if necessary
-  ptable = tableperm(table, refvar)
-
-  # design matrix
-  X = Tables.matrix(ptable)
-  n = Tables.columnnames(ptable)
-
-  # new variable names
-  nvars = collect(n)[begin:end-1]
-
-  # transformation
-  Y = mapslices(ilr ∘ Composition, X, dims=2)
-
-  # return same table type
-  𝒯 = (; zip(nvars, eachcol(Y))...)
-  newtable = 𝒯 |> Tables.materializer(table)
-
-  # save reference index to revert later
-  refind = indexin([refvar], collect(vars)) |> first
-
-  newtable, (refvar, refind)
-end
+applymatrix(::ILR, X) = mapslices(ilr ∘ Composition, X, dims=2)
 
 function revert(::ILR, table, cache)
   # retrieve cache

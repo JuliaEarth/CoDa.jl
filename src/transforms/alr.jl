@@ -44,42 +44,14 @@ end
 
 ALR() = ALR(nothing)
 
-function apply(transform::ALR, table)
-  # basic checks
-  for assertion in assertions(transform)
-    assertion(table)
-  end
+refvar(transform::ALR, vars) =
+  isnothing(transform.refvar) ? last(vars) : transform.refvar
 
-  # original variable names
-  vars = Tables.columnnames(table)
+newvars(::ALR, n) = collect(n)[begin:end-1]
 
-  # reference variable
-  refvar = isnothing(transform.refvar) ? last(vars) : transform.refvar
-
-  @assert refvar ∈ vars "invalid reference variable"
-
-  # permute columns if necessary
-  ptable = tableperm(table, refvar)
-
-  # design matrix
-  X = Tables.matrix(ptable)
-  n = Tables.columnnames(ptable)
-
-  # new variable names
-  nvars = collect(n)[begin:end-1]
-
-  # transformation
+function applymatrix(::ALR, X)
   L = log.(X .+ eps())
-  Y = L[:,begin:end-1] .- L[:,end]
-
-  # return same table type
-  𝒯 = (; zip(nvars, eachcol(Y))...)
-  newtable = 𝒯 |> Tables.materializer(table)
-
-  # save reference index to revert later
-  refind = indexin([refvar], collect(vars)) |> first
-
-  newtable, (refvar, refind)
+  L[:,begin:end-1] .- L[:,end]
 end
 
 function revert(::ALR, table, cache)

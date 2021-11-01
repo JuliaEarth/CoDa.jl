@@ -17,18 +17,50 @@ assertions(::Type{<:LogRatio}) = [TT.assert_continuous]
 
 isrevertible(::Type{<:LogRatio}) = true
 
+function apply(transform::LogRatio, table)
+  # basic checks
+  for assertion in assertions(transform)
+    assertion(table)
+  end
+
+  # original variable names
+  vars = Tables.columnnames(table)
+
+  # reference variable
+  rvar = refvar(transform, vars)
+  @assert rvar ∈ vars "invalid reference variable"
+  rind = first(indexin([rvar], collect(vars)))
+
+  # permute columns if necessary
+  ovars  = setdiff(vars, (rvar,))
+  pvars  = [ovars; rvar]
+  ptable = TableOperations.select(table, pvars...)
+
+  # design matrix
+  X = Tables.matrix(ptable)
+  n = Tables.columnnames(ptable)
+
+  # new variable names
+  nvars = newvars(transform, n)
+
+  # transformation
+  Y = applymatrix(transform, X)
+
+  # return same table type
+  𝒯 = (; zip(nvars, eachcol(Y))...)
+  newtable = 𝒯 |> Tables.materializer(table)
+
+  newtable, (rvar, rind)
+end
+
+# to be implemented by log-ratio transforms
+function refvar end
+function newvars end
+function applymatrix end
+
 # ----------------
 # IMPLEMENTATIONS
 # ----------------
-
-# helper function to permute columns of
-# table based on a reference variable
-function tableperm(table, var)
-  vars  = Tables.columnnames(table)
-  ovars = setdiff(vars, (var,))
-  pvars = [ovars; var]
-  TableOperations.select(table, pvars...)
-end
 
 include("transforms/alr.jl")
 include("transforms/clr.jl")
