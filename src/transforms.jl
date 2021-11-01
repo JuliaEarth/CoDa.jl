@@ -24,7 +24,7 @@ Additive log-ratio transform with denominator `O₂`:
 julia> LogRatio(:ilr, :O₂)
 ```
 """
-struct LogRatio <: Transform
+struct LogRatio <: Stateless
   kind::Symbol
   refv::Union{Symbol,Nothing}
 
@@ -42,27 +42,46 @@ function apply(transform::LogRatio, table)
   refv = transform.refv
 
   # permute columns if necessary
-  pvars = if (kind ∈ (:alr, :ilr) && !isnothing(refv) && refv != last(vars))
+  ptable = if (kind ∈ (:alr, :ilr) && !isnothing(refv) && refv != last(vars))
     # sanity check with reference variable
     @assert refv ∈ vars "invalid reference variable"
     ovars = setdiff(vars, (refv,))
-    Tuple([ovars; refv])
+    pvars = [ovars; refv]
+    TableOperations.select(table, pvars...)
   else
-    vars
+    table
   end
-
-  # perform permutation
-  ptable = TableOperations.select(table, pvars...)
 
   # apply transform
   newtable = _lr(kind, ptable)
 
+  # save index to restore later
+  rvar = Tables.columnnames(ptable) |> last
+  rind = indexin([rvar], collect(vars)) |> first
+
   # return new table and cache
-  newtable, nothing
+  newtable, (rvar, rind)
 end
 
 function revert(transform::LogRatio, table, cache)
-  # TODO
+  kind = transform.kind
+
+  # invert the transform
+  otable = _lrinv(kind, table)
+
+  # adjust columns if necessary
+  ocols = Tables.columns(otable)
+  if kind ∈ (:alr, :ilr)
+    rvar, rind = cache
+    vars = Tables.columnnames(table) |> collect
+    oinds = [1:rind-1; length(vars)+1; rind:length(vars)]
+    ovars = [vars[begin:rind-1]; rvar; vars[rind:end]]
+    ovals = [Tables.getcolumn(ocols, i) for i in oinds]
+    𝒯 = (; zip(ovars, ovals)...)
+    𝒯 |> Tables.materializer(table)
+  else
+    otable
+  end
 end
 
 function _lr(kind, table)

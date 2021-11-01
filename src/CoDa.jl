@@ -20,7 +20,7 @@ using Printf
 import Tables
 import ScientificTypes as ST
 import Distances: Metric, result_type
-import TableTransforms: Transform
+import TableTransforms: Stateless
 import TableTransforms: apply, revert
 import Base: +, -, *, /, ==
 import Base: adjoint, inv
