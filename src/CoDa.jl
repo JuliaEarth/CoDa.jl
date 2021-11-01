@@ -20,7 +20,7 @@ using Printf
 import Tables
 import ScientificTypes as ST
 import TableTransforms as TT
-import TableTransforms: Stateless
+import TableTransforms: Transform, Stateless
 import TableTransforms: assertions, isrevertible
 import TableTransforms: apply, revert
 import Distances: Metric, result_type
@@ -51,6 +51,8 @@ export
   Aitchison,
 
   # transforms
+  Closure,
+  Remainder,
   LogRatio,
   ALR, CLR, ILR,
   alr, alrinv,

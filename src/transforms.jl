@@ -2,6 +2,17 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
+# -----------------
+# BASIC TRANSFORMS
+# -----------------
+
+include("transforms/closure.jl")
+include("transforms/remainder.jl")
+
+# ---------------------
+# LOG-RATIO TRANSFORMS
+# ---------------------
+
 """
     LogRatio
 
