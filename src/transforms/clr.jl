@@ -30,7 +30,7 @@ clrinv(x::SVector{D,T}) where {D,T<:Real} =
 # -------
 
 """
-   CLR()
+    CLR()
 
 Centered log-ratio transform following the
 [TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl)

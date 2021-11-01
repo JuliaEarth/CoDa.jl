@@ -29,7 +29,7 @@ alrinv(x::SVector{D,T}) where {D,T<:Real} =
 # -------
 
 """
-   ALR([refvar])
+    ALR([refvar])
 
 Additive log-ratio transform following the
 [TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl)

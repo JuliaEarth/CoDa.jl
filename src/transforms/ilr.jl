@@ -58,7 +58,7 @@ end
 # -------
 
 """
-   ILR([refvar])
+    ILR([refvar])
 
 Isometric log-ratio transform following the
 [TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl)
