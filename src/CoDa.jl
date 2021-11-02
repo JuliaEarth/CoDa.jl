@@ -20,7 +20,7 @@ using Printf
 import Tables
 import ScientificTypes as ST
 import TableTransforms as TT
-import TableTransforms: Transform, Stateless
+import TableTransforms: Transform, Stateless, Reject
 import TableTransforms: assertions, isrevertible
 import TableTransforms: apply, revert, reapply
 import Distances: Metric, result_type
