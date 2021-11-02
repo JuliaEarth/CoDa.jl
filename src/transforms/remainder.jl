@@ -71,7 +71,7 @@ end
 
 function revert(::Remainder, newtable, cache)
   names = Tables.columnnames(newtable)
-  TT.Reject(names[end])(newtable)
+  TT.Reject(last(names))(newtable)
 end
 
 function reapply(transform::Remainder, table, cache)
