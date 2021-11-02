@@ -147,9 +147,9 @@ julia> c == cₒ
 false
 ```
 
-### Transformations
+### Transforms
 
-Currently, the following transformations are implemented:
+Currently, the following transforms are implemented:
 
 ```julia
 julia> alr(c)
@@ -170,6 +170,9 @@ julia> ilr(c)
 ```
 
 and their inverses `alrinv`, `clrinv` and `ilrinv`.
+
+The package also defines transforms for tables following to the
+[TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl) interface, including `Closure`, `Remainder`, `ALR`, `CLR`, `ILR`.
 
 ### Arrays
 
