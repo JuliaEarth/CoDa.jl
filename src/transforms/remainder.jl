@@ -63,11 +63,13 @@ function _apply(transform::Remainder, table, cache)
   newtable, total
 end
 
-apply(transform::Remainder, table) = _apply(transform, table, _cache(transform, table))
+apply(transform::Remainder, table) =
+  _apply(transform, table, _cache(transform, table))
 
 function revert(::Remainder, newtable, cache)
   names = Tables.columnnames(newtable)
   TT.Reject(last(names))(newtable)
 end
 
-reapply(transform::Remainder, table, cache) = _apply(transform, table, cache)
+reapply(transform::Remainder, table, cache) =
+  _apply(transform, table, cache)
