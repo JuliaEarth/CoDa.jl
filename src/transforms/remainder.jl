@@ -14,18 +14,13 @@ struct Remainder <: Transform
   total::Union{Float64,Nothing}
 end
 
-Remainder(total=nothing) = Remainder(total)
+Remainder() = Remainder(nothing)
 
 isrevertible(::Type{Remainder}) = true
 
 assertions(::Type{Remainder}) = [TT.assert_continuous]
 
-function apply(transform::Remainder, table)
-  # basic checks
-  for assertion in assertions(transform)
-    assertion(table)
-  end
-
+function _cache(transform::Remainder, table)
   # design matrix
   X = Tables.matrix(table)
 
@@ -36,47 +31,49 @@ function apply(transform::Remainder, table)
     maximum(sum(X, dims=2))
   end
 
-  # original column names
-  names = Tables.columnnames(table)
-
-  # create a column with the remainder
-  Z = [X (total .- S)]
-
-  # table with the new column
-  names = (names..., :remainder)
-  𝒯 = (; zip(names, eachcol(Z))...)
-  newtable = 𝒯 |> Tables.materializer(table)
-  
-  newtable, total
+  total
 end
 
-function revert(::Remainder, newtable, cache)
-  TT.Reject(:remainder)(newtable)
-end
-
-function reapply(transform::Remainder, table, cache)
+function _apply(transform::Remainder, table, cache)
   # basic checks
   for assertion in assertions(transform)
     assertion(table)
   end
 
-  # retrieve total from cache
+  # design matrix
+  X = Tables.matrix(table)
+
+  # retrieve the total
   total = cache
+
+  # make sure that the total passed is geater than or equal to sums across the rows
+  @assert all(x -> x ≤ total, sum(X, dims=2)) "the sum across rows must be less than total"
 
   # original column names
   names = Tables.columnnames(table)
-
-  # design matrix
-  X = Tables.matrix(table)
 
   # create a column with the remainder
   S = sum(X, dims=2)
   Z = [X (total .- S)]
 
   # table with the new column
-  names = (names..., :remainder)
+  remaindercol = Symbol("total_minus_" * join(string.(names)))
+  names = (names..., remaindercol)
   𝒯 = (; zip(names, eachcol(Z))...)
-
   newtable = 𝒯 |> Tables.materializer(table)
+  
   newtable, total
+end
+
+function apply(transform::Remainder, table)
+  _apply(transform, table, _cache(transform, table))
+end
+
+function revert(::Remainder, newtable, cache)
+  names = Tables.columnnames(newtable)
+  TT.Reject(names[end])(newtable)
+end
+
+function reapply(transform::Remainder, table, cache)
+  _apply(transform, table, cache)
 end
