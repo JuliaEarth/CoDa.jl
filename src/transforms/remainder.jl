@@ -26,7 +26,7 @@ function apply(transform::Remainder, table)
     assertion(table)
   end
 
-  # table as matrix and get the sum acros dims 2
+  # sum for each row
   X = Tables.matrix(table)
   S = sum(X, dims=2)
 
