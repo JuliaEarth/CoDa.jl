@@ -67,13 +67,12 @@ function reapply(transform::Remainder, table, cache)
   # original column names
   names = Tables.columnnames(table)
 
-  # table as matrix and get the sum acros dims 2
+  # design matrix
   X = Tables.matrix(table)
-  S = sum(X, dims=2)
 
-  # create a column with the remainder of each row
-  T = total .- S
-  Z = [X T]
+  # create a column with the remainder
+  S = sum(X, dims=2)
+  Z = [X (total .- S)]
 
   # table with the new column
   names = (names..., :remainder)
