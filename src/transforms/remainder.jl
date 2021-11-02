@@ -70,6 +70,4 @@ function revert(::Remainder, newtable, cache)
   TT.Reject(last(names))(newtable)
 end
 
-function reapply(transform::Remainder, table, cache)
-  _apply(transform, table, cache)
-end
+reapply(transform::Remainder, table, cache) = _apply(transform, table, cache)
