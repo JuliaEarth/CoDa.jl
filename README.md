@@ -173,6 +173,11 @@ and their inverses `alrinv`, `clrinv` and `ilrinv`.
 
 The package also defines transforms for tables following to the
 [TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl) interface, including `Closure`, `Remainder`, `ALR`, `CLR`, `ILR`.
+These transforms are functors and can be applied like the following:
+
+```julia
+julia> table |> ILR()
+```
 
 ### Arrays
 
