@@ -36,4 +36,20 @@
   tcls = revert(Closure(), n, c)
   @test Tables.matrix(n) ≈ [0.2 0.4 0.4; 0.66 0.22 0.12; 0.00 0.02 0.98;]
   @test Tables.matrix(tcls) ≈ Tables.matrix(t)
+
+  # Tests for Remainder
+  t = (a=Float64[2,66,0], b=Float64[4,22,2], c=Float64[4,12,98])
+  n, c = apply(Remainder(), t)
+  trem = revert(Remainder(), n, c)
+  Xt = Tables.matrix(t)
+  Xn = Tables.matrix(n)
+  @test Xn[:, 1:end-1] == Xt
+  @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
+  @test n    |> Tables.columnnames == (:a, :b, :c, :total_minus_abc)
+  @test trem |> Tables.columnnames == (:a, :b, :c)
+
+  t = (a=Float64[1,10,0], b=Float64[1,5,0], c=Float64[4,2,1])
+  n, c = reapply(Remainder(), t, c)
+  Xn = Tables.matrix(n)
+  @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
 end
