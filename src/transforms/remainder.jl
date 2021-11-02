@@ -11,7 +11,7 @@ remainder value `xₙ₊₁ = total .- (x₁ + x₂ + ⋯ + xₙ)` If the `total
 value is not specified, then default to the maximum sum across rows.
 """
 struct Remainder <: Transform
-  total::Union{Nothing, Number}
+  total::Union{Float64,Nothing}
 
   function Remainder(total=nothing)
     new(total)
