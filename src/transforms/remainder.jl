@@ -39,9 +39,8 @@ function apply(transform::Remainder, table)
   # original column names
   names = Tables.columnnames(table)
 
-  # create a column with the remainder of each row
-  T = total .- S
-  Z = hcat(X, T)
+  # create a column with the remainder
+  Z = [X (total .- S)]
 
   # table with the new column
   names = (names..., :remainder)
