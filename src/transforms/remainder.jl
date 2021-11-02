@@ -73,7 +73,7 @@ function reapply(transform::Remainder, table, cache)
 
   # create a column with the remainder of each row
   T = total .- S
-  Z = hcat(X, T)
+  Z = [X T]
 
   # table with the new column
   names = (names..., :remainder)
