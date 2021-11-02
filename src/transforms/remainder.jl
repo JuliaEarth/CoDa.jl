@@ -28,13 +28,12 @@ function apply(transform::Remainder, table)
 
   # design matrix
   X = Tables.matrix(table)
-  S = sum(X, dims=2)
 
-  # infer total when not specified
+  # find total across rows
   total = if !isnothing(transform.total)
     transform.total
   else
-    maximum(S)
+    maximum(sum(X, dims=2))
   end
 
   # original column names
