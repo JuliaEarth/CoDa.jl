@@ -12,11 +12,9 @@ value is not specified, then default to the maximum sum across rows.
 """
 struct Remainder <: Transform
   total::Union{Float64,Nothing}
-
-  function Remainder(total=nothing)
-    new(total)
-  end
 end
+
+Remainder(total=nothing) = Remainder(total)
 
 isrevertible(::Type{Remainder}) = true
 
@@ -30,20 +28,20 @@ function apply(transform::Remainder, table)
 
   # table as matrix and get the sum acros dims 2
   X = Tables.matrix(table)
-  Σ = sum(X, dims=2)
+  S = sum(X, dims=2)
 
   # infer total when not specified
   total = if !isnothing(transform.total)
     transform.total
   else
-    maximum(Σ)
+    maximum(S)
   end
 
   # original column names
   names = Tables.columnnames(table)
 
   # create a column with the remainder of each row
-  T = total .- Σ
+  T = total .- S
   Z = hcat(X, T)
 
   # table with the new column
@@ -72,10 +70,10 @@ function reapply(transform::Remainder, table, cache)
 
   # table as matrix and get the sum acros dims 2
   X = Tables.matrix(table)
-  Σ = sum(X, dims=2)
+  S = sum(X, dims=2)
 
   # create a column with the remainder of each row
-  T = total .- Σ
+  T = total .- S
   Z = hcat(X, T)
 
   # table with the new column

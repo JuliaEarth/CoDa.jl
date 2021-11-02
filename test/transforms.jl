@@ -29,4 +29,17 @@
   tilr = revert(ILR(:b), n, c)
   @test n    |> Tables.columnnames == (:a, :c)
   @test tilr |> Tables.columnnames == (:a, :b, :c)
+
+  # Tests for Remainder
+  t = (a=rand(100), b=rand(100), c=rand(100))
+  n, c = apply(Remainder(), t)
+  trem = revert(Remainder(), n, c)
+  @test Tables.matrix(n)[:, 1:end-1] == Tables.matrix(t)
+  @test all(x -> 0 ≤ x ≤ c, Tables.matrix(n)[:, end])
+  @test n    |> Tables.columnnames == (:a, :b, :c, :remainder)
+  @test trem |> Tables.columnnames == (:a, :b, :c)
+  
+  t = (a=rand(100), b=rand(100), c=rand(100))
+  n, c = reapply(Remainder(), t, c)
+  @test all(x -> 0 ≤ x ≤ c, Tables.matrix(n)[:, end])
 end
