@@ -52,7 +52,7 @@ function apply(transform::Remainder, table)
 end
 
 function revert(::Remainder, newtable, cache)
-  Reject(:remainder)(newtable)
+  TT.Reject(:remainder)(newtable)
 end
 
 function reapply(transform::Remainder, table, cache)
