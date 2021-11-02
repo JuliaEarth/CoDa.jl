@@ -21,11 +21,18 @@ function apply(transform::Closure, table)
     assertion(table)
   end
 
+  # original column names
   names = Tables.columnnames(table)
-  Z = Tables.matrix(table)
-  Σ = sum(Z, dims=2)
-  C = Z ./ Σ
-  𝒯 = (; zip(names, eachcol(C))...)
+
+  # table as matrix and get the sum acros dims 2
+  X = Tables.matrix(table)
+  Σ = sum(X, dims=2)
+
+  # divides each row by its sum (closure operation)
+  Z = X ./ Σ
+
+  # table with the old columns and the new values
+  𝒯 = (; zip(names, eachcol(Z))...)
 
   newtable = 𝒯 |> Tables.materializer(table)
   newtable, Σ
@@ -36,19 +43,19 @@ function revert(::Closure, newtable, cache)
   names = Tables.columnnames(newtable)
 
   # table as matrix
-  C = Tables.matrix(newtable)
+  Z = Tables.matrix(newtable)
 
   # retrieve cache
   Σ = cache
 
   # undo operation
-  Z = C .* Σ
+  X = Z .* Σ
 
   # table with original columns
-  𝒯 = (; zip(names, eachcol(Z))...)
+  𝒯 = (; zip(names, eachcol(X))...)
   𝒯 |> Tables.materializer(newtable)
 end
 
 function reapply(transform::Closure, table, cache)
-  apply(transform, table) # how to reuse cache to a (possibly different) table ?
+  apply(transform, table) # how to reuse cache (column of sum) to a (possibly different) table ?
 end
