@@ -44,8 +44,8 @@ function _apply(transform::Remainder, table, cache)
   # retrieve the total
   total = cache
 
-  # make sure that the total passed is geater than or equal to sums across the rows
-  @assert all(x -> x ≤ total, sum(X, dims=2)) "the sum across rows must be less than total"
+  # make sure that the total is valid
+  @assert all(x -> x ≤ total, sum(X, dims=2)) "the sum for each row must be less than total"
 
   # original column names
   names = Tables.columnnames(table)
