@@ -25,13 +25,11 @@ function _cache(transform::Remainder, table)
   X = Tables.matrix(table)
 
   # find total across rows
-  total = if !isnothing(transform.total)
+  if !isnothing(transform.total)
     transform.total
   else
     maximum(sum(X, dims=2))
   end
-
-  total
 end
 
 function _apply(transform::Remainder, table, cache)
