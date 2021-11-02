@@ -57,8 +57,8 @@ function _apply(transform::Remainder, table, cache)
   Z = [X (total .- S)]
 
   # table with the new column
-  remaindercol = Symbol("total_minus_" * join(string.(names)))
-  names = (names..., remaindercol)
+  rname = Symbol("total_minus_" * join(string.(names)))
+  names = (names..., rname)
   𝒯 = (; zip(names, eachcol(Z))...)
   newtable = 𝒯 |> Tables.materializer(table)
   
