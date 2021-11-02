@@ -63,9 +63,7 @@ function _apply(transform::Remainder, table, cache)
   newtable, total
 end
 
-function apply(transform::Remainder, table)
-  _apply(transform, table, _cache(transform, table))
-end
+apply(transform::Remainder, table) = _apply(transform, table, _cache(transform, table))
 
 function revert(::Remainder, newtable, cache)
   names = Tables.columnnames(newtable)
