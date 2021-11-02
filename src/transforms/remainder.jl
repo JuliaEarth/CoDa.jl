@@ -26,7 +26,7 @@ function apply(transform::Remainder, table)
     assertion(table)
   end
 
-  # sum for each row
+  # design matrix
   X = Tables.matrix(table)
   S = sum(X, dims=2)
 
