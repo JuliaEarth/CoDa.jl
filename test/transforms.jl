@@ -50,5 +50,6 @@
 
   t = (a=Float64[1,10,0], b=Float64[1,5,0], c=Float64[4,2,1])
   n, c = reapply(Remainder(), t, c)
-  @test all(x -> 0 ≤ x ≤ c, Tables.matrix(n)[:, end])
+  Xn = Tables.matrix(n)
+  @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
 end
