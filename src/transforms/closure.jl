@@ -26,16 +26,16 @@ function apply(transform::Closure, table)
 
   # table as matrix and get the sum acros dims 2
   X = Tables.matrix(table)
-  Σ = sum(X, dims=2)
+  S = sum(X, dims=2)
 
   # divides each row by its sum (closure operation)
-  Z = X ./ Σ
+  Z = X ./ S
 
   # table with the old columns and the new values
   𝒯 = (; zip(names, eachcol(Z))...)
-
   newtable = 𝒯 |> Tables.materializer(table)
-  newtable, Σ
+  
+  newtable, S
 end
 
 function revert(::Closure, newtable, cache)
