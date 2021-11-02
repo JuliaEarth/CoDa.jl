@@ -29,4 +29,11 @@
   tilr = revert(ILR(:b), n, c)
   @test n    |> Tables.columnnames == (:a, :c)
   @test tilr |> Tables.columnnames == (:a, :b, :c)
+
+  # Tests for Closure
+  t = (a=Float64[2,66,0], b=Float64[4,22,2], c=Float64[4,12,98])
+  n, c = apply(Closure(), t)
+  tcls = revert(Closure(), n, c)
+  @test Tables.matrix(n) ≈ [0.2 0.4 0.4; 0.66 0.22 0.12; 0.00 0.02 0.98;]
+  @test Tables.matrix(tcls) ≈ Tables.matrix(t)
 end
