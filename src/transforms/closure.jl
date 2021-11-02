@@ -46,10 +46,10 @@ function revert(::Closure, newtable, cache)
   Z = Tables.matrix(newtable)
 
   # retrieve cache
-  Σ = cache
+  S = cache
 
   # undo operation
-  X = Z .* Σ
+  X = Z .* S
 
   # table with original columns
   𝒯 = (; zip(names, eachcol(X))...)
