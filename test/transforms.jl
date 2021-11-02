@@ -41,8 +41,10 @@
   t = (a=Float64[2,66,0], b=Float64[4,22,2], c=Float64[4,12,98])
   n, c = apply(Remainder(), t)
   trem = revert(Remainder(), n, c)
-  @test Tables.matrix(n)[:, 1:end-1] == Tables.matrix(t)
-  @test all(x -> 0 ≤ x ≤ c, Tables.matrix(n)[:, end])
+  Xt = Tables.matrix(t)
+  Xn = Tables.matrix(n)
+  @test Xn[:, 1:end-1] == Xt
+  @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
   @test n    |> Tables.columnnames == (:a, :b, :c, :total_minus_abc)
   @test trem |> Tables.columnnames == (:a, :b, :c)
 
