@@ -9,7 +9,7 @@ The transform that applies the closure operation 𝒞
 to all rows of the input table. The rows of the
 output table sum to one.
 """
-struct Closure <: Transform end
+struct Closure <: Stateless end
 
 isrevertible(::Type{Closure}) = true
 
@@ -54,8 +54,4 @@ function revert(::Closure, newtable, cache)
   # table with original columns
   𝒯 = (; zip(names, eachcol(X))...)
   𝒯 |> Tables.materializer(newtable)
-end
-
-function reapply(transform::Closure, table, cache)
-  apply(transform, table) # how to reuse cache (column of sum) to a (possibly different) table ?
 end
