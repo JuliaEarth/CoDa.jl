@@ -45,8 +45,8 @@ function apply(transform::Remainder, table)
   # table with the new column
   names = (names..., :remainder)
   𝒯 = (; zip(names, eachcol(Z))...)
-
   newtable = 𝒯 |> Tables.materializer(table)
+  
   newtable, total
 end
 
