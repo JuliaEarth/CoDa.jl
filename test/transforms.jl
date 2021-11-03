@@ -45,11 +45,15 @@
   Xn = Tables.matrix(n)
   @test Xn[:, 1:end-1] == Xt
   @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
-  @test n    |> Tables.columnnames == (:a, :b, :c, :total_minus_abc)
+  @test n    |> Tables.columnnames == (:a, :b, :c, :remainder)
   @test trem |> Tables.columnnames == (:a, :b, :c)
 
   t = (a=Float64[1,10,0], b=Float64[1,5,0], c=Float64[4,2,1])
   n, c = reapply(Remainder(), t, c)
   Xn = Tables.matrix(n)
   @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
+
+  t = (a=Float64[1,10,0], b=Float64[1,5,0], remainder=Float64[4,2,1])
+  names = t |> Remainder() |> Tables.columnnames
+  @test names == (:a, :b, :remainder, :remainder_)
 end

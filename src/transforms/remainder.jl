@@ -54,9 +54,14 @@ function _apply(transform::Remainder, table, cache)
   S = sum(X, dims=2)
   Z = [X (total .- S)]
 
-  # table with the new column
-  rname = Symbol("total_minus_", join(string.(names)))
+  # create new column name
+  rname = :remainder
+  while rname ∈ names
+    rname = Symbol(rname,:_)
+  end
   names = (names..., rname)
+
+  # table with new column
   𝒯 = (; zip(names, eachcol(Z))...)
   newtable = 𝒯 |> Tables.materializer(table)
 
