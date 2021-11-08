@@ -9,7 +9,7 @@
   end
 
   # TableTransform.jl API
-  t = (a=Float64[1,0,1], b=Float64[2,2,2], c=Float64[3,3,0])
+  t = (a=[1.,0.,1.], b=[2.,2.,2.], c=[3.,3.,0.])
   n, c = apply(ALR(), t)
   talr = revert(ALR(), n, c)
   n, c = apply(CLR(), t)
@@ -31,14 +31,14 @@
   @test tilr |> Tables.columnnames == (:a, :b, :c)
 
   # Tests for Closure
-  t = (a=Float64[2,66,0], b=Float64[4,22,2], c=Float64[4,12,98])
+  t = (a=[2.,66.,0.], b=[4.,22.,2.], c=[4.,12.,98.])
   n, c = apply(Closure(), t)
   tcls = revert(Closure(), n, c)
   @test Tables.matrix(n) ≈ [0.2 0.4 0.4; 0.66 0.22 0.12; 0.00 0.02 0.98;]
   @test Tables.matrix(tcls) ≈ Tables.matrix(t)
 
   # Tests for Remainder
-  t = (a=Float64[2,66,0], b=Float64[4,22,2], c=Float64[4,12,98])
+  t = (a=[2.,66.,0.], b=[4.,22.,2.], c=[4.,12.,98.])
   n, c = apply(Remainder(), t)
   trem = revert(Remainder(), n, c)
   Xt = Tables.matrix(t)
@@ -48,12 +48,17 @@
   @test n    |> Tables.columnnames == (:a, :b, :c, :remainder)
   @test trem |> Tables.columnnames == (:a, :b, :c)
 
-  t = (a=Float64[1,10,0], b=Float64[1,5,0], c=Float64[4,2,1])
-  n, c = reapply(Remainder(), t, c)
+  t = (a=[1.,10.,0.], b=[1.,5.,0.], c=[4.,2.,1.])
+  n = reapply(Remainder(), t, c)
   Xn = Tables.matrix(n)
   @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
 
-  t = (a=Float64[1,10,0], b=Float64[1,5,0], remainder=Float64[4,2,1])
+  t = (a=[1.,10.,0.], b=[1.,5.,0.], remainder=[4.,2.,1.])
   names = t |> Remainder() |> Tables.columnnames
   @test names == (:a, :b, :remainder, :remainder_)
+
+  t = (a=[1.,10.,0.], b=[1.,5.,0.], remainder=[4.,2.,1.])
+  n1, c1 = apply(Remainder(), t)
+  n2 = reapply(Remainder(), t, c1)
+  @test n1 == n2
 end

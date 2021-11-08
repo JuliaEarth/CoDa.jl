@@ -77,4 +77,4 @@ function revert(::Remainder, newtable, cache)
 end
 
 reapply(transform::Remainder, table, cache) =
-  _apply(transform, table, cache)
+  _apply(transform, table, cache) |> first
