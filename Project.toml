@@ -1,7 +1,7 @@
 name = "CoDa"
 uuid = "5900dafe-f573-5c72-b367-76665857777b"
 author = "Júlio Hoffimann <julio.hoffimann@gmail.com>"
-version = "0.8.4"
+version = "0.8.5"
 
 [deps]
 AxisArrays = "39de3d68-74b9-583c-8d2d-e117c070f3a9"
