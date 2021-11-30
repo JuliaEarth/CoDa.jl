@@ -60,4 +60,11 @@
   w = components(c)
   @test all(w .≥ 0)
   @test sum(w) ≈ 1
+
+  if visualtests
+    c1 = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
+    c2 = Composition(CO₂=1.0, CH₄=missing, N₂O=0.1)
+    @test_reference "data/composition1.png" plot(c1)
+    @test_reference "data/composition2.png" plot(c2)
+  end
 end

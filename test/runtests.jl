@@ -7,16 +7,19 @@ using Distances
 using ScientificTypes
 using TableTransforms
 using LinearAlgebra
-using Test
+using Test, Random, Plots
+using ReferenceTests, ImageIO
+
+# workaround for GR warnings
+ENV["GKSwstype"] = "100"
 
 # accept downloads without interaction
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 
 # environment settings
+isCI = "CI" ∈ keys(ENV)
 islinux = Sys.islinux()
-istravis = "TRAVIS" ∈ keys(ENV)
-isappveyor = "APPVEYOR" ∈ keys(ENV)
-isCI = istravis || isappveyor
+visualtests = !isCI || (isCI && islinux)
 datadir = joinpath(@__DIR__,"data")
 
 # download and setup data dependencies
