@@ -26,6 +26,7 @@ import TableTransforms: apply, revert, reapply
 import Distances: Metric, result_type
 import Base: +, -, *, /, ==
 import Base: adjoint, inv
+import Statistics: mean, var, std
 import LinearAlgebra: norm, ⋅
 import Random: rand
 
@@ -47,6 +48,7 @@ export
   Composition,
   parts, components,
   distance, norm, ⋅,
+  mean, var, std,
 
   # arrays
   CoDaArray,

@@ -61,6 +61,11 @@
   @test all(w .≥ 0)
   @test sum(w) ≈ 1
 
+  c = fill(Composition(0.1,0.2,0.7), 100000)
+  @test mean(c) == first(c)
+  @test isapprox(var(c), 0, atol=1e-6)
+  @test isapprox(std(c), 0, atol=1e-3)
+
   if visualtests
     c1 = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
     c2 = Composition(CO₂=1.0, CH₄=missing, N₂O=0.1)
