@@ -104,7 +104,7 @@ end
 
 function var(cs::AbstractArray{<:Composition{D}}; mean=nothing) where {D}
   μ = isnothing(mean) ? Statistics.mean(cs) : mean
-  sum(distance(c, μ) for c in cs)
+  sum(distance(c, μ)^2 for c in cs)
 end
 
 function std(cs::AbstractArray{<:Composition{D}}; mean=nothing) where {D}
