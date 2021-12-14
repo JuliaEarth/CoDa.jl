@@ -37,6 +37,14 @@
   @test parts(c - c) == parts(c)
   @test parts(2c) == parts(c)
 
+  # identity for addition
+  c = zero(Composition(1,2,3))
+  @test parts(c) == (:w1,:w2,:w3)
+  @test components(c) == [1/3, 1/3, 1/3]
+  c = zero(Composition{3,(:a,:b,:c)})
+  @test parts(c) == (:a,:b,:c)
+  @test components(c) == [1/3, 1/3, 1/3]
+
   # unicode names work fine
   c = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
   @test c.CO₂ == 1.0

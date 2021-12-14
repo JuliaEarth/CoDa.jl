@@ -59,7 +59,8 @@ Composition(comp::Real, comps...) = Composition((comp, comps...))
 
 Parts in the composition `c`.
 """
-parts(::Composition{D,PARTS}) where {D,PARTS} = PARTS
+parts(c::Composition) = parts(typeof(c))
+parts(::Type{Composition{D,PARTS}}) where {D,PARTS} = PARTS
 
 """
     components(c)
@@ -84,6 +85,9 @@ Base.getproperty(c::Composition, p::Symbol) = getproperty(getfield(c, :data), p)
 *(λ::Real, c::Composition) = Composition(parts(c), 𝓒(components(c).^λ))
 
 /(c::Composition, λ::Real) = inv(λ) * c
+
+zero(c::Composition) = zero(typeof(c))
+zero(T::Type{<:Composition{D}}) where {D} = Composition(parts(T), ntuple(i->1/D, D))
 
 ==(c₁::Composition, c₂::Composition) =
   parts(c₁) == parts(c₂) && 𝓒(components(c₁)) ≈ 𝓒(components(c₂))
