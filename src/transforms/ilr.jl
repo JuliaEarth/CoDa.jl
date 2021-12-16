@@ -50,7 +50,7 @@ function ilrinv(x::SVector{D,T}) where {D,T<:Real}
     end
     z[i] = exp(s)
   end
-  Composition(𝓒(z))
+  Composition(𝒞(z))
 end
 
 # -------

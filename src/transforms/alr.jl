@@ -22,7 +22,7 @@ end
 Inverse alr transformation of coordinates `x`.
 """
 alrinv(x::SVector{D,T}) where {D,T<:Real} =
-  Composition(𝓒([exp.(x); SVector(one(T))]))
+  Composition(𝒞([exp.(x); SVector(one(T))]))
 
 # -------
 # TABLES
@@ -58,5 +58,5 @@ end
 
 function revertmatrix(::ALR, Y)
   E = [exp.(Y) ones(size(Y,1))]
-  mapslices(𝓒, E, dims=2)
+  mapslices(𝒞, E, dims=2)
 end

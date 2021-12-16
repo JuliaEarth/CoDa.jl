@@ -14,6 +14,9 @@
     @test components(c) == [1,2]
   end
 
+  # closure operation
+  @test 𝒞([1,2,3]) ≈ [1/6, 2/6, 3/6]
+
   # equality
   c₀ = Composition(1,1,1)
   c₁ = Composition(1,2,3)

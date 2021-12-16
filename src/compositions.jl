@@ -3,11 +3,11 @@
 # ------------------------------------------------------------------
 
 """
-    𝓒(x)
+    𝒞(x)
 
 Return closure of `x`.
 """
-𝓒(x) = x ./ sum(x)
+𝒞(x) = x ./ sum(x)
 
 """
     Composition(partscomps)
@@ -76,13 +76,13 @@ Base.getproperty(c::Composition, p::Symbol) = getproperty(getfield(c, :data), p)
 # -------------
 
 +(c₁::Composition{D,PARTS}, c₂::Composition{D,PARTS}) where {D,PARTS} =
-  Composition(PARTS, 𝓒(components(c₁) .* components(c₂)))
+  Composition(PARTS, 𝒞(components(c₁) .* components(c₂)))
 
--(c::Composition) = Composition(parts(c), 𝓒(1 ./ components(c)))
+-(c::Composition) = Composition(parts(c), 𝒞(1 ./ components(c)))
 
 -(c₁::Composition, c₂::Composition) = c₁ + -c₂
 
-*(λ::Real, c::Composition) = Composition(parts(c), 𝓒(components(c).^λ))
+*(λ::Real, c::Composition) = Composition(parts(c), 𝒞(components(c).^λ))
 
 /(c::Composition, λ::Real) = inv(λ) * c
 
@@ -90,7 +90,7 @@ zero(c::Composition) = zero(typeof(c))
 zero(T::Type{<:Composition{D}}) where {D} = Composition(parts(T), ntuple(i->1/D, D))
 
 ==(c₁::Composition, c₂::Composition) =
-  parts(c₁) == parts(c₂) && 𝓒(components(c₁)) ≈ 𝓒(components(c₂))
+  parts(c₁) == parts(c₂) && 𝒞(components(c₁)) ≈ 𝒞(components(c₂))
 
 ⋅(c₁::Composition{D}, c₂::Composition{D}) where {D} = begin
   x, y = components(c₁), components(c₂)

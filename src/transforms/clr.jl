@@ -23,7 +23,7 @@ end
 Inverse clr transformation of coordinates `x`.
 """
 clrinv(x::SVector{D,T}) where {D,T<:Real} =
-  Composition(𝓒(exp.(x)))
+  Composition(𝒞(exp.(x)))
 
 # -------
 # TABLES
@@ -53,5 +53,5 @@ end
 
 function revertmatrix(::CLR, Y)
   E = exp.(Y)
-  mapslices(𝓒, E, dims=2)
+  mapslices(𝒞, E, dims=2)
 end

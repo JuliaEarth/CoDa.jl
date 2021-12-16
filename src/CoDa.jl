@@ -46,7 +46,7 @@ include("plotrecipes/compositions.jl")
 export
   # compositions
   Composition,
-  parts, components,
+  parts, components, 𝒞,
   norm, ⋅, mean, var, std,
 
   # arrays
