@@ -3,8 +3,8 @@
   c = rand(Composition{5}, 100)
 
   # test with compositions
-  @test d(c[1], c[2]) ≈ distance(c[1], c[2])
-  @test pairwise(d, c) ≈ [distance(c[i], c[j]) for i in 1:100, j in 1:100]
+  @test d(c[1], c[2]) ≈ aitchison(c[1], c[2])
+  @test pairwise(d, c) ≈ [aitchison(c[i], c[j]) for i in 1:100, j in 1:100]
 
   # test with raw vectors
   x, y = rand(3), rand(3)

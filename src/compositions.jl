@@ -99,8 +99,6 @@ end
 
 norm(c::Composition) = √(c⋅c)
 
-distance(c₁::Composition, c₂::Composition) = norm(c₁ - c₂)
-
 function mean(cs::AbstractArray{<:Composition{D}}) where {D}
   k = 1 / length(cs)
   sum(k*c for c in cs)
@@ -108,7 +106,7 @@ end
 
 function var(cs::AbstractArray{<:Composition{D}}; mean=nothing) where {D}
   μ = isnothing(mean) ? Statistics.mean(cs) : mean
-  sum(distance(c, μ)^2 for c in cs)
+  sum(aitchison(c, μ)^2 for c in cs)
 end
 
 function std(cs::AbstractArray{<:Composition{D}}; mean=nothing) where {D}

@@ -21,7 +21,7 @@
   @test c₁ == c₂
   @test c₁ - c₂ == c₀
   @test norm(c₀) ≈ 0.
-  @test isapprox(distance(c₁, c₁), 0., atol=1e-6)
+  @test isapprox(aitchison(c₁, c₁), 0., atol=1e-6)
 
   # scalar multiplication
   c = Composition(1,2,3)

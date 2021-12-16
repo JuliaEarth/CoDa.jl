@@ -47,8 +47,7 @@ export
   # compositions
   Composition,
   parts, components,
-  distance, norm, ⋅,
-  mean, var, std,
+  norm, ⋅, mean, var, std,
 
   # arrays
   CoDaArray,
@@ -56,6 +55,7 @@ export
 
   # distances
   Aitchison,
+  aitchison,
 
   # transforms
   Closure,

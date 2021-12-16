@@ -123,7 +123,7 @@ julia> c ⋅ cₒ
 julia> norm(c)
 2.1432393747688687
 
-julia> distance(c, cₒ)
+julia> aitchison(c, cₒ) # Aitchison distance
 0.7856640352007868
 ```
 
