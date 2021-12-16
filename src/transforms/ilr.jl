@@ -36,10 +36,10 @@ end
 
 Inverse ilr transformation of coordinates `x`.
 """
-function ilrinv(x::SVector{D,T}) where {D,T<:Real}
-  z = MVector(ntuple(i->zero(T), D+1))
+function ilrinv(x::SVector{D}) where {D}
+  z = MVector(ntuple(i->0.0, D+1))
   for i in 1:D+1
-    s = zero(T)
+    s = 0.0
     for j in 1:D
       sqrtinv = 1/sqrt(j*(j+1))
       if i < j+1
@@ -52,6 +52,8 @@ function ilrinv(x::SVector{D,T}) where {D,T<:Real}
   end
   Composition(𝒞(z))
 end
+
+ilrinv(x::AbstractVector) = ilrinv(SVector{length(x)}(x))
 
 # -------
 # TABLES

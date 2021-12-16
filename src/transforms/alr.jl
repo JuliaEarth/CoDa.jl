@@ -24,6 +24,8 @@ Inverse alr transformation of coordinates `x`.
 alrinv(x::SVector{D,T}) where {D,T<:Real} =
   Composition(𝒞([exp.(x); SVector(one(T))]))
 
+alrinv(x::AbstractVector) = alrinv(SVector{length(x)}(x))
+
 # -------
 # TABLES
 # -------

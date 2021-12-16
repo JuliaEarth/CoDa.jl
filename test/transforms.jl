@@ -8,6 +8,11 @@
     @test ilrinv(ilr(c)) == c
   end
 
+  # convenience methods for heap-allocated vectors
+  @test alrinv([1,2,3]) isa Composition{4}
+  @test clrinv([1,2,3]) isa Composition{3}
+  @test ilrinv([1,2,3]) isa Composition{4}
+
   # TableTransform.jl API
   t = (a=[1.,0.,1.], b=[2.,2.,2.], c=[3.,3.,0.])
   n, c = apply(ALR(), t)
