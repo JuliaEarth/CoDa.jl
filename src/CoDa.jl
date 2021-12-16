@@ -46,8 +46,10 @@ include("plotrecipes/compositions.jl")
 export
   # compositions
   Composition,
-  parts, components, 𝒞,
-  norm, ⋅, mean, var, std,
+  parts, components,
+  norm, ⋅,
+  smooth, 𝒞,
+  mean, var, std,
 
   # arrays
   CoDaArray,

@@ -3,13 +3,6 @@
 # ------------------------------------------------------------------
 
 """
-    𝒞(x)
-
-Return closure of `x`.
-"""
-𝒞(x) = x ./ sum(x)
-
-"""
     Composition(partscomps)
     Composition(parts, comps)
     Composition(part₁=comp₁, part₂=part₂, ...)
@@ -98,6 +91,30 @@ zero(T::Type{<:Composition{D}}) where {D} = Composition(parts(T), ntuple(i->1/D,
 end
 
 norm(c::Composition) = √(c⋅c)
+
+# ----------
+# UTILITIES
+# ----------
+
+"""
+    smooth(c, τ)
+
+Add small value `τ` to all components of composition `c`
+in order to remove essential zeros.
+"""
+smooth(c::Composition{D}, τ::Real) where {D} =
+  Composition(parts(c), 𝒞(components(c) .+ τ))
+
+"""
+    𝒞(x)
+
+Return closure of `x`.
+"""
+𝒞(x) = x ./ sum(x)
+
+# ----------------
+# SPECIALIZATIONS
+# ----------------
 
 function mean(cs::AbstractArray{<:Composition{D}}) where {D}
   k = 1 / length(cs)
