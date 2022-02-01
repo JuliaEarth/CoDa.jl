@@ -11,11 +11,7 @@
   </a>
 </p>
 
-This package is inspired by the R [compositions](https://cran.r-project.org/web/packages/compositions/index.html)
-package for compositional data analysis. Currently, only **parts of the total** features
-are implemented. Contributions are very welcome.
-
-CoDa.jl defines a `Composition{D}` type representing a D-part composition as defined by
+This package defines a `Composition{D}` type representing a D-part composition as defined by
 [Aitchison 1986](https://www.jstor.org/stable/pdf/2345821.pdf). In Aitchison's geometry,
 the D-simplex together with addition (a.k.a. pertubation) and scalar multiplication
 (a.k.a. scaling) form a vector space, and important properties hold:
