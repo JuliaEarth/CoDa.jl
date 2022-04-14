@@ -5,7 +5,7 @@
 module CoDa
 
 using Tables
-using TableOperations
+using TableTransforms
 using Distributions
 using StatsBase
 using StaticArrays
@@ -19,7 +19,6 @@ using Printf
 
 import Tables
 import ScientificTypes as ST
-import TableTransforms as TT
 import TableTransforms: Transform, Stateless
 import TableTransforms: assertions, isrevertible
 import TableTransforms: apply, revert, reapply

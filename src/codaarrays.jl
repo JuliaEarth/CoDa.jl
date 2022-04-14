@@ -12,9 +12,9 @@ struct CoDaArray{D,PARTS} <: AbstractVector{Composition{D,PARTS}}
 end
 
 function CoDaArray(table)
-  parts = Tables.columnnames(table)
+  PARTS = Tables.columnnames(table)
   data  = Tables.matrix(table, transpose=true)
-  CoDaArray{length(parts),parts}(data)
+  CoDaArray{length(PARTS),Tuple(PARTS)}(data)
 end
 
 Base.getindex(array::CoDaArray{D,PARTS}, ind) where {D,PARTS} =
@@ -51,14 +51,12 @@ a column in a new table with all other columns preserved.
 function compose(table, cols=Tables.columnnames(table);
                  keepcols=true, as=:coda)
   # construct compositional array from selected columns
-  csel = TableOperations.select(table, cols...)
-  ctab = Tables.columntable(csel) # see https://github.com/JuliaData/TableOperations.jl/issues/25
-  coda = CoDaArray(ctab)
+  coda = table |> Select(cols) |> CoDaArray
 
   # different types of return
   if keepcols
     other = setdiff(Tables.columnnames(table), cols)
-    osel  = TableOperations.select(table, other...)
+    osel  = table |> Select(other)
     ocol  = [o => Tables.getcolumn(osel, o) for o in other]
     # preserve input table type
     𝒯 = Tables.materializer(table)

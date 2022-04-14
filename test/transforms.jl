@@ -27,13 +27,13 @@
 
   n, c = apply(ALR(:b), t)
   talr = revert(ALR(:b), n, c)
-  @test n    |> Tables.columnnames == (:a, :c)
-  @test talr |> Tables.columnnames == (:a, :b, :c)
+  @test n    |> Tables.columnnames |> collect == [:a, :c]
+  @test talr |> Tables.columnnames |> collect == [:a, :b, :c]
 
   n, c = apply(ILR(:b), t)
   tilr = revert(ILR(:b), n, c)
-  @test n    |> Tables.columnnames == (:a, :c)
-  @test tilr |> Tables.columnnames == (:a, :b, :c)
+  @test n    |> Tables.columnnames |> collect == [:a, :c]
+  @test tilr |> Tables.columnnames |> collect == [:a, :b, :c]
 
   # Tests for Closure
   t = (a=[2.,66.,0.], b=[4.,22.,2.], c=[4.,12.,98.])
@@ -50,8 +50,8 @@
   Xn = Tables.matrix(n)
   @test Xn[:, 1:end-1] == Xt
   @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
-  @test n    |> Tables.columnnames == (:a, :b, :c, :remainder)
-  @test trem |> Tables.columnnames == (:a, :b, :c)
+  @test n    |> Tables.columnnames |> collect == [:a, :b, :c, :remainder]
+  @test trem |> Tables.columnnames |> collect == [:a, :b, :c]
 
   t = (a=[1.,10.,0.], b=[1.,5.,0.], c=[4.,2.,1.])
   n = reapply(Remainder(), t, c)
@@ -59,8 +59,8 @@
   @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
 
   t = (a=[1.,10.,0.], b=[1.,5.,0.], remainder=[4.,2.,1.])
-  names = t |> Remainder() |> Tables.columnnames
-  @test names == (:a, :b, :remainder, :remainder_)
+  names = t |> Remainder() |> Tables.columnnames |> collect 
+  @test names == [:a, :b, :remainder, :remainder_]
 
   t = (a=[1.,10.,0.], b=[1.,5.,0.], remainder=[4.,2.,1.])
   n1, c1 = apply(Remainder(), t)

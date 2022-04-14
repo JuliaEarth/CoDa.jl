@@ -13,7 +13,7 @@ struct Closure <: Stateless end
 
 isrevertible(::Type{Closure}) = true
 
-assertions(::Type{Closure}) = [TT.assert_continuous]
+assertions(::Type{Closure}) = [TableTransforms.assert_continuous]
 
 function apply(transform::Closure, table)
   # basic checks

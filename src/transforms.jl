@@ -24,7 +24,7 @@ See also [`ALR`](@ref), [`CLR`](@ref), [`ILR`](@ref).
 """
 abstract type LogRatio <: Stateless end
 
-assertions(::Type{<:LogRatio}) = [TT.assert_continuous]
+assertions(::Type{<:LogRatio}) = [TableTransforms.assert_continuous]
 
 isrevertible(::Type{<:LogRatio}) = true
 
@@ -45,7 +45,7 @@ function apply(transform::LogRatio, table)
   # permute columns if necessary
   ovars  = setdiff(vars, (rvar,))
   pvars  = [ovars; rvar]
-  ptable = TableOperations.select(table, pvars...)
+  ptable = table |> Select(pvars)
 
   # transformation
   X = Tables.matrix(ptable)

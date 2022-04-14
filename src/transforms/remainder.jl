@@ -18,7 +18,7 @@ Remainder() = Remainder(nothing)
 
 isrevertible(::Type{Remainder}) = true
 
-assertions(::Type{Remainder}) = [TT.assert_continuous]
+assertions(::Type{Remainder}) = [TableTransforms.assert_continuous]
 
 function _cache(transform::Remainder, table)
   # design matrix
@@ -73,7 +73,7 @@ apply(transform::Remainder, table) =
 
 function revert(::Remainder, newtable, cache)
   names = Tables.columnnames(newtable)
-  TT.Reject(last(names))(newtable)
+  Reject(last(names))(newtable)
 end
 
 reapply(transform::Remainder, table, cache) =
