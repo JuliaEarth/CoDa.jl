@@ -29,8 +29,6 @@ import Statistics: mean, var, std
 import LinearAlgebra: norm, ⋅
 import Random: rand
 
-using RecipesBase
-
 include("compositions.jl")
 include("codaarrays.jl")
 include("scitypes.jl")
@@ -38,9 +36,6 @@ include("distances.jl")
 include("transforms.jl")
 include("covariances.jl")
 include("matrices.jl")
-
-# plot recipes
-include("plotrecipes/compositions.jl")
 
 export
   # compositions
