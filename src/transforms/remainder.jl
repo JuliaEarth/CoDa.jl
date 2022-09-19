@@ -21,14 +21,13 @@ isrevertible(::Type{Remainder}) = true
 assertions(::Type{Remainder}) = [TableTransforms.assert_continuous]
 
 function preprocess(transform::Remainder, table)
-  # design matrix
-  X = Tables.matrix(table)
-
   # find total across rows
-  if !isnothing(transform.total)
-    transform.total
-  else
+  if isnothing(transform.total)
+    feat, meta = TableTransforms.divide(table)
+    X = Tables.matrix(feat)
     maximum(sum(X, dims=2))
+  else
+    transform.total
   end
 end
 
