@@ -44,19 +44,20 @@
 
   # Tests for Remainder
   t = (a=[2.,66.,0.], b=[4.,22.,2.], c=[4.,12.,98.])
-  n, c = apply(Remainder(), t)
-  trem = revert(Remainder(), n, c)
-  Xt = Tables.matrix(t)
-  Xn = Tables.matrix(n)
+  n, c  = apply(Remainder(), t)
+  total = first(c)
+  trem  = revert(Remainder(), n, c)
+  Xt    = Tables.matrix(t)
+  Xn    = Tables.matrix(n)
   @test Xn[:, 1:end-1] == Xt
-  @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
+  @test all(x -> 0 ≤ x ≤ total, Xn[:, end])
   @test n    |> Tables.columnnames |> collect == [:a, :b, :c, :remainder]
   @test trem |> Tables.columnnames |> collect == [:a, :b, :c]
 
   t = (a=[1.,10.,0.], b=[1.,5.,0.], c=[4.,2.,1.])
   n = reapply(Remainder(), t, c)
   Xn = Tables.matrix(n)
-  @test all(x -> 0 ≤ x ≤ c, Xn[:, end])
+  @test all(x -> 0 ≤ x ≤ total, Xn[:, end])
 
   t = (a=[1.,10.,0.], b=[1.,5.,0.], remainder=[4.,2.,1.])
   names = t |> Remainder() |> Tables.columnnames |> collect 

@@ -20,7 +20,7 @@ isrevertible(::Type{Remainder}) = true
 
 assertions(::Type{Remainder}) = [TableTransforms.assert_continuous]
 
-function _cache(transform::Remainder, table)
+function preprocess(transform::Remainder, table)
   # design matrix
   X = Tables.matrix(table)
 
@@ -32,7 +32,7 @@ function _cache(transform::Remainder, table)
   end
 end
 
-function _apply(transform::Remainder, table, cache)
+function applyfeat(transform::Remainder, table, prep)
   # basic checks
   for assertion in assertions(transform)
     assertion(table)
@@ -42,7 +42,7 @@ function _apply(transform::Remainder, table, cache)
   X = Tables.matrix(table)
 
   # retrieve the total
-  total = cache
+  total = prep
 
   # make sure that the total is valid
   @assert all(x -> x ≤ total, sum(X, dims=2)) "the sum for each row must be less than total"
@@ -68,13 +68,10 @@ function _apply(transform::Remainder, table, cache)
   newtable, total
 end
 
-apply(transform::Remainder, table) =
-  _apply(transform, table, _cache(transform, table))
-
-function revert(::Remainder, newtable, cache)
+function revertfeat(::Remainder, newtable, fcache)
   names = Tables.columnnames(newtable)
   Reject(last(names))(newtable)
 end
 
 reapply(transform::Remainder, table, cache) =
-  _apply(transform, table, cache) |> first
+  applyfeat(transform, table, first(cache)) |> first

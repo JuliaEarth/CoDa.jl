@@ -21,7 +21,8 @@ import Tables
 import ScientificTypes as ST
 import TableTransforms: Transform, Stateless
 import TableTransforms: assertions, isrevertible
-import TableTransforms: apply, revert, reapply
+import TableTransforms: applyfeat, revertfeat
+import TableTransforms: preprocess, reapply
 import Distances: Metric, result_type
 import Base: +, -, *, /, ==
 import Base: zero, adjoint, inv

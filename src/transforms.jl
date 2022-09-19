@@ -28,7 +28,7 @@ assertions(::Type{<:LogRatio}) = [TableTransforms.assert_continuous]
 
 isrevertible(::Type{<:LogRatio}) = true
 
-function apply(transform::LogRatio, table)
+function applyfeat(transform::LogRatio, table, prep)
   # basic checks
   for assertion in assertions(transform)
     assertion(table)
@@ -61,9 +61,9 @@ function apply(transform::LogRatio, table)
   newtable, (rvar, rind)
 end
 
-function revert(transform::LogRatio, table, cache)
+function revertfeat(transform::LogRatio, table, fcache)
   # retrieve cache
-  rvar, rind = cache
+  rvar, rind = fcache
 
   # trasformation
   Y = Tables.matrix(table)

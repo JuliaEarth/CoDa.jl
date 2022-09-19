@@ -15,7 +15,7 @@ isrevertible(::Type{Closure}) = true
 
 assertions(::Type{Closure}) = [TableTransforms.assert_continuous]
 
-function apply(transform::Closure, table)
+function applyfeat(transform::Closure, table, prep)
   # basic checks
   for assertion in assertions(transform)
     assertion(table)
@@ -38,7 +38,7 @@ function apply(transform::Closure, table)
   newtable, S
 end
 
-function revert(::Closure, newtable, cache)
+function revertfeat(::Closure, newtable, fcache)
   # transformed column names
   names = Tables.columnnames(newtable)
 
@@ -46,7 +46,7 @@ function revert(::Closure, newtable, cache)
   Z = Tables.matrix(newtable)
 
   # retrieve cache
-  S = cache
+  S = fcache
 
   # undo operation
   X = Z .* S
