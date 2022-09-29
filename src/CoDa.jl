@@ -19,8 +19,8 @@ using Printf
 
 import Tables
 import ScientificTypes as ST
-import TableTransforms: TableTransform
-import TableTransforms: StatelessTableTransform
+import TableTransforms: FeatureTransform
+import TableTransforms: StatelessFeatureTransform
 import TableTransforms: assertions, isrevertible
 import TableTransforms: applyfeat, revertfeat
 import TableTransforms: preprocess, reapply

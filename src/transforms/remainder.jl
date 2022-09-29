@@ -10,7 +10,7 @@ and returns a new table with an additional column containing the
 remainder value `xₙ₊₁ = total .- (x₁ + x₂ + ⋯ + xₙ)` If the `total`
 value is not specified, then default to the maximum sum across rows.
 """
-struct Remainder <: TableTransform
+struct Remainder <: FeatureTransform
   total::Union{Float64,Nothing}
 end
 

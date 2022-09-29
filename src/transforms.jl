@@ -22,7 +22,7 @@ interface.
 
 See also [`ALR`](@ref), [`CLR`](@ref), [`ILR`](@ref).
 """
-abstract type LogRatio <: StatelessTableTransform end
+abstract type LogRatio <: StatelessFeatureTransform end
 
 assertions(::Type{<:LogRatio}) = [TableTransforms.assert_continuous]
 

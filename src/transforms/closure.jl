@@ -9,7 +9,7 @@ The transform that applies the closure operation 𝒞
 to all rows of the input table. The rows of the
 output table sum to one.
 """
-struct Closure <: StatelessTableTransform end
+struct Closure <: StatelessFeatureTransform end
 
 isrevertible(::Type{Closure}) = true
 
