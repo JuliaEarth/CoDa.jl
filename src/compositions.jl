@@ -157,22 +157,3 @@ function Base.show(io::IO, c::Composition)
   w = [(@sprintf "%.03f" w) for w in components(c)]
   show(io, join(w, " : "))
 end
-
-function Base.show(io::IO, mime::MIME"text/plain",
-                   c::Composition{D,PARTS}) where {D,PARTS}
-  w = components(c)
-  x = Vector{Float64}()
-  p = Vector{Symbol}()
-  m = Vector{Symbol}()
-  for i in 1:D
-    if ismissing(w[i])
-      push!(m, PARTS[i])
-    else
-      push!(p, PARTS[i])
-      push!(x, w[i])
-    end
-  end
-  plt = barplot(p, x, title="$D-part composition")
-  isempty(m) || annotate!(plt, :t, "missing: $(join(m,", "))")
-  show(io, mime, plt)
-end

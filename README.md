@@ -229,3 +229,36 @@ and by other textbooks:
 - den Boogaart, K. & Tolosana-Delgado. 2011. *Analyzing Compositional Data with R*
 - Pawlowsky-Glahn et al. 2015. *Modeling and Analysis of Compositional Data*
 - Pawlowsky-Glahn, V. & Buccianti, A. 2011. *Compositional Data Analysis - Theory and Applications*
+
+### Notes
+
+The unicode plot for composition objects can be obtained with the
+following method:
+
+```julia
+using UnicodePlots
+using CoDa
+
+function Base.show(io::IO, mime::MIME"text/plain",
+                   c::Composition{D,PARTS}) where {D,PARTS}
+  w = components(c)
+  x = Vector{Float64}()
+  p = Vector{Symbol}()
+  m = Vector{Symbol}()
+  for i in 1:D
+    if ismissing(w[i])
+      push!(m, PARTS[i])
+    else
+      push!(p, PARTS[i])
+      push!(x, w[i])
+    end
+  end
+  plt = barplot(p, x, title="$D-part composition")
+  isempty(m) || annotate!(plt, :t, "missing: $(join(m,", "))")
+  show(io, mime, plt)
+end
+```
+
+The method is not added to the CoDa.jl package itself because
+the UnicodePlots.jl package has become a very heavy dependency, see
+[UnicodePlots/issues/291](https://github.com/JuliaPlots/UnicodePlots.jl/issues/291).

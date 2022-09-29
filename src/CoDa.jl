@@ -9,7 +9,6 @@ using TableTransforms
 using Distributions
 using StatsBase
 using StaticArrays
-using UnicodePlots
 using LinearAlgebra
 using FillArrays
 using AxisArrays
