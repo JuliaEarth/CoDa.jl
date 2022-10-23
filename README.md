@@ -215,7 +215,7 @@ julia> rand(Composition{3})
 
 Separate packages are available for plotting compositional data:
 
-- Relative variation biplots: [Biplots.jl](https://github.com/juliohm/Biplots.jl)
+- Relative variation biplots: [Biplots.jl](https://github.com/MakieOrg/Biplots.jl)
 - Ternary plots [TernaryPlots.jl](https://github.com/jacobusmmsmit/TernaryPlots.jl)
 
 ## References
