@@ -232,8 +232,8 @@ and by other textbooks:
 
 ### Notes
 
-The unicode plot for composition objects can be obtained with the
-following method:
+The unicode display of composition objects can be obtained with the
+following code:
 
 ```julia
 using UnicodePlots
@@ -259,6 +259,6 @@ function Base.show(io::IO, mime::MIME"text/plain",
 end
 ```
 
-The method is not added to the CoDa.jl package itself because
+The code is not added to the CoDa.jl package itself because
 the UnicodePlots.jl package has become a very heavy dependency, see
 [UnicodePlots/issues/291](https://github.com/JuliaPlots/UnicodePlots.jl/issues/291).
