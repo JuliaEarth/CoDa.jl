@@ -1,7 +1,7 @@
 <p align="center">
   <img src="docs/CoDa.png" height="200"><br>
   <a href="https://github.com/JuliaEarth/CoDa.jl/actions">
-    <img src="https://img.shields.io/github/workflow/status/JuliaEarth/CoDa.jl/CI?style=flat-square">
+    <img src="https://img.shields.io/github/actions/workflow/status/JuliaEarth/CoDa.jl/CI.yml?branch=master&style=flat-square">
   </a>
   <a href="https://codecov.io/gh/JuliaEarth/CoDa.jl">
     <img src="https://img.shields.io/codecov/c/github/JuliaEarth/CoDa.jl?style=flat-square">
