@@ -20,6 +20,7 @@ import Tables
 import ScientificTypes as ST
 import TableTransforms: FeatureTransform
 import TableTransforms: StatelessFeatureTransform
+import TableTransforms: SciTypeAssertion
 import TableTransforms: assertions, isrevertible
 import TableTransforms: applyfeat, revertfeat
 import TableTransforms: preprocess, reapply

@@ -8,19 +8,16 @@
 The transform that applies the closure operation 𝒞
 to all rows of the input table. The rows of the
 output table sum to one.
+
+See also [`Remainder`](@ref).
 """
 struct Closure <: StatelessFeatureTransform end
 
 isrevertible(::Type{Closure}) = true
 
-assertions(::Type{Closure}) = [TableTransforms.assert_continuous]
+assertions(::Type{Closure}) = [SciTypeAssertion{ST.Continuous}()]
 
 function applyfeat(transform::Closure, table, prep)
-  # basic checks
-  for assertion in assertions(transform)
-    assertion(table)
-  end
-
   # original column names
   names = Tables.columnnames(table)
 

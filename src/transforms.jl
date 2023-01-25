@@ -24,16 +24,11 @@ See also [`ALR`](@ref), [`CLR`](@ref), [`ILR`](@ref).
 """
 abstract type LogRatio <: StatelessFeatureTransform end
 
-assertions(::Type{<:LogRatio}) = [TableTransforms.assert_continuous]
-
 isrevertible(::Type{<:LogRatio}) = true
 
-function applyfeat(transform::LogRatio, table, prep)
-  # basic checks
-  for assertion in assertions(transform)
-    assertion(table)
-  end
+assertions(::Type{<:LogRatio}) = [SciTypeAssertion{ST.Continuous}()]
 
+function applyfeat(transform::LogRatio, table, prep)
   # original variable names
   vars = Tables.columnnames(table)
 
