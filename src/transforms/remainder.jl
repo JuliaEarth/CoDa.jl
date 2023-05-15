@@ -58,7 +58,7 @@ function applyfeat(transform::Remainder, table, prep)
   # create new column name
   rname = :remainder
   while rname ∈ names
-    rname = Symbol(rname,:_)
+    rname = Symbol(rname, :_)
   end
   names = (names..., rname)
 
@@ -74,5 +74,4 @@ function revertfeat(::Remainder, newtable, fcache)
   Reject(last(names))(newtable)
 end
 
-reapply(transform::Remainder, table, cache) =
-  applyfeat(transform, table, first(cache)) |> first
+reapply(transform::Remainder, table, cache) = applyfeat(transform, table, first(cache)) |> first

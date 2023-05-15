@@ -17,13 +17,13 @@ function variation(table)
 
   T = Matrix{Float64}(undef, D, D)
   for j in 1:D
-    for i in j+1:D
-      lr = L[:,i] .- L[:,j]
-      T[i,j] = var(lr)
+    for i in (j + 1):D
+      lr = L[:, i] .- L[:, j]
+      T[i, j] = var(lr)
     end
-    T[j,j] = 0.0
-    for i in 1:j-1
-      T[i,j] = T[j,i]
+    T[j, j] = 0.0
+    for i in 1:(j - 1)
+      T[i, j] = T[j, i]
     end
   end
 
@@ -79,12 +79,12 @@ function lrarray(table)
 
   A = Matrix{Float64}(undef, D, D)
   for i in 1:D
-    for j in i+1:D
-      lr = L[:,i] .- L[:,j]
-      A[j,i] = mean(lr)
-      A[i,j] = var(lr)
+    for j in (i + 1):D
+      lr = L[:, i] .- L[:, j]
+      A[j, i] = mean(lr)
+      A[i, j] = var(lr)
     end
-    A[i,i] = 0.0
+    A[i, i] = 0.0
   end
 
   vars = Tables.columnnames(table) |> collect

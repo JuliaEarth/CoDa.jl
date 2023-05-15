@@ -13,12 +13,11 @@ end
 
 function CoDaArray(table)
   PARTS = Tables.columnnames(table)
-  data  = Tables.matrix(table, transpose=true)
+  data = Tables.matrix(table, transpose=true)
   CoDaArray{length(PARTS),Tuple(PARTS)}(data)
 end
 
-Base.getindex(array::CoDaArray{D,PARTS}, ind) where {D,PARTS} =
-  Composition(PARTS, getfield(array, :data)[:,ind])
+Base.getindex(array::CoDaArray{D,PARTS}, ind) where {D,PARTS} = Composition(PARTS, getfield(array, :data)[:, ind])
 
 Base.size(array::CoDaArray) = (size(getfield(array, :data), 2),)
 
@@ -29,7 +28,7 @@ function Base.getproperty(array::CoDaArray{D,PARTS}, part::Symbol) where {D,PART
   if isnothing(ind)
     throw(KeyError("$part"))
   else
-    vec(getfield(array, :data)[ind,:])
+    vec(getfield(array, :data)[ind, :])
   end
 end
 
@@ -48,16 +47,15 @@ composition and save the result in a [`CoDaArray`](@ref).
 If `keepcols` is set to `true`, then save the result `as`
 a column in a new table with all other columns preserved.
 """
-function compose(table, cols=Tables.columnnames(table);
-                 keepcols=true, as=:coda)
+function compose(table, cols=Tables.columnnames(table); keepcols=true, as=:coda)
   # construct compositional array from selected columns
   coda = table |> Select(cols) |> CoDaArray
 
   # different types of return
   if keepcols
     other = setdiff(Tables.columnnames(table), cols)
-    osel  = table |> Select(other)
-    ocol  = [o => Tables.getcolumn(osel, o) for o in other]
+    osel = table |> Select(other)
+    ocol = [o => Tables.getcolumn(osel, o) for o in other]
     # preserve input table type
     𝒯 = Tables.materializer(table)
     𝒯((; ocol..., as => coda))
@@ -76,6 +74,6 @@ Tables.rowaccess(::Type{<:CoDaArray}) = true
 Tables.rows(array::CoDaArray) = array
 
 # implement row interface for Composition
-Tables.getcolumn(c::Composition, i::Int)    = getfield(c, :data)[i]
+Tables.getcolumn(c::Composition, i::Int) = getfield(c, :data)[i]
 Tables.getcolumn(c::Composition, n::Symbol) = getfield(c, :data)[n]
 Tables.columnnames(c::Composition{D,PARTS}) where {D,PARTS} = PARTS

@@ -34,16 +34,13 @@ struct Composition{D,PARTS}
   data::NamedTuple{PARTS,NTuple{D,Union{Float64,Missing}}}
 end
 
-Composition(data::NamedTuple) =
-  Composition{length(data),keys(data)}(data)
+Composition(data::NamedTuple) = Composition{length(data),keys(data)}(data)
 
 Composition(; data...) = Composition((; data...))
 
-Composition(parts::NTuple, comps) =
-  Composition((; zip(parts, Tuple(comps))...))
+Composition(parts::NTuple, comps) = Composition((; zip(parts, Tuple(comps))...))
 
-Composition(comps) =
-  Composition(ntuple(i->Symbol("w$i"), length(comps)), comps)
+Composition(comps) = Composition(ntuple(i -> Symbol("w$i"), length(comps)), comps)
 
 Composition(comp::Real, comps...) = Composition((comp, comps...))
 
@@ -75,22 +72,21 @@ Base.getproperty(c::Composition, p::Symbol) = getproperty(getfield(c, :data), p)
 
 -(c₁::Composition, c₂::Composition) = c₁ + -c₂
 
-*(λ::Real, c::Composition) = Composition(parts(c), 𝒞(components(c).^λ))
+*(λ::Real, c::Composition) = Composition(parts(c), 𝒞(components(c) .^ λ))
 
 /(c::Composition, λ::Real) = inv(λ) * c
 
 zero(c::Composition) = zero(typeof(c))
-zero(T::Type{<:Composition{D}}) where {D} = Composition(parts(T), ntuple(i->1/D, D))
+zero(T::Type{<:Composition{D}}) where {D} = Composition(parts(T), ntuple(i -> 1 / D, D))
 
-==(c₁::Composition, c₂::Composition) =
-  parts(c₁) == parts(c₂) && 𝒞(components(c₁)) ≈ 𝒞(components(c₂))
+==(c₁::Composition, c₂::Composition) = parts(c₁) == parts(c₂) && 𝒞(components(c₁)) ≈ 𝒞(components(c₂))
 
 ⋅(c₁::Composition{D}, c₂::Composition{D}) where {D} = begin
   x, y = components(c₁), components(c₂)
-  sum(log(x[i]/x[j])*log(y[i]/y[j]) for j=1:D for i=j+1:D) / D
+  sum(log(x[i] / x[j]) * log(y[i] / y[j]) for j in 1:D for i in (j + 1):D) / D
 end
 
-norm(c::Composition) = √(c⋅c)
+norm(c::Composition) = √(c ⋅ c)
 
 # ----------
 # UTILITIES
@@ -102,8 +98,7 @@ norm(c::Composition) = √(c⋅c)
 Add small value `τ` to all components of composition `c`
 in order to remove essential zeros.
 """
-smooth(c::Composition{D}, τ::Real) where {D} =
-  Composition(parts(c), 𝒞(components(c) .+ τ))
+smooth(c::Composition{D}, τ::Real) where {D} = Composition(parts(c), 𝒞(components(c) .+ τ))
 
 """
     𝒞(x)
@@ -118,7 +113,7 @@ Return closure of `x`.
 
 function mean(cs::AbstractArray{<:Composition{D}}) where {D}
   k = 1 / length(cs)
-  sum(k*c for c in cs)
+  sum(k * c for c in cs)
 end
 
 function var(cs::AbstractArray{<:Composition{D}}; mean=nothing) where {D}
@@ -141,8 +136,7 @@ end
 Generates `D`-part composition at random according to a
 balanced Dirichlet distribution.
 """
-function rand(rng::Random.AbstractRNG,
-              ::Random.SamplerType{<:Composition{D}}) where {D}
+function rand(rng::Random.AbstractRNG, ::Random.SamplerType{<:Composition{D}}) where {D}
   α = fill(1.0, D)
   d = Dirichlet(α)
   x = rand(rng, d)

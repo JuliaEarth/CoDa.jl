@@ -22,7 +22,7 @@ end
 -(A, J::JMatrix) = -(J - A)
 
 *(J::JMatrix, A) = repeat(J.λ * sum(A, dims=1), size(A, 1))
-*(A, J::JMatrix) = (J*A')'
+*(A, J::JMatrix) = (J * A')'
 
 adjoint(J::JMatrix) = J
 
@@ -46,7 +46,7 @@ end
 -(A, F::FMatrix) = -(F - A)
 
 *(F::FMatrix, A) = begin
-  R = F.λ * (A[begin:end-1,:] .- A[end:end,:])
+  R = F.λ * (A[begin:(end - 1), :] .- A[end:end, :])
   ndims(A) == 1 ? vec(R) : R
 end
 *(A, F::FMatrix) = F.λ * [A -sum(A, dims=2)]
@@ -62,7 +62,7 @@ struct F′Matrix{T}
   λ::T
 end
 
-(F′::F′Matrix{T})(d::Integer) where {T} = F′.λ * [I(d); -Ones{T}(1,d)]
+(F′::F′Matrix{T})(d::Integer) where {T} = F′.λ * [I(d); -Ones{T}(1, d)]
 
 *(λ::Number, F′::F′Matrix) = F′Matrix(F′.λ * λ)
 
@@ -73,7 +73,7 @@ end
 -(A, F′::F′Matrix) = -(F′ - A)
 
 *(F′::F′Matrix, A) = F′.λ * [A; -sum(A, dims=1)]
-*(A, F′::F′Matrix) = F′.λ * (A[:,begin:end-1] .- A[:,end:end])
+*(A, F′::F′Matrix) = F′.λ * (A[:, begin:(end - 1)] .- A[:, end:end])
 
 adjoint(F′::F′Matrix) = FMatrix(F′.λ)
 
@@ -97,7 +97,7 @@ end
 -(A, G::GMatrix) = -(G - A)
 
 *(G::GMatrix, A) = G.λ * (A .- sum(A, dims=1) / size(A, 1))
-*(A, G::GMatrix) = (G*A')'
+*(A, G::GMatrix) = (G * A')'
 
 adjoint(G::GMatrix) = G
 
@@ -110,7 +110,7 @@ struct HMatrix{T}
   λ::T
 end
 
-(H::HMatrix{T})(d::Integer) where {T} = H.λ * I(d) +  H.λ * J(d)
+(H::HMatrix{T})(d::Integer) where {T} = H.λ * I(d) + H.λ * J(d)
 
 *(λ::Number, H::HMatrix) = HMatrix(H.λ * λ)
 
@@ -134,7 +134,7 @@ struct H⁻¹Matrix{T}
   λ::T
 end
 
-(H⁻¹::H⁻¹Matrix{T})(d::Integer) where {T} = H⁻¹.λ * I(d) - (H⁻¹.λ / (d+1)) * J(d)
+(H⁻¹::H⁻¹Matrix{T})(d::Integer) where {T} = H⁻¹.λ * I(d) - (H⁻¹.λ / (d + 1)) * J(d)
 
 *(λ::Number, H⁻¹::H⁻¹Matrix) = H⁻¹Matrix(H⁻¹.λ * λ)
 
@@ -188,7 +188,6 @@ julia> v'*F
 ```
 """
 const F = FMatrix{Int}(1)
-
 
 """
     G

@@ -38,8 +38,8 @@ function applyfeat(transform::LogRatio, table, prep)
   rind = first(indexin([rvar], collect(vars)))
 
   # permute columns if necessary
-  ovars  = setdiff(vars, (rvar,))
-  pvars  = [ovars; rvar]
+  ovars = setdiff(vars, (rvar,))
+  pvars = [ovars; rvar]
   ptable = table |> Select(pvars)
 
   # transformation
@@ -69,8 +69,8 @@ function revertfeat(transform::LogRatio, table, fcache)
   n = oldvars(transform, vars, rvar)
 
   # permute reference variable
-  n[[rind,end]]   .= n[[end,rind]]
-  X[:,[rind,end]] .= X[:,[end,rind]]
+  n[[rind, end]] .= n[[end, rind]]
+  X[:, [rind, end]] .= X[:, [end, rind]]
 
   # return same table type
   𝒯 = (; zip(n, eachcol(X))...)

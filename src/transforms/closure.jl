@@ -31,7 +31,7 @@ function applyfeat(transform::Closure, table, prep)
   # table with the old columns and the new values
   𝒯 = (; zip(names, eachcol(Z))...)
   newtable = 𝒯 |> Tables.materializer(table)
-  
+
   newtable, S
 end
 
