@@ -22,8 +22,7 @@ end
 
 Inverse clr transformation of coordinates `x`.
 """
-clrinv(x::SVector{D,T}) where {D,T<:Real} =
-  Composition(𝒞(exp.(x)))
+clrinv(x::SVector{D,T}) where {D,T<:Real} = Composition(𝒞(exp.(x)))
 
 clrinv(x::AbstractVector) = clrinv(SVector{length(x)}(x))
 

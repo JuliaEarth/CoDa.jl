@@ -1,10 +1,10 @@
 @testset "Matrices" begin
   # tests with Aitchson's definitions
   d = 10
-  D = d+1
+  D = d + 1
   @test J(d) == ones(d, d)
   @test F(d) == [I(d) -ones(d)]
-  @test G(D) ≈ I(D) - J(D)/ D
+  @test G(D) ≈ I(D) - J(D) / D
   @test H(d) == I(d) + J(d)
 
   # tests of multiplications

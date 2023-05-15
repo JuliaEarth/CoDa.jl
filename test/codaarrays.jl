@@ -1,7 +1,7 @@
 @testset "CoDaArray" begin
-  table = (a=[1,2,3], b=[4,5,6], c=[7,8,9])
+  table = (a=[1, 2, 3], b=[4, 5, 6], c=[7, 8, 9])
   array = CoDaArray(table)
-  rows  = array
+  rows = array
   @test length(array) == 3
   @test array[1] == Composition(a=1, b=4, c=7)
   @test array[2] == Composition(a=2, b=5, c=8)
@@ -24,10 +24,10 @@
   @test_throws KeyError array.INVALID
 
   table = compose(jura, (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn))
-  @test Tables.columnnames(table) == [:X,:Y,:Rock,:Land,:coda]
+  @test Tables.columnnames(table) == [:X, :Y, :Rock, :Land, :coda]
   @test Tables.getcolumn(table, :coda) == array
 
   table = compose(jura, (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn), as=:comps)
-  @test Tables.columnnames(table) == [:X,:Y,:Rock,:Land,:comps]
+  @test Tables.columnnames(table) == [:X, :Y, :Rock, :Land, :comps]
   @test Tables.getcolumn(table, :comps) == array
 end

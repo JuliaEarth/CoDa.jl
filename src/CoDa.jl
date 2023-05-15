@@ -42,10 +42,15 @@ include("matrices.jl")
 export
   # compositions
   Composition,
-  parts, components,
-  norm, ⋅,
-  smooth, 𝒞,
-  mean, var, std,
+  parts,
+  components,
+  norm,
+  ⋅,
+  smooth,
+  𝒞,
+  mean,
+  var,
+  std,
 
   # arrays
   CoDaArray,
@@ -59,10 +64,15 @@ export
   Closure,
   Remainder,
   LogRatio,
-  ALR, CLR, ILR,
-  alr, alrinv,
-  clr, clrinv,
-  ilr, ilrinv,
+  ALR,
+  CLR,
+  ILR,
+  alr,
+  alrinv,
+  clr,
+  clrinv,
+  ilr,
+  ilrinv,
 
   # covariances
   variation,
@@ -71,9 +81,14 @@ export
   lrarray,
 
   # matrices
-  Diagonal, I,
-  JMatrix, J,
-  FMatrix, F,
-  GMatrix, G,
-  HMatrix, H
+  Diagonal,
+  I,
+  JMatrix,
+  J,
+  FMatrix,
+  F,
+  GMatrix,
+  G,
+  HMatrix,
+  H
 end
