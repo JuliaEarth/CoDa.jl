@@ -17,7 +17,7 @@ using Random
 using Printf
 
 import Tables
-import ScientificTypes as ST
+import DataScienceTraits as DST
 import TableTransforms: FeatureTransform
 import TableTransforms: StatelessFeatureTransform
 import TableTransforms: SciTypeAssertion
@@ -33,7 +33,6 @@ import Random: rand
 
 include("compositions.jl")
 include("codaarrays.jl")
-include("scitypes.jl")
 include("distances.jl")
 include("transforms.jl")
 include("covariances.jl")

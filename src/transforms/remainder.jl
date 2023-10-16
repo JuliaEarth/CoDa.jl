@@ -20,7 +20,7 @@ Remainder() = Remainder(nothing)
 
 isrevertible(::Type{Remainder}) = true
 
-assertions(::Type{Remainder}) = [SciTypeAssertion{ST.Continuous}()]
+assertions(::Type{Remainder}) = [SciTypeAssertion{DST.Continuous}()]
 
 function preprocess(transform::Remainder, table)
   # find total across rows

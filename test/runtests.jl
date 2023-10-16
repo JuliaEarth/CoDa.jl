@@ -4,22 +4,14 @@ using RData
 using Tables
 using DataDeps
 using Distances
-using ScientificTypes
 using TableTransforms
 using LinearAlgebra
-using Test, Random, Plots
-using ReferenceTests, ImageIO
-
-# workaround for GR warnings
-ENV["GKSwstype"] = "100"
+using Test, Random
 
 # accept downloads without interaction
 ENV["DATADEPS_ALWAYS_ACCEPT"] = true
 
 # environment settings
-isCI = "CI" ∈ keys(ENV)
-islinux = Sys.islinux()
-visualtests = !isCI || (isCI && islinux)
 datadir = joinpath(@__DIR__, "data")
 
 # download and setup data dependencies
@@ -36,8 +28,7 @@ jura = RData.load(rda)["juraset"]
 CSV.write(joinpath(datadir, "jura.csv"), jura)
 
 # list of tests
-testfiles =
-  ["compositions.jl", "codaarrays.jl", "scitypes.jl", "distances.jl", "transforms.jl", "covariances.jl", "matrices.jl"]
+testfiles = ["compositions.jl", "codaarrays.jl", "distances.jl", "transforms.jl", "covariances.jl", "matrices.jl"]
 
 @testset "CoDa.jl" begin
   for testfile in testfiles
