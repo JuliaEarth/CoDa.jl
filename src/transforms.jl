@@ -26,7 +26,7 @@ abstract type LogRatio <: StatelessFeatureTransform end
 
 isrevertible(::Type{<:LogRatio}) = true
 
-assertions(::Type{<:LogRatio}) = [SciTypeAssertion{ST.Continuous}()]
+assertions(::Type{<:LogRatio}) = [SciTypeAssertion{DST.Continuous}()]
 
 function applyfeat(transform::LogRatio, table, prep)
   # original variable names
