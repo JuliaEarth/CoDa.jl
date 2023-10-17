@@ -22,8 +22,7 @@ julia> Composition((:a, :b), (0.2, 0.8))
 ```
 
 When the names of the parts are not specified, the
-constructor uses default names `part1`, `part2`,
-..., `partD`:
+constructor uses default names `w1`, `w2`, ..., `wD`:
 
 ```
 julia> Composition(0.1, 0.8)
@@ -40,7 +39,7 @@ Composition(; data...) = Composition((; data...))
 
 Composition(parts::NTuple, comps) = Composition((; zip(parts, Tuple(comps))...))
 
-Composition(comps) = Composition(ntuple(i -> Symbol("w$i"), length(comps)), comps)
+Composition(comps) = Composition(ntuple(i -> Symbol(:w, i), length(comps)), comps)
 
 Composition(comp::Real, comps...) = Composition((comp, comps...))
 
@@ -81,7 +80,7 @@ zero(T::Type{<:Composition{D}}) where {D} = Composition(parts(T), ntuple(i -> 1 
 
 ==(c₁::Composition, c₂::Composition) = parts(c₁) == parts(c₂) && 𝒞(components(c₁)) ≈ 𝒞(components(c₂))
 
-⋅(c₁::Composition{D}, c₂::Composition{D}) where {D} = begin
+function dot(c₁::Composition{D}, c₂::Composition{D}) where {D}
   x, y = components(c₁), components(c₂)
   sum(log(x[i] / x[j]) * log(y[i] / y[j]) for j in 1:D for i in (j + 1):D) / D
 end
@@ -147,7 +146,4 @@ end
 # IO METHODS
 # -----------
 
-function Base.show(io::IO, c::Composition)
-  w = [(@sprintf "%.03f" w) for w in components(c)]
-  show(io, join(w, " : "))
-end
+Base.show(io::IO, c::Composition) = join(io, (@sprintf("%.03f", w) for w in components(c)), " : ")

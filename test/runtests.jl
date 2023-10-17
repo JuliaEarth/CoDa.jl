@@ -4,7 +4,6 @@ using RData
 using Tables
 using DataDeps
 using Distances
-using TableTransforms
 using LinearAlgebra
 using Test, Random
 
@@ -28,7 +27,7 @@ jura = RData.load(rda)["juraset"]
 CSV.write(joinpath(datadir, "jura.csv"), jura)
 
 # list of tests
-testfiles = ["compositions.jl", "codaarrays.jl", "distances.jl", "transforms.jl", "covariances.jl", "matrices.jl"]
+testfiles = ["compositions.jl", "codaarrays.jl", "distances.jl", "logratio.jl", "covariances.jl", "matrices.jl"]
 
 @testset "CoDa.jl" begin
   for testfile in testfiles

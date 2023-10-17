@@ -5,36 +5,27 @@
 module CoDa
 
 using Tables
-using TableTransforms
-using Distributions
 using StatsBase
-using StaticArrays
+using Statistics
+using Distributions
 using LinearAlgebra
+using StaticArrays
 using FillArrays
 using AxisArrays
-using Statistics
 using Random
 using Printf
 
-import Tables
-import DataScienceTraits as DST
-import TableTransforms: FeatureTransform
-import TableTransforms: StatelessFeatureTransform
-import TableTransforms: SciTypeAssertion
-import TableTransforms: assertions, isrevertible
-import TableTransforms: applyfeat, revertfeat
-import TableTransforms: preprocess, reapply
-import Distances: Metric, result_type
 import Base: +, -, *, /, ==
 import Base: zero, adjoint, inv
+import Distances: Metric, result_type
 import Statistics: mean, var, std
-import LinearAlgebra: norm, ⋅
+import LinearAlgebra: norm, dot
 import Random: rand
 
 include("compositions.jl")
 include("codaarrays.jl")
 include("distances.jl")
-include("transforms.jl")
+include("logratio.jl")
 include("covariances.jl")
 include("matrices.jl")
 
@@ -44,6 +35,7 @@ export
   parts,
   components,
   norm,
+  dot,
   ⋅,
   smooth,
   𝒞,
@@ -59,13 +51,7 @@ export
   Aitchison,
   aitchison,
 
-  # transforms
-  Closure,
-  Remainder,
-  LogRatio,
-  ALR,
-  CLR,
-  ILR,
+  # log-ratio
   alr,
   alrinv,
   clr,
@@ -90,4 +76,5 @@ export
   G,
   HMatrix,
   H
+
 end
