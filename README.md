@@ -143,9 +143,9 @@ julia> c == cₒ
 false
 ```
 
-### Transforms
+### Log-ratio transformations
 
-Currently, the following transforms are implemented:
+Currently, the following log-ratio transformations are implemented:
 
 ```julia
 julia> alr(c)
@@ -167,8 +167,8 @@ julia> ilr(c)
 
 and their inverses `alrinv`, `clrinv` and `ilrinv`.
 
-The package also defines transforms for tables following to the
-[TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl) interface, including `Closure`, `Remainder`, `ALR`, `CLR`, `ILR`.
+The transforms for tables are defined in the [TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl)
+package, they are: `Closure`, `Remainder`, `ALR`, `CLR`, `ILR`.
 These transforms are functors that can be used as follows:
 
 ```julia

@@ -2,10 +2,6 @@
 # Licensed under the MIT License. See LICENCE in the project root.
 # ------------------------------------------------------------------
 
-# -------------
-# COMPOSITIONS
-# -------------
-
 """
     ilr(c)
 
@@ -54,37 +50,3 @@ function ilrinv(x::SVector{D}) where {D}
 end
 
 ilrinv(x::AbstractVector) = ilrinv(SVector{length(x)}(x))
-
-# -------
-# TABLES
-# -------
-
-"""
-    ILR([refvar])
-
-Isometric log-ratio transform following the
-[TableTransforms.jl](https://github.com/JuliaML/TableTransforms.jl)
-interface.
-
-Optionally, specify the reference variable `refvar` for the ratios.
-Default to the last column of the input table.
-"""
-struct ILR <: LogRatio
-  refvar::Union{Symbol,Nothing}
-end
-
-ILR() = ILR(nothing)
-
-refvar(transform::ILR, vars) = isnothing(transform.refvar) ? last(vars) : transform.refvar
-
-newvars(::ILR, n) = collect(n)[begin:(end - 1)]
-
-oldvars(::ILR, vars, rvar) = [collect(vars); rvar]
-
-applymatrix(::ILR, X) = mapslices(ilr ∘ Composition, X, dims=2)
-
-function revertmatrix(::ILR, Y)
-  D = size(Y, 2)
-  f = components ∘ ilrinv ∘ SVector{D}
-  mapslices(f, Y, dims=2)
-end

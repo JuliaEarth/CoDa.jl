@@ -11,7 +11,6 @@ Return the variation matrix `Τ` of the `table` such that:
 """
 function variation(table)
   X = Tables.matrix(table)
-  n = Tables.columnnames(table) |> collect
   D = size(X, 2)
   L = log.(X .+ eps())
 
@@ -27,7 +26,9 @@ function variation(table)
     end
   end
 
-  AxisArray(T, row=n, col=n)
+  cols = Tables.columns(table)
+  names = Tables.columnnames(cols) |> collect
+  AxisArray(T, row=names, col=names)
 end
 
 """
@@ -38,12 +39,14 @@ Return the log-ratio covariance matrix `Σ` of the `table` such that:
 - `Σ[i,j] = cov(log(x[i]/x[D]), log(x[j]/x[D]))` for `i, j = 1, ..., d`
 """
 function alrcov(table)
-  alrtable = table |> ALR()
+  X = Tables.matrix(table)
+  Y = mapslices(alr ∘ Composition, X, dims=2)
+  Σ = cov(Y, dims=1)
 
-  Σ = cov(Tables.matrix(alrtable), dims=1)
-
-  vars = Tables.columnnames(alrtable) |> collect
-  AxisArray(Σ, row=vars, col=vars)
+  cols = Tables.columns(table)
+  names = Tables.columnnames(cols) |> collect
+  names = names[begin:(end - 1)]
+  AxisArray(Σ, row=names, col=names)
 end
 
 """
@@ -55,12 +58,13 @@ Return the centered log-ratio covariance matrix `Γ` of the `table` such that:
 where `g(x)` is the geometric mean.
 """
 function clrcov(table)
-  clrtable = table |> CLR()
+  X = Tables.matrix(table)
+  Y = mapslices(clr ∘ Composition, X, dims=2)
+  Γ = cov(Y, dims=1)
 
-  Γ = cov(Tables.matrix(clrtable), dims=1)
-
-  vars = Tables.columnnames(clrtable) |> collect
-  AxisArray(Γ, row=vars, col=vars)
+  cols = Tables.columns(table)
+  names = Tables.columnnames(cols) |> collect
+  AxisArray(Γ, row=names, col=names)
 end
 
 """
@@ -87,6 +91,7 @@ function lrarray(table)
     A[i, i] = 0.0
   end
 
-  vars = Tables.columnnames(table) |> collect
-  AxisArray(A, row=vars, col=vars)
+  cols = Tables.columns(table)
+  names = Tables.columnnames(cols) |> collect
+  AxisArray(A, row=names, col=names)
 end
