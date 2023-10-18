@@ -5,7 +5,6 @@
 module CoDa
 
 using Tables
-using StatsBase
 using Statistics
 using Distributions
 using LinearAlgebra
