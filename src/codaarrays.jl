@@ -17,9 +17,9 @@ function CoDaArray(table)
   CoDaArray{length(PARTS),Tuple(PARTS)}(data)
 end
 
-Base.getindex(array::CoDaArray{D,PARTS}, ind) where {D,PARTS} = Composition(PARTS, getfield(array, :data)[:, ind])
-
 Base.size(array::CoDaArray) = (size(getfield(array, :data), 2),)
+
+Base.getindex(array::CoDaArray{D,PARTS}, ind::Int) where {D,PARTS} = Composition(PARTS, getfield(array, :data)[:, ind])
 
 Base.IndexStyle(::Type{<:CoDaArray}) = IndexLinear()
 
