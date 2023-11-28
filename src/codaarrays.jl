@@ -19,7 +19,8 @@ end
 
 Base.size(array::CoDaArray) = (size(getfield(array, :data), 2),)
 
-Base.getindex(array::CoDaArray{D,PARTS}, ind::Int) where {D,PARTS} = Composition(PARTS, getfield(array, :data)[:, ind])
+Base.getindex(array::CoDaArray{D,PARTS}, ind::Int) where {D,PARTS} =
+  Composition{D,PARTS}(view(getfield(array, :data), :, ind))
 
 Base.IndexStyle(::Type{<:CoDaArray}) = IndexLinear()
 

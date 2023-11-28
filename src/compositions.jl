@@ -33,15 +33,21 @@ struct Composition{D,PARTS}
   data::NamedTuple{PARTS,NTuple{D,Union{Float64,Missing}}}
 end
 
-Composition(data::NamedTuple) = Composition{length(data),keys(data)}(data)
+Composition{D,PARTS}(comps::Tuple) where {D,PARTS} = Composition{D,PARTS}(NamedTuple{PARTS}(comps))
 
-Composition(; data...) = Composition((; data...))
+Composition{D,PARTS}(comps::AbstractVector) where {D,PARTS} = Composition{D,PARTS}(ntuple(i -> comps[i], D))
 
-Composition(parts::NTuple, comps) = Composition((; zip(parts, Tuple(comps))...))
+Composition(data::NamedTuple{PARTS}) where {PARTS} = Composition{length(data),PARTS}(data)
+
+Composition(; data...) = Composition(values(data))
+
+Composition(parts::NTuple{D,Symbol}, comps::Tuple) where {D} = Composition{D,parts}(comps)
+
+Composition(parts::NTuple{D,Symbol}, comps) where {D} = Composition{D,parts}(ntuple(i -> comps[i], D))
 
 Composition(comps) = Composition(ntuple(i -> Symbol(:w, i), length(comps)), comps)
 
-Composition(comp::Real, comps...) = Composition((comp, comps...))
+Composition(comps::Union{Real,Missing}...) = Composition(comps)
 
 """
     parts(c)
@@ -146,4 +152,4 @@ end
 # IO METHODS
 # -----------
 
-Base.show(io::IO, c::Composition) = join(io, (@sprintf("%.03f", w) for w in components(c)), " : ")
+Base.show(io::IO, c::Composition) = join(io, (ismissing(w) ? "missing" : @sprintf("%.03f", w) for w in components(c)), " : ")
