@@ -33,4 +33,11 @@
   table = compose(jura, (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn), as=:comps)
   @test Tables.columnnames(table) == [:X, :Y, :Rock, :Land, :comps]
   @test Tables.getcolumn(table, :comps) == array
+
+  # performance test
+  rng = MersenneTwister(2)
+  N = 100_000
+  inds = shuffle(rng, 1:N)
+  array = CoDaArray((a=rand(rng, N), b=rand(rng, N), c=rand(rng, N)))
+  @test @elapsed(array[inds]) < 0.1
 end
