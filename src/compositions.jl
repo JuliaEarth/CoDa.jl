@@ -152,4 +152,5 @@ end
 # IO METHODS
 # -----------
 
-Base.show(io::IO, c::Composition) = join(io, (ismissing(w) ? "missing" : @sprintf("%.03f", w) for w in components(c)), " : ")
+Base.show(io::IO, c::Composition) =
+  join(io, (ismissing(w) ? "missing" : @sprintf("%.03f", w) for w in components(c)), " : ")
