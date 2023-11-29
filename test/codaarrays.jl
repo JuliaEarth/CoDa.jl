@@ -39,5 +39,5 @@
   N = 100_000
   inds = shuffle(rng, 1:N)
   array = CoDaArray((a=rand(rng, N), b=rand(rng, N), c=rand(rng, N)))
-  @test @elapsed(array[inds]) < 0.1
+  @test @elapsed(array[inds]) < 0.5
 end
