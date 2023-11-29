@@ -52,16 +52,16 @@ function compose(table, colnames=nothing; keepcols=true, as=:CODA)
   cols = Tables.columns(table)
   names = Tables.columnnames(cols)
   snames = isnothing(colnames) ? names : Symbol.(colnames)
-  scolumns = (nm => Tables.getcolumn(cols, nm) for nm in snames)
+  scols = (nm => Tables.getcolumn(cols, nm) for nm in snames)
   # construct compositional array from selected columns
-  coda = (; scolumns...) |> CoDaArray
+  coda = (; scols...) |> CoDaArray
 
   # different types of return
   if keepcols
     other = setdiff(names, snames)
-    ocolumns = (nm => Tables.getcolumn(cols, nm) for nm in other)
+    ocols = (nm => Tables.getcolumn(cols, nm) for nm in other)
     # preserve input table type
-    (; ocolumns..., Symbol(as) => coda) |> Tables.materializer(table)
+    (; ocols..., Symbol(as) => coda) |> Tables.materializer(table)
   else
     coda
   end
