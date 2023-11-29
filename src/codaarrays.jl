@@ -41,26 +41,27 @@ Parts in compositional `array`.
 parts(::CoDaArray{D,PARTS}) where {D,PARTS} = PARTS
 
 """
-    compose(table, colnames; keepcols=true, as=:coda)
+    compose(table, colnames; keepcols=true, as=:CODA)
 
 Convert columns `colnames` of `table` into parts of a
 composition and save the result in a [`CoDaArray`](@ref).
 If `keepcols` is set to `true`, then save the result `as`
 a column in a new table with all other columns preserved.
 """
-function compose(table, colnames=Tables.columnnames(Tables.columns(table)); keepcols=true, as=:coda)
+function compose(table, colnames=nothing; keepcols=true, as=:CODA)
   cols = Tables.columns(table)
   names = Tables.columnnames(cols)
-  scols = (nm => Tables.getcolumn(cols, nm) for nm in colnames)
+  snames = isnothing(colnames) ? names : Symbol.(colnames)
+  scolumns = (nm => Tables.getcolumn(cols, nm) for nm in snames)
   # construct compositional array from selected columns
-  coda = (; scols...) |> CoDaArray
+  coda = (; scolumns...) |> CoDaArray
 
   # different types of return
   if keepcols
-    other = setdiff(names, colnames)
-    ocols = (nm => Tables.getcolumn(cols, nm) for nm in other)
+    other = setdiff(names, snames)
+    ocolumns = (nm => Tables.getcolumn(cols, nm) for nm in other)
     # preserve input table type
-    (; ocols..., as => coda) |> Tables.materializer(table)
+    (; ocolumns..., Symbol(as) => coda) |> Tables.materializer(table)
   else
     coda
   end

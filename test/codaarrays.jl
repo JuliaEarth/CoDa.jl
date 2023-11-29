@@ -27,10 +27,14 @@
   @test_throws KeyError array.INVALID
 
   table = compose(jura, (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn))
-  @test Tables.columnnames(table) == [:X, :Y, :Rock, :Land, :coda]
-  @test Tables.getcolumn(table, :coda) == array
+  @test Tables.columnnames(table) == [:X, :Y, :Rock, :Land, :CODA]
+  @test Tables.getcolumn(table, :CODA) == array
 
   table = compose(jura, (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn), as=:comps)
+  @test Tables.columnnames(table) == [:X, :Y, :Rock, :Land, :comps]
+  @test Tables.getcolumn(table, :comps) == array
+
+  table = compose(jura, ("Cd", "Cu", "Pb", "Co", "Cr", "Ni", "Zn"), as="comps")
   @test Tables.columnnames(table) == [:X, :Y, :Rock, :Land, :comps]
   @test Tables.getcolumn(table, :comps) == array
 
