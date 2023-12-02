@@ -1,6 +1,6 @@
 @testset "Covariances" begin
   comps = rand(Composition{5}, 100)
-  data = reduce(hcat, components.(comps))
+  data = reduce(hcat, CoDa.components.(comps))
   table = (; zip([:N₂, :O₂, :CO₂, :S, :C], eachrow(data))...)
 
   Τ = variation(table)

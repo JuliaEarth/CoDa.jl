@@ -49,10 +49,10 @@ julia> c = Composition(CO₂=2.0, CH₄=0.1, N₂O=0.3)
    N₂O ┤■■■■■ 0.3                                 
        └                                        ┘ 
 
-julia> parts(c)
+julia> CoDa.parts(c)
 (:CO₂, :CH₄, :N₂O)
 
-julia> components(c)
+julia> CoDa.components(c)
 3-element StaticArrays.SVector{3, Union{Missing, Float64}} with indices SOneTo(3):
  2.0
  0.1
@@ -242,7 +242,7 @@ using CoDa
 
 function Base.show(io::IO, mime::MIME"text/plain",
                    c::Composition{D,PARTS}) where {D,PARTS}
-  w = components(c)
+  w = CoDa.components(c)
   x = Vector{Float64}()
   p = Vector{Symbol}()
   m = Vector{Symbol}()

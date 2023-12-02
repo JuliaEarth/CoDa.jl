@@ -17,7 +17,7 @@
   @test Tables.columnnames(rows[1]) == (:a, :b, :c)
 
   array = compose(jura, (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn), keepcols=false)
-  @test parts(array) == (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn)
+  @test CoDa.parts(array) == (:Cd, :Cu, :Pb, :Co, :Cr, :Ni, :Zn)
   @test length(array) == 359
   @test array[1] == Composition(Cd=1.74, Cu=25.72, Pb=77.36, Co=9.32, Cr=38.32, Ni=21.32, Zn=92.56)
   @test length(array.Cd) == 359

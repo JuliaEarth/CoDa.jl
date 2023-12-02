@@ -31,16 +31,12 @@ include("matrices.jl")
 export
   # compositions
   Composition,
-  parts,
-  components,
   norm,
   dot,
-  ⋅,
-  smooth,
-  𝒞,
   mean,
   var,
   std,
+  ⋅,
 
   # arrays
   CoDaArray,

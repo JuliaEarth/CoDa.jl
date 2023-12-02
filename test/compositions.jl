@@ -1,19 +1,19 @@
 @testset "Composition" begin
   # basic tests
   c = Composition(1, 1, 1)
-  @test parts(c) == (:w1, :w2, :w3)
-  @test components(c) == [1, 1, 1]
+  @test CoDa.parts(c) == (:w1, :w2, :w3)
+  @test CoDa.components(c) == [1, 1, 1]
   c = Composition(a=1, b=missing)
-  @test parts(c) == (:a, :b)
-  @test isequal(components(c), [1, missing])
+  @test CoDa.parts(c) == (:a, :b)
+  @test isequal(CoDa.components(c), [1, missing])
   for c in [
     Composition((w1=1, w2=2))
     Composition((:w1, :w2), (1, 2))
     Composition((1, 2))
     Composition(1, 2)
   ]
-    @test parts(c) == (:w1, :w2)
-    @test components(c) == [1, 2]
+    @test CoDa.parts(c) == (:w1, :w2)
+    @test CoDa.components(c) == [1, 2]
   end
 
   # equality
@@ -34,18 +34,18 @@
 
   # make sure names are preserved
   c = Composition(a=1.0, b=2.0)
-  @test parts(c + c) == parts(c)
-  @test parts(-c) == parts(c)
-  @test parts(c - c) == parts(c)
-  @test parts(2c) == parts(c)
+  @test CoDa.parts(c + c) == CoDa.parts(c)
+  @test CoDa.parts(-c) == CoDa.parts(c)
+  @test CoDa.parts(c - c) == CoDa.parts(c)
+  @test CoDa.parts(2c) == CoDa.parts(c)
 
   # identity for addition
   c = zero(Composition(1, 2, 3))
-  @test parts(c) == (:w1, :w2, :w3)
-  @test components(c) == [1 / 3, 1 / 3, 1 / 3]
+  @test CoDa.parts(c) == (:w1, :w2, :w3)
+  @test CoDa.components(c) == [1 / 3, 1 / 3, 1 / 3]
   c = zero(Composition{3,(:a, :b, :c)})
-  @test parts(c) == (:a, :b, :c)
-  @test components(c) == [1 / 3, 1 / 3, 1 / 3]
+  @test CoDa.parts(c) == (:a, :b, :c)
+  @test CoDa.components(c) == [1 / 3, 1 / 3, 1 / 3]
 
   # unicode names work fine
   c = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
@@ -67,15 +67,15 @@
 
   # random compositions
   c = rand(Composition{3})
-  w = components(c)
+  w = CoDa.components(c)
   @test all(w .≥ 0)
   @test sum(w) ≈ 1
 
   # smooth operation
-  @test smooth(Composition(1, 2, 0), 1) == Composition(2, 3, 1)
+  @test CoDa.smooth(Composition(1, 2, 0), 1) == Composition(2, 3, 1)
 
   # closure operation
-  @test 𝒞([1, 2, 3]) ≈ [1 / 6, 2 / 6, 3 / 6]
+  @test CoDa.𝒞([1, 2, 3]) ≈ [1 / 6, 2 / 6, 3 / 6]
 
   c = fill(Composition(0.1, 0.2, 0.7), 100000)
   @test mean(c) == first(c)
