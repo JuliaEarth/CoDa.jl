@@ -42,12 +42,11 @@ Compositions are static vectors with named parts:
 julia> using CoDa
 
 julia> c = Composition(CO₂=2.0, CH₄=0.1, N₂O=0.3)
-                  3-part composition
-       ┌                                        ┐ 
-   CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 2.0   
-   CH₄ ┤■■ 0.1                                    
-   N₂O ┤■■■■■ 0.3                                 
-       └                                        ┘ 
+    ┌                                         ┐
+CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 2.000000
+CH₄ ┤■■                               0.100000
+N₂O ┤■■■■■                            0.300000
+    └                                         ┘
 
 julia> CoDa.parts(c)
 (:CO₂, :CH₄, :N₂O)
@@ -66,12 +65,11 @@ Default names are added otherwise:
 
 ```julia
 julia> c = Composition(1.0, 0.1, 0.1)
-                     3-part composition
-      ┌                                        ┐ 
-   w1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
-   w2 ┤■■■■ 0.1                                  
-   w3 ┤■■■■ 0.1                                  
-      └                                        ┘ 
+   ┌                                         ┐
+w1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.000000
+w2 ┤■■■                              0.100000
+w3 ┤■■■                              0.100000
+   └                                         ┘
 ```
 
 and serve for internal compile-time checks.
@@ -81,37 +79,40 @@ scalars. Other operations are also defined including dot product,
 induced norm, and distance:
 
 ```julia
+julia> c = Composition(CO₂=2.0, CH₄=0.1, N₂O=0.3)
+    ┌                                         ┐
+CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 2.000000
+CH₄ ┤■■                               0.100000
+N₂O ┤■■■■■                            0.300000
+    └                                         ┘
+
 julia> cₒ = Composition(CO₂=1.0, CH₄=0.1, N₂O=0.1)
-                  3-part composition
-       ┌                                        ┐ 
-   CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.0   
-   CH₄ ┤■■■■ 0.1                                  
-   N₂O ┤■■■■ 0.1                                  
-       └                                        ┘ 
+    ┌                                         ┐
+CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 1.000000
+CH₄ ┤■■■                              0.100000
+N₂O ┤■■■                              0.100000
+    └                                         ┘
 
 julia> -cₒ
-                  3-part composition
-       ┌                                        ┐ 
-   CO₂ ┤■■ 0.047619047619047616                   
-   CH₄ ┤■■■■■■■■■■■■■■■■■■■ 0.47619047619047616   
-   N₂O ┤■■■■■■■■■■■■■■■■■■■ 0.47619047619047616   
-       └                                        ┘ 
+    ┌                                         ┐
+CO₂ ┤■■■                              0.047619
+CH₄ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 0.476190
+N₂O ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 0.476190
+    └                                         ┘
 
 julia> 0.5c
-                  3-part composition
-       ┌                                        ┐ 
-   CO₂ ┤■■■■■■■■■■■■■■■■■■■■ 0.6207690197922022   
-   CH₄ ┤■■■■ 0.13880817265812764                  
-   N₂O ┤■■■■■■■■ 0.24042280754967013              
-       └                                        ┘ 
+    ┌                                         ┐
+CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 0.620769
+CH₄ ┤■■■■■■■                          0.138808
+N₂O ┤■■■■■■■■■■■■                     0.240423
+    └                                         ┘
 
 julia> c - cₒ
-                  3-part composition
-       ┌                                        ┐ 
-   CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■ 0.3333333333333333  
-   CH₄ ┤■■■■■■■■■■■■ 0.16666666666666666          
-   N₂O ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 0.5   
-       └                                        ┘ 
+    ┌                                         ┐
+CO₂ ┤■■■■■■■■■■■■■■■■■■■■■            0.333333
+CH₄ ┤■■■■■■■■■■■                      0.166667
+N₂O ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 0.500000
+    └                                         ┘
 
 julia> c ⋅ cₒ
 3.7554028908352994
@@ -149,18 +150,18 @@ Currently, the following log-ratio transformations are implemented:
 
 ```julia
 julia> alr(c)
-2-element StaticArrays.SArray{Tuple{2},Float64,1,2} with indices SOneTo(2):
-  1.8971199848858813
- -1.0986122886681096
+2-element StaticArraysCore.SVector{2, Float64} with indices SOneTo(2):
+  1.8971199848858806
+ -1.098612288668108
 
 julia> clr(c)
-3-element StaticArrays.SArray{Tuple{3},Float64,1,3} with indices SOneTo(3):
-  1.6309507528132907
- -1.3647815207407001
- -0.2661692320725906
+3-element StaticArraysCore.SVector{3, Float64} with indices SOneTo(3):
+  1.6309507528132896
+ -1.3647815207406992
+ -0.26616923207259097
 
 julia> ilr(c)
-2-element StaticArrays.SArray{Tuple{2},Float64,1,2} with indices SOneTo(2):
+2-element StaticArraysCore.SVector{2, Float64} with indices SOneTo(2):
  -2.1183026052494185
  -0.3259894019031434
 ```
@@ -190,11 +191,10 @@ julia> ctable = compose(table, (:a,:b))
 (c = [7, 8, 9], coda = Composition{2, (:a, :b)}[1.000 : 4.000, 2.000 : 5.000, 3.000 : 6.000])
 
 julia> ctable.coda[1]
-                2-part composition
-     ┌                                        ┐ 
-   a ┤■■■■■■■■■ 1.0                             
-   b ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 4.0   
-     └                                        ┘ 
+  ┌                                         ┐
+a ┤■■■■■■■■                         1.000000
+b ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 4.000000
+  └                                         ┘
 ```
 
 ### Random
@@ -203,12 +203,11 @@ julia> ctable.coda[1]
 
 ```julia
 julia> rand(Composition{3})
-                 3-part composition
-      ┌                                        ┐ 
-   w1 ┤■■■■■■■■■■■■■■■■■ 0.39938229705106565     
-   w2 ┤■■■■■■ 0.1491859823748656                 
-   w3 ┤■■■■■■■■■■■■■■■■■■■ 0.45143172057406883   
-      └                                        ┘
+   ┌                                         ┐
+w1 ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 0.508093
+w2 ┤■■■■■■■■■■■■                     0.183344
+w3 ┤■■■■■■■■■■■■■■■■■■■              0.308563
+   └                                         ┘
 ```
 
 ### Plots
@@ -230,36 +229,3 @@ and by other textbooks:
 - den Boogaart, K. & Tolosana-Delgado. 2011. *Analyzing Compositional Data with R*
 - Pawlowsky-Glahn et al. 2015. *Modeling and Analysis of Compositional Data*
 - Pawlowsky-Glahn, V. & Buccianti, A. 2011. *Compositional Data Analysis - Theory and Applications*
-
-### Notes
-
-The unicode display of composition objects can be obtained with the
-following code:
-
-```julia
-using UnicodePlots
-using CoDa
-
-function Base.show(io::IO, mime::MIME"text/plain",
-                   c::Composition{D,PARTS}) where {D,PARTS}
-  w = CoDa.components(c)
-  x = Vector{Float64}()
-  p = Vector{Symbol}()
-  m = Vector{Symbol}()
-  for i in 1:D
-    if ismissing(w[i])
-      push!(m, PARTS[i])
-    else
-      push!(p, PARTS[i])
-      push!(x, w[i])
-    end
-  end
-  plt = barplot(p, x, title="$D-part composition")
-  isempty(m) || annotate!(plt, :t, "missing: $(join(m,", "))")
-  show(io, mime, plt)
-end
-```
-
-The code is not added to the CoDa.jl package itself because
-the UnicodePlots.jl package has become a very heavy dependency, see
-[UnicodePlots/issues/291](https://github.com/JuliaPlots/UnicodePlots.jl/issues/291).

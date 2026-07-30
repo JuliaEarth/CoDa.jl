@@ -153,4 +153,29 @@ end
 # -----------
 
 Base.show(io::IO, c::Composition) =
-  join(io, (ismissing(w) ? "missing" : @sprintf("%.03f", w) for w in components(c)), " : ")
+  join(io, (ismissing(w) ? "missing" : @sprintf("%.06f", w) for w in components(c)), " : ")
+
+function Base.show(io::IO, ::MIME"text/plain", c::Composition)
+  keys = string.(parts(c))
+  vals = components(c)
+
+  # maximum name length and value
+  klen = maximum(length, keys)
+  vvec = collect(skipmissing(vals))
+  vmax = isempty(vvec) ? 1.0 : maximum(vvec)
+
+  width = 32 # width of the bar plot
+  println(io, repeat(" ", klen + 1) * "┌" * repeat(" ", width + 9) * "┐")
+  for (k, v) in zip(keys, vals)
+    if ismissing(v)
+      println(io, rpad(k, klen) * " ┤ missing")
+    else
+      len = round(Int, v / vmax * width)
+      bar = repeat("■", len)
+      pad = repeat(" ", width - len)
+      val = @sprintf("%.06f", v)
+      println(io, rpad(k, klen) * " ┤" * bar * pad * " " * val)
+    end
+  end
+  print(io, repeat(" ", klen + 1) * "└" * repeat(" ", width + 9) * "┘")
+end

@@ -81,4 +81,14 @@
   @test mean(c) == first(c)
   @test isapprox(var(c), 0, atol=1e-10)
   @test isapprox(std(c), 0, atol=1e-5)
+
+  # IO methods
+  c = Composition(CO₂=2.0, CH₄=0.1, N₂O=0.3)
+  @test sprint(show, c) == "2.000000 : 0.100000 : 0.300000"
+  @test sprint(show, MIME("text/plain"), c) == """
+      ┌                                         ┐
+  CO₂ ┤■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ 2.000000
+  CH₄ ┤■■                               0.100000
+  N₂O ┤■■■■■                            0.300000
+      └                                         ┘"""
 end
